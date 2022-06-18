@@ -38,7 +38,6 @@ func main() {
 	if err := env.Parse(&cfg); err != nil {
 		fmt.Printf("%+v\n", err)
 	}
-	fmt.Printf("%+v\n", cfg)
 
 	store := store.NewStore(cfg.SeriesDataFolder)
 

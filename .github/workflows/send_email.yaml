@@ -3,9 +3,9 @@ name: "Send email for Manga Updates"
 on:
   workflow_dispatch:
   schedule:
-   # Runs every evening at 00:10
+   # Runs every evening 4 hours
    # GitHub Actions only runs scheduled jobs on the default branch of your repository (usually master or main).
-    - cron: '10 0 * * *'
+    - cron: '0 */4 * * *'
 
 ## Common variables for both jobs
 env:
@@ -32,7 +32,7 @@ jobs:
           go run cmd/manga-updates/main.go
           git config --global user.name 'MangaUpdates (Automation)'
           git config --global user.email 'manga@penchev.com'
-          git commit -am "Updated state data"
+          git commit -am "Updated state"
           git push
 
   automatic-workflow-dispatch:
@@ -55,5 +55,5 @@ jobs:
           go run cmd/manga-updates/main.go
           git config --global user.name 'MangaUpdates (Automation)'
           git config --global user.email 'manga@penchev.com'
-          git commit -am "Updated state data"
+          git commit -am "Updated state"
           git push
