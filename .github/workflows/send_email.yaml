@@ -31,7 +31,6 @@ jobs:
           go mod vendor
           go run cmd/manga-updates/main.go
           git config --global user.name 'MangaUpdates (Automation)'
-          git config --global user.email 'manga@penchev.com'
           git commit -am "Updated state"
           git push
 
@@ -54,6 +53,5 @@ jobs:
           go mod vendor
           go run cmd/manga-updates/main.go
           git config --global user.name 'MangaUpdates (Automation)'
-          git config --global user.email 'manga@penchev.com'
           git commit -am "Updated state"
           git push
