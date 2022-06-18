@@ -10,7 +10,6 @@ on:
 ## Common variables for both jobs
 env:
   SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
-  SERIES_DATAFOLDER: ${{ env.GITHUB_WORKSPACE }}/data
 
 jobs:
   manual-workflow-dispatch:
@@ -26,6 +25,8 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Run manga-updates binary
+        env:
+          SERIES_DATAFOLDER: ${{ env.GITHUB_WORKSPACE }}/data
         run: |
           go mod vendor
           go run cmd/manga-updates/main.go
@@ -47,6 +48,8 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Run manga-updates binary
+        env:
+          SERIES_DATAFOLDER: ${{ env.GITHUB_WORKSPACE }}/data
         run: |
           go mod vendor
           go run cmd/manga-updates/main.go
