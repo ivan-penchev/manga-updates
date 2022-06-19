@@ -30,10 +30,15 @@ jobs:
         run: |
           go mod vendor
           go run cmd/manga-updates/main.go
-          git config --global user.name 'MangaUpdates (Automation)'
-          git config --global user.email manga@penchev.com
-          git commit -am "Updated state"
-          git push
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "commiting changes";
+            git config --global user.name 'MangaUpdates (Automation)'
+            git config --global user.email manga@penchev.com
+            git commit -am "Updated state"
+            git push
+          else
+            echo "Nothing to commit";
+          fi
 
   automatic-workflow-dispatch:
     if: ${{ github.event_name == 'schedule' }}
@@ -53,7 +58,13 @@ jobs:
         run: |
           go mod vendor
           go run cmd/manga-updates/main.go
-          git config --global user.name 'MangaUpdates (Automation)'
-          git config --global user.email manga@penchev.com
-          git commit -am "Updated state"
-          git push
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "commiting changes";
+            git config --global user.name 'MangaUpdates (Automation)'
+            git config --global user.email manga@penchev.com
+            git commit -am "Updated state"
+            git push
+          else
+            echo "Nothing to commit";
+          fi
+          
