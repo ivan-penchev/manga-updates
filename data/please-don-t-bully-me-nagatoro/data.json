@@ -1,9 +1,837 @@
 {
-  "name": "",
-  "shouldNotify": true,
-  "lastUpdate": null,
-  "slug": "please-don-t-bully-me-nagatoro",
-  "status": "",
-  "latestChapter": null,
-  "chapters": []
+ "name": "Please don't bully me, Nagatoro",
+ "shouldNotify": false,
+ "lastUpdate": "2022-06-13T21:19:23Z",
+ "slug": "please-don-t-bully-me-nagatoro",
+ "status": "ongoing",
+ "chapters": [
+  {
+   "name": 107,
+   "slug": null,
+   "date": "2022-06-13T21:19:23Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-107"
+  },
+  {
+   "name": 106,
+   "slug": null,
+   "date": "2022-05-30T21:19:06Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-106"
+  },
+  {
+   "name": 105,
+   "slug": null,
+   "date": "2022-05-09T22:33:29Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-105"
+  },
+  {
+   "name": 104,
+   "slug": null,
+   "date": "2022-04-25T22:50:09Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-104"
+  },
+  {
+   "name": 103,
+   "slug": null,
+   "date": "2022-04-11T23:28:56Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-103"
+  },
+  {
+   "name": 102.5,
+   "slug": null,
+   "date": "2022-04-08T17:28:58Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-102.5"
+  },
+  {
+   "name": 102,
+   "slug": null,
+   "date": "2022-03-22T00:29:34Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-102"
+  },
+  {
+   "name": 101,
+   "slug": null,
+   "date": "2022-03-08T02:28:54Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-101"
+  },
+  {
+   "name": 100,
+   "slug": null,
+   "date": "2022-02-22T05:28:18Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-100"
+  },
+  {
+   "name": 99,
+   "slug": null,
+   "date": "2022-02-07T22:28:54Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-99"
+  },
+  {
+   "name": 98,
+   "slug": null,
+   "date": "2022-01-24T21:46:04Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-98"
+  },
+  {
+   "name": 97,
+   "slug": null,
+   "date": "2022-01-03T22:51:07Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-97"
+  },
+  {
+   "name": 96,
+   "slug": null,
+   "date": "2021-12-20T22:32:26Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-96"
+  },
+  {
+   "name": 95,
+   "slug": null,
+   "date": "2021-12-06T22:28:04Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-95"
+  },
+  {
+   "name": 94,
+   "slug": null,
+   "date": "2021-11-16T00:42:41Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-94"
+  },
+  {
+   "name": 93,
+   "slug": null,
+   "date": "2021-11-02T01:28:09Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-93"
+  },
+  {
+   "name": 92,
+   "slug": null,
+   "date": "2021-10-19T02:28:42Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-92"
+  },
+  {
+   "name": 91,
+   "slug": null,
+   "date": "2021-10-04T23:37:50Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-91"
+  },
+  {
+   "name": 90,
+   "slug": null,
+   "date": "2021-09-20T22:45:05Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-90"
+  },
+  {
+   "name": 89,
+   "slug": null,
+   "date": "2021-09-09T15:10:00Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-89"
+  },
+  {
+   "name": 88,
+   "slug": null,
+   "date": "2021-08-17T02:26:00Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-88"
+  },
+  {
+   "name": 87,
+   "slug": null,
+   "date": "2021-07-27T00:41:37Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-87"
+  },
+  {
+   "name": 86,
+   "slug": null,
+   "date": "2021-07-05T22:41:24Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-86"
+  },
+  {
+   "name": 85,
+   "slug": null,
+   "date": "2021-06-14T22:05:46Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-85"
+  },
+  {
+   "name": 84,
+   "slug": null,
+   "date": "2021-05-31T21:33:51Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-84"
+  },
+  {
+   "name": 83,
+   "slug": null,
+   "date": "2021-05-18T00:36:42Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-83"
+  },
+  {
+   "name": 82,
+   "slug": null,
+   "date": "2021-05-03T21:51:21Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-82"
+  },
+  {
+   "name": 81,
+   "slug": null,
+   "date": "2021-04-20T04:34:39Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-81"
+  },
+  {
+   "name": 80,
+   "slug": null,
+   "date": "2021-04-05T23:34:05Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-80"
+  },
+  {
+   "name": 79,
+   "slug": null,
+   "date": "2021-03-16T09:18:46Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-79"
+  },
+  {
+   "name": 78.5,
+   "slug": null,
+   "date": "2021-03-10T22:17:59Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-78.5"
+  },
+  {
+   "name": 78,
+   "slug": null,
+   "date": "2021-02-22T21:06:56Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-78"
+  },
+  {
+   "name": 77,
+   "slug": null,
+   "date": "2021-02-08T19:52:06Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-77"
+  },
+  {
+   "name": 76,
+   "slug": null,
+   "date": "2021-01-26T00:08:51Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-76"
+  },
+  {
+   "name": 75,
+   "slug": null,
+   "date": "2021-01-04T21:36:48Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-75"
+  },
+  {
+   "name": 74,
+   "slug": null,
+   "date": "2020-12-21T21:07:39Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-74"
+  },
+  {
+   "name": 73,
+   "slug": null,
+   "date": "2020-12-07T22:06:14Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-73"
+  },
+  {
+   "name": 72,
+   "slug": null,
+   "date": "2020-11-24T11:37:06Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-72"
+  },
+  {
+   "name": 71,
+   "slug": null,
+   "date": "2020-11-09T19:52:07Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-71"
+  },
+  {
+   "name": 70,
+   "slug": null,
+   "date": "2020-10-26T21:09:52Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-70"
+  },
+  {
+   "name": 69,
+   "slug": null,
+   "date": "2020-10-12T20:34:05Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-69"
+  },
+  {
+   "name": 68,
+   "slug": null,
+   "date": "2020-09-28T22:51:34Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-68"
+  },
+  {
+   "name": 67,
+   "slug": null,
+   "date": "2020-09-14T21:20:15Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-67"
+  },
+  {
+   "name": 66,
+   "slug": null,
+   "date": "2020-08-24T21:35:37Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-66"
+  },
+  {
+   "name": 65,
+   "slug": null,
+   "date": "2020-08-03T20:03:51Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-65"
+  },
+  {
+   "name": 64.5,
+   "slug": null,
+   "date": "2020-07-27T03:01:18Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-64.5"
+  },
+  {
+   "name": 64,
+   "slug": null,
+   "date": "2020-07-20T23:02:36Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-64"
+  },
+  {
+   "name": 63,
+   "slug": null,
+   "date": "2020-06-22T20:01:50Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-63"
+  },
+  {
+   "name": 62.5,
+   "slug": null,
+   "date": "2020-07-08T21:36:44Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-62.5"
+  },
+  {
+   "name": 62,
+   "slug": null,
+   "date": "2020-06-08T20:33:33Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-62"
+  },
+  {
+   "name": 61,
+   "slug": null,
+   "date": "2020-05-25T19:32:29Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-61"
+  },
+  {
+   "name": 60,
+   "slug": null,
+   "date": "2020-05-09T12:21:53Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-60"
+  },
+  {
+   "name": 59,
+   "slug": null,
+   "date": "2020-04-27T23:27:39Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-59"
+  },
+  {
+   "name": 58,
+   "slug": null,
+   "date": "2020-04-14T11:41:08Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-58"
+  },
+  {
+   "name": 57,
+   "slug": null,
+   "date": "2020-03-31T05:32:46Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-57"
+  },
+  {
+   "name": 56,
+   "slug": null,
+   "date": "2020-03-17T03:48:21Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-56"
+  },
+  {
+   "name": 55,
+   "slug": null,
+   "date": "2020-03-02T21:16:26Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-55"
+  },
+  {
+   "name": 54,
+   "slug": null,
+   "date": "2020-02-18T00:30:10Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-54"
+  },
+  {
+   "name": 53.5,
+   "slug": null,
+   "date": "2020-04-12T12:42:23Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-53.5"
+  },
+  {
+   "name": 53,
+   "slug": null,
+   "date": "2020-02-03T22:45:08Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-53"
+  },
+  {
+   "name": 52,
+   "slug": null,
+   "date": "2020-01-07T11:30:05Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-52"
+  },
+  {
+   "name": 51,
+   "slug": null,
+   "date": "2019-12-31T06:15:02Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-51"
+  },
+  {
+   "name": 50,
+   "slug": null,
+   "date": "2019-12-09T23:30:17Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-50"
+  },
+  {
+   "name": 49,
+   "slug": null,
+   "date": "2019-11-25T23:14:04Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-49"
+  },
+  {
+   "name": 48,
+   "slug": null,
+   "date": "2019-11-11T21:29:03Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-48"
+  },
+  {
+   "name": 47,
+   "slug": null,
+   "date": "2019-10-22T15:29:08Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-47"
+  },
+  {
+   "name": 46.5,
+   "slug": null,
+   "date": "2020-04-12T12:42:23Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-46.5"
+  },
+  {
+   "name": 46,
+   "slug": null,
+   "date": "2019-09-23T23:29:04Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-46"
+  },
+  {
+   "name": 45,
+   "slug": null,
+   "date": "2019-09-09T20:29:03Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-45"
+  },
+  {
+   "name": 44,
+   "slug": null,
+   "date": "2019-08-26T23:14:08Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-44"
+  },
+  {
+   "name": 43,
+   "slug": null,
+   "date": "2019-08-12T23:14:12Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-43"
+  },
+  {
+   "name": 42,
+   "slug": null,
+   "date": "2019-07-29T22:44:11Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-42"
+  },
+  {
+   "name": 41,
+   "slug": null,
+   "date": "2019-07-16T01:29:01Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-41"
+  },
+  {
+   "name": 40,
+   "slug": null,
+   "date": "2019-07-01T20:28:25Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-40"
+  },
+  {
+   "name": 39,
+   "slug": null,
+   "date": "2019-06-18T20:08:44Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-39"
+  },
+  {
+   "name": 38.5,
+   "slug": null,
+   "date": "2019-06-07T06:28:15Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-38.5"
+  },
+  {
+   "name": 38,
+   "slug": null,
+   "date": "2019-06-03T19:48:35Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-38"
+  },
+  {
+   "name": 37,
+   "slug": null,
+   "date": "2019-05-21T03:13:10Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-37"
+  },
+  {
+   "name": 36,
+   "slug": null,
+   "date": "2019-04-23T14:28:12Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-36"
+  },
+  {
+   "name": 35,
+   "slug": null,
+   "date": "2019-04-08T20:13:07Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-35"
+  },
+  {
+   "name": 34.5,
+   "slug": null,
+   "date": "2019-04-02T21:58:10Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-34.5"
+  },
+  {
+   "name": 34,
+   "slug": null,
+   "date": "2019-03-25T23:47:21Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-34"
+  },
+  {
+   "name": 33,
+   "slug": null,
+   "date": "2019-03-12T01:28:15Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-33"
+  },
+  {
+   "name": 32,
+   "slug": null,
+   "date": "2019-02-27T02:43:32Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-32"
+  },
+  {
+   "name": 31,
+   "slug": null,
+   "date": "2019-02-13T14:30:16Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-31"
+  },
+  {
+   "name": 30.5,
+   "slug": null,
+   "date": "2019-02-09T13:29:08Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-30.5"
+  },
+  {
+   "name": 30,
+   "slug": null,
+   "date": "2019-01-15T15:13:17Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-30"
+  },
+  {
+   "name": 29,
+   "slug": null,
+   "date": "2018-12-31T21:59:45Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-29"
+  },
+  {
+   "name": 28,
+   "slug": null,
+   "date": "2018-12-17T18:29:26Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-28"
+  },
+  {
+   "name": 27.5,
+   "slug": null,
+   "date": "2018-12-12T04:14:57Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-27.5"
+  },
+  {
+   "name": 27,
+   "slug": null,
+   "date": "2018-12-03T20:44:25Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-27"
+  },
+  {
+   "name": 26.5,
+   "slug": null,
+   "date": "2020-12-19T05:15:34Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-26.5"
+  },
+  {
+   "name": 26,
+   "slug": null,
+   "date": "2018-11-19T19:28:41Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-26"
+  },
+  {
+   "name": 25,
+   "slug": null,
+   "date": "2018-11-05T20:14:08Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-25"
+  },
+  {
+   "name": 24,
+   "slug": null,
+   "date": "2018-10-22T22:43:43Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-24"
+  },
+  {
+   "name": 23.4,
+   "slug": null,
+   "date": "2018-10-09T09:28:36Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-23.4"
+  },
+  {
+   "name": 23.3,
+   "slug": null,
+   "date": "2020-04-12T12:42:23Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-23.3"
+  },
+  {
+   "name": 23.2,
+   "slug": null,
+   "date": "2020-04-12T12:42:23Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-23.2"
+  },
+  {
+   "name": 23.1,
+   "slug": null,
+   "date": "2018-10-09T07:28:19Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-23.1"
+  },
+  {
+   "name": 23,
+   "slug": null,
+   "date": "2018-09-25T05:58:13Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-23"
+  },
+  {
+   "name": 22,
+   "slug": null,
+   "date": "2018-09-11T09:44:30Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-22"
+  },
+  {
+   "name": 21,
+   "slug": null,
+   "date": "2018-08-28T09:13:38Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-21"
+  },
+  {
+   "name": 20,
+   "slug": null,
+   "date": "2018-08-13T20:30:49Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-20"
+  },
+  {
+   "name": 19,
+   "slug": null,
+   "date": "2018-08-01T22:15:47Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-19"
+  },
+  {
+   "name": 18,
+   "slug": null,
+   "date": "2018-03-18T16:30:13Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-18"
+  },
+  {
+   "name": 17,
+   "slug": null,
+   "date": "2018-07-17T14:15:13Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-17"
+  },
+  {
+   "name": 16,
+   "slug": null,
+   "date": "2018-07-17T14:15:13Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-16"
+  },
+  {
+   "name": 15,
+   "slug": null,
+   "date": "2018-07-17T14:15:13Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-15"
+  },
+  {
+   "name": 14.5,
+   "slug": null,
+   "date": "2018-07-17T14:15:13Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-14.5"
+  },
+  {
+   "name": 14.4,
+   "slug": null,
+   "date": "2018-09-24T23:57:02Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-14.4"
+  },
+  {
+   "name": 14.3,
+   "slug": null,
+   "date": "2018-07-17T14:15:13Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-14.3"
+  },
+  {
+   "name": 14.2,
+   "slug": null,
+   "date": "2018-07-17T14:15:13Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-14.2"
+  },
+  {
+   "name": 14,
+   "slug": null,
+   "date": "2018-07-17T14:15:13Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-14"
+  },
+  {
+   "name": 13,
+   "slug": null,
+   "date": "2018-07-17T14:15:13Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-13"
+  },
+  {
+   "name": 12.5,
+   "slug": null,
+   "date": "2020-02-29T23:18:57Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-12.5"
+  },
+  {
+   "name": 12,
+   "slug": null,
+   "date": "2018-07-17T14:15:13Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-12"
+  },
+  {
+   "name": 11,
+   "slug": null,
+   "date": "2018-03-13T10:00:37Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-11"
+  },
+  {
+   "name": 10.3,
+   "slug": null,
+   "date": "2018-09-24T23:57:02Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-10.3"
+  },
+  {
+   "name": 10.2,
+   "slug": null,
+   "date": "2018-09-24T23:57:02Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-10.2"
+  },
+  {
+   "name": 10.1,
+   "slug": null,
+   "date": "2018-09-24T23:57:02Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-10.1"
+  },
+  {
+   "name": 10,
+   "slug": null,
+   "date": "2018-02-27T10:30:13Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-10"
+  },
+  {
+   "name": 9,
+   "slug": null,
+   "date": "2018-02-13T07:15:43Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-9"
+  },
+  {
+   "name": 8.5,
+   "slug": null,
+   "date": "2019-12-07T17:18:46Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-8.5"
+  },
+  {
+   "name": 8.3,
+   "slug": null,
+   "date": "2018-09-24T23:57:02Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-8.3"
+  },
+  {
+   "name": 8.2,
+   "slug": null,
+   "date": "2018-09-24T23:57:02Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-8.2"
+  },
+  {
+   "name": 8.1,
+   "slug": null,
+   "date": "2018-09-24T23:57:02Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-8.1"
+  },
+  {
+   "name": 8,
+   "slug": null,
+   "date": "2018-01-30T08:46:00Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-8"
+  },
+  {
+   "name": 7.5,
+   "slug": null,
+   "date": "2018-01-25T10:03:17Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-7.5"
+  },
+  {
+   "name": 7,
+   "slug": null,
+   "date": "2018-01-25T10:03:17Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-7"
+  },
+  {
+   "name": 6,
+   "slug": null,
+   "date": "2018-01-10T10:01:50Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-6"
+  },
+  {
+   "name": 5,
+   "slug": null,
+   "date": "2017-12-21T09:30:05Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-5"
+  },
+  {
+   "name": 4.5,
+   "slug": null,
+   "date": "2018-09-24T23:57:02Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-4.5"
+  },
+  {
+   "name": 4,
+   "slug": null,
+   "date": "2017-12-18T08:45:08Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-4"
+  },
+  {
+   "name": 3,
+   "slug": null,
+   "date": "2018-09-24T23:57:02Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-3"
+  },
+  {
+   "name": 2.5,
+   "slug": null,
+   "date": "2018-09-24T23:57:33Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-2.5"
+  },
+  {
+   "name": 2,
+   "slug": null,
+   "date": "2017-11-27T01:45:06Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-2"
+  },
+  {
+   "name": 1.1,
+   "slug": null,
+   "date": "2017-11-13T09:45:05Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-1.1"
+  },
+  {
+   "name": 1,
+   "slug": null,
+   "date": "2017-11-13T09:45:05Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-1"
+  }
+ ]
 }
