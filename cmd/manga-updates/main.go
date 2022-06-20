@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/caarlos0/env"
 	manganelapiclient "github.com/ivan-penchev/manga-updates/internal/manganel-api-client"
@@ -33,6 +34,8 @@ type config struct {
 func main() {
 	log := logrus.New()
 	log.SetFormatter(&logrus.TextFormatter{FullTimestamp: true})
+
+	ts := time.Now()
 
 	cfg := config{}
 	if err := env.Parse(&cfg); err != nil {
@@ -74,19 +77,6 @@ func main() {
 			if len(chaptersMissing) > 0 {
 
 				m := mail.NewV3Mail()
-				// 			$email->setFrom("manga@penchev.com", "Manga Notify");
-				//   $email->addTo("thefolenangel@gmail.com",
-				// 	"",
-				// 	[
-				// 	"manga_read_url" =>$urlToFetch,
-				// 	"manga_name" => $displayName,
-				// 	"chapter" => $nextChapter,
-				// 	"subject" => $displayName.' update'
-				// 	],
-				// 	0
-				// );
-				// $email->setTemplateId("d-b4267c4ab110461e8e6cff80ff4aa0ca");
-				//   return $email;
 
 				from := mail.NewEmail("Manga Notify", "manga@penchev.com")
 				m.SetFrom(from)
@@ -122,4 +112,6 @@ func main() {
 		}
 		log.Infof("Manga (%s) has no new updates", manga.Name)
 	}
+
+	log.Infof("Completed manga-updates main (duration=%s)", time.Since(ts))
 }
