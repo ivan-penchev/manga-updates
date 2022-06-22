@@ -81,6 +81,9 @@ func (m *MangaNelAPIClient) getMangaSeries(slug string, shouldIncludeChapters bo
 		ss, _ := v.(map[string]interface{})
 
 		number, ok := ss["number"].(float64)
+		if !ok {
+			m.logger.Errorf("cant find number %v of type float64", ss)
+		}
 		chapterUpdateTime, ok := ss["date"].(string)
 		timeUpdate, _ := time.Parse(time.RFC3339, chapterUpdateTime)
 

@@ -60,11 +60,14 @@ func NewStore(location string) Store {
 
 func glob(root string, fn func(string) bool) []string {
 	var files []string
-	filepath.WalkDir(root, func(s string, d fs.DirEntry, e error) error {
+	err := filepath.WalkDir(root, func(s string, d fs.DirEntry, e error) error {
 		if fn(s) {
 			files = append(files, s)
 		}
 		return nil
 	})
+	if err != nil {
+		return make([]string, 0)
+	}
 	return files
 }
