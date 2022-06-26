@@ -1,10 +1,16 @@
 {
  "name": "Skip Beat!",
  "shouldNotify": false,
- "lastUpdate": "2022-06-06T03:41:03Z",
+ "lastUpdate": "2022-06-26T18:56:04Z",
  "slug": "skip-beat_110",
- "status": "",
+ "status": "ongoing",
  "chapters": [
+  {
+   "name": 307,
+   "slug": null,
+   "date": "2022-06-26T18:56:04Z",
+   "mangaNelUri": "https://manganel.me/chapter/skip-beat_110/chapter-307"
+  },
   {
    "name": 306,
    "slug": null,
