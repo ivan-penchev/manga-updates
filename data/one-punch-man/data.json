@@ -1,10 +1,22 @@
 {
  "name": "Onepunch-Man",
  "shouldNotify": false,
- "lastUpdate": "2022-06-23T05:26:20Z",
+ "lastUpdate": "2022-07-21T03:34:12Z",
  "slug": "onepunch-man_113",
  "status": "ongoing",
  "chapters": [
+  {
+   "name": 168,
+   "slug": null,
+   "date": "2022-07-21T03:34:12Z",
+   "mangaNelUri": "https://manganel.me/chapter/onepunch-man_113/chapter-168"
+  },
+  {
+   "name": 167,
+   "slug": null,
+   "date": "2022-07-21T03:52:52Z",
+   "mangaNelUri": "https://manganel.me/chapter/onepunch-man_113/chapter-167"
+  },
   {
    "name": 166,
    "slug": null,
