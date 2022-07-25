@@ -18,19 +18,6 @@ type config struct {
 	SendGridAPIKey          string `env:"SENDGRID_API_KEY" envDefault:"api-key-here"`
 }
 
-// get all persisted manga series
-// check if newly added title
-//// add new content
-//// do not notify
-//// persist
-// check with short if new updates
-//// multiple updates?
-////// request longest query
-////// persist
-//// single update?
-////// persist
-//// should notify?
-
 func main() {
 	log := logrus.New()
 	log.SetFormatter(&logrus.TextFormatter{FullTimestamp: true})
