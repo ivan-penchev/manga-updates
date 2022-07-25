@@ -74,9 +74,11 @@ func main() {
 					&mail.Email{Address: "thefolenangel@gmail.com"},
 				}
 				p.AddTos(tos...)
-				p.SetDynamicTemplateData("manga_read_url", chaptersMissing[0].ManganelURI)
+				// if we have multiple simultatnions updates, take the oldest one.
+				indexToTake := len(chaptersMissing) - 1
+				p.SetDynamicTemplateData("manga_read_url", chaptersMissing[indexToTake].ManganelURI)
 				p.SetDynamicTemplateData("manga_name", manga.Name)
-				p.SetDynamicTemplateData("chapter", chaptersMissing[0].Number)
+				p.SetDynamicTemplateData("chapter", chaptersMissing[indexToTake].Number)
 				p.SetDynamicTemplateData("subject", fmt.Sprintf("%s update", manga.Name))
 				m.AddPersonalizations(p)
 
