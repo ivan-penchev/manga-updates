@@ -24,8 +24,10 @@ type MangaNelAPIClient struct {
 func NewMangaNelAPIClient(logger logrus.FieldLogger, addr string) *MangaNelAPIClient {
 	client := &http.Client{Timeout: time.Second * 10}
 	client.Transport = cloudflarebp.AddCloudFlareByPass(client.Transport)
+
 	graphqlClientWithOptions := graphql.WithHTTPClient(client)
 	graphqlClient := graphql.NewClient("https://api.mghubcdn.com/graphql", graphqlClientWithOptions)
+
 	return &MangaNelAPIClient{
 		addr:   addr,
 		client: graphqlClient,
@@ -42,7 +44,9 @@ func (m *MangaNelAPIClient) GetMangaSeriesShort(slug string) (*types.MangaEntity
 }
 
 func (m *MangaNelAPIClient) getMangaSeries(slug string, shouldIncludeChapters bool) (*types.MangaEntity, error) {
-	graphqlRequest := graphql.NewRequest(getQueryForSlug(slug, true))
+	graphqlRequest := graphql.NewRequest(getQueryForSlug(slug, shouldIncludeChapters))
+	graphqlRequest.Header.Add("Origin", "https://manganel.me")
+	graphqlRequest.Header.Add("Referer", "https://manganel.me/")
 	var graphqlResponse interface{}
 	if err := m.client.Run(context.Background(), graphqlRequest, &graphqlResponse); err != nil {
 		return nil, err
