@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"time"
 
 	"github.com/caarlos0/env"
@@ -14,7 +15,7 @@ import (
 
 type config struct {
 	MangaNelGraphQLEndpoint string `env:"API_ENDPOINT" envDefault:"https://api.mghubcdn.com/graphql"`
-	SeriesDataFolder        string `env:"SERIES_DATAFOLDER" envDefault:"%{HOME}/data" envExpand:"true"`
+	SeriesDataFolder        string `env:"SERIES_DATAFOLDER" envDefault:"$HOME/repos/manga-updates/data" envExpand:"true"`
 	SendGridAPIKey          string `env:"SENDGRID_API_KEY" envDefault:"api-key-here"`
 }
 
@@ -45,7 +46,7 @@ func main() {
 		mangaResponse, err := mangaNelClient.GetMangaSeriesFull(manga.Slug)
 		if err != nil {
 			log.Error(err)
-			continue
+			os.Exit(1)
 		}
 
 		if manga.IsNew() {
@@ -53,6 +54,8 @@ func main() {
 			err = store.PersistestManagaTitle(path, *mangaResponse)
 			if err != nil {
 				log.Error(err)
+				os.Exit(1)
+
 			}
 			log.Infof("New manga title (%s) persisted information %s", mangaResponse.Name, path)
 			continue
@@ -93,7 +96,7 @@ func main() {
 				err = store.PersistestManagaTitle(path, *mangaResponse)
 				if err != nil {
 					log.Error(err)
-					continue
+					os.Exit(1)
 				}
 				log.Infof("Manga title (%s) persisted information %s", mangaResponse.Name, path)
 			}
