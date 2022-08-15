@@ -47,6 +47,8 @@ func (m *MangaNelAPIClient) getMangaSeries(slug string, shouldIncludeChapters bo
 	graphqlRequest := graphql.NewRequest(getQueryForSlug(slug, shouldIncludeChapters))
 	graphqlRequest.Header.Add("Origin", "https://manganel.me")
 	graphqlRequest.Header.Add("Referer", "https://manganel.me/")
+	graphqlRequest.Header.Add("x-mhub-access", "fdcfcb0dc8a01897836ac69ad6965bfa")
+	graphqlRequest.Header.Add("user-agent", "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Mobile Safari/537.36")
 	var graphqlResponse interface{}
 	if err := m.client.Run(context.Background(), graphqlRequest, &graphqlResponse); err != nil {
 		return nil, err
@@ -107,19 +109,44 @@ func (m *MangaNelAPIClient) getMangaSeries(slug string, shouldIncludeChapters bo
 	return &manga, nil
 }
 
+//manga(x:mn05,slug:"my-wife-is-a-demon-queen"){id,rank,title,slug,status,image,latestChapter,author,artist,genres,description,alternativeTitle,mainSlug,isYaoi,isPorn,isSoftPorn,unauthFile,noCoverAd,isLicensed,createdDate,updatedDate,chapters{id,number,title,slug,date}}}
 func getQueryForSlug(slug string, includeChapters bool) string {
 	if includeChapters {
 		return fmt.Sprintf(`
 	{
-		manga(x: mn05, slug: "%s") {
-			title
-			slug
-			status
-			image
-			latestChapter
-			createdDate
+		latestPopular(x:mn05) {
+			id,
+			rank,
+			title,
+			slug,
+			image,
+			latestChapter,
+			unauthFile,
 			updatedDate
-			chapters{
+		}
+		manga(x: mn05, slug: "%s") {
+			id,
+			rank,
+			title,
+			slug,
+			status,
+			image,
+			latestChapter,
+			author,
+			artist,
+			genres,
+			description,
+			alternativeTitle,
+			mainSlug,
+			isYaoi,
+			isPorn,
+			isSoftPorn,
+			unauthFile,
+			noCoverAd,
+			isLicensed,
+			createdDate,
+			updatedDate,
+			chapters {
 				id,
 				number,
 				title,
@@ -137,6 +164,7 @@ func getQueryForSlug(slug string, includeChapters bool) string {
 		slug
 		status
 		image
+		genres
 		latestChapter
 		createdDate
 		updatedDate
