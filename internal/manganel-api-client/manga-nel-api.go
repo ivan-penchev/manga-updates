@@ -17,11 +17,12 @@ import (
 
 type MangaNelAPIClient struct {
 	addr   string
+	apiKey string
 	client *graphql.Client
 	logger logrus.FieldLogger
 }
 
-func NewMangaNelAPIClient(logger logrus.FieldLogger, addr string) *MangaNelAPIClient {
+func NewMangaNelAPIClient(logger logrus.FieldLogger, addr string, apiKey string) *MangaNelAPIClient {
 	client := &http.Client{Timeout: time.Second * 10}
 	client.Transport = cloudflarebp.AddCloudFlareByPass(client.Transport)
 
@@ -32,6 +33,7 @@ func NewMangaNelAPIClient(logger logrus.FieldLogger, addr string) *MangaNelAPICl
 		addr:   addr,
 		client: graphqlClient,
 		logger: logger,
+		apiKey: apiKey,
 	}
 }
 
@@ -47,7 +49,7 @@ func (m *MangaNelAPIClient) getMangaSeries(slug string, shouldIncludeChapters bo
 	graphqlRequest := graphql.NewRequest(getQueryForSlug(slug, shouldIncludeChapters))
 	graphqlRequest.Header.Add("Origin", "https://manganel.me")
 	graphqlRequest.Header.Add("Referer", "https://manganel.me/")
-	graphqlRequest.Header.Add("x-mhub-access", "fdcfcb0dc8a01897836ac69ad6965bfa")
+	graphqlRequest.Header.Add("x-mhub-access", m.apiKey)
 	graphqlRequest.Header.Add("user-agent", "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Mobile Safari/537.36")
 	var graphqlResponse interface{}
 	if err := m.client.Run(context.Background(), graphqlRequest, &graphqlResponse); err != nil {
