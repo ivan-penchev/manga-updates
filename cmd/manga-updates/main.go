@@ -36,7 +36,7 @@ func main() {
 	innerCtx, innerCancel := chromedp.NewContext(context.Background())
 	defer innerCancel()
 	// create a timeout
-	ctx, cancel := context.WithTimeout(innerCtx, 15*time.Second)
+	ctx, cancel := context.WithTimeout(innerCtx, 45*time.Second)
 	defer cancel()
 
 	// navigate to a page, wait for an element, click
