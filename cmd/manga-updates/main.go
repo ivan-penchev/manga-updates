@@ -43,10 +43,7 @@ func main() {
 	var mhubApiAccessToken string
 	err := chromedp.Run(ctx,
 		chromedp.Navigate(`https://manganel.me/`),
-		// wait for footer element is visible (ie, page is loaded)
-		chromedp.WaitVisible(`#app > div:nth-child(1) > header`),
-		// find and click "Example" link
-		// retrieve the text of the textarea
+		chromedp.Sleep(10*time.Second),
 		chromedp.ActionFunc(func(ctx context.Context) error {
 			cookies, err := network.GetAllCookies().Do(ctx)
 			if err != nil {
