@@ -10,6 +10,7 @@ import (
 	"github.com/caarlos0/env"
 	"github.com/chromedp/cdproto/network"
 	"github.com/chromedp/chromedp"
+	"github.com/chromedp/chromedp/device"
 	manganelapiclient "github.com/ivan-penchev/manga-updates/internal/manganel-api-client"
 	"github.com/ivan-penchev/manga-updates/internal/store"
 	"github.com/sendgrid/sendgrid-go"
@@ -42,6 +43,7 @@ func main() {
 	// navigate to a page, wait for an element, click
 	var mhubApiAccessToken string
 	err := chromedp.Run(ctx,
+		chromedp.Emulate(device.IPhone12),
 		chromedp.Navigate(`https://manganel.me/manga/my-wife-is-a-demon-queen`),
 		chromedp.Sleep(10*time.Second),
 		chromedp.ActionFunc(func(ctx context.Context) error {
@@ -50,7 +52,8 @@ func main() {
 				return err
 			}
 
-			for _, cookie := range cookies {
+			for i, cookie := range cookies {
+				log.Printf("chrome cookie %d: %+v", i, cookie)
 				if cookie.Name == "mhub_access" {
 					mhubApiAccessToken = cookie.Value
 				}
