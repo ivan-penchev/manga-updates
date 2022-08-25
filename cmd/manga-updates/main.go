@@ -52,8 +52,7 @@ func main() {
 				return err
 			}
 
-			for i, cookie := range cookies {
-				log.Printf("chrome cookie %d: %+v", i, cookie)
+			for _, cookie := range cookies {
 				if cookie.Name == "mhub_access" {
 					mhubApiAccessToken = cookie.Value
 				}
