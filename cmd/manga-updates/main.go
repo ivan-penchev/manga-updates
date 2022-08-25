@@ -1,11 +1,15 @@
 package main
 
 import (
+	"context"
+	"errors"
 	"fmt"
 	"os"
 	"time"
 
 	"github.com/caarlos0/env"
+	"github.com/chromedp/cdproto/network"
+	"github.com/chromedp/chromedp"
 	manganelapiclient "github.com/ivan-penchev/manga-updates/internal/manganel-api-client"
 	"github.com/ivan-penchev/manga-updates/internal/store"
 	"github.com/sendgrid/sendgrid-go"
@@ -29,6 +33,44 @@ func main() {
 	if err := env.Parse(&cfg); err != nil {
 		fmt.Printf("%+v\n", err)
 	}
+	innerCtx, innerCancel := chromedp.NewContext(context.Background())
+	defer innerCancel()
+	// create a timeout
+	ctx, cancel := context.WithTimeout(innerCtx, 15*time.Second)
+	defer cancel()
+
+	// navigate to a page, wait for an element, click
+	var mhubApiAccessToken string
+	err := chromedp.Run(ctx,
+		chromedp.Navigate(`https://manganel.me/`),
+		// wait for footer element is visible (ie, page is loaded)
+		chromedp.WaitVisible(`#app > div:nth-child(1) > header`),
+		// find and click "Example" link
+		// retrieve the text of the textarea
+		chromedp.ActionFunc(func(ctx context.Context) error {
+			cookies, err := network.GetAllCookies().Do(ctx)
+			if err != nil {
+				return err
+			}
+
+			for _, cookie := range cookies {
+				if cookie.Name == "mhub_access" {
+					mhubApiAccessToken = cookie.Value
+				}
+			}
+
+			if mhubApiAccessToken == "" {
+				return errors.New("can't find api key, inside cookiesgit")
+			}
+
+			return nil
+		}),
+	)
+
+	if err != nil {
+		log.Error(err)
+		os.Exit(1)
+	}
 
 	store := store.NewStore(cfg.SeriesDataFolder)
 
@@ -39,7 +81,7 @@ func main() {
 		return
 	}
 
-	mangaNelClient := manganelapiclient.NewMangaNelAPIClient(log, cfg.MangaNelGraphQLEndpoint)
+	mangaNelClient := manganelapiclient.NewMangaNelAPIClient(log, cfg.MangaNelGraphQLEndpoint, mhubApiAccessToken)
 	for path, manga := range persistedMangaSeries {
 		log.Infof("Looking at %s, data from %s", manga.Name, path)
 
