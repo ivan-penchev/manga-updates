@@ -42,7 +42,7 @@ func main() {
 	// navigate to a page, wait for an element, click
 	var mhubApiAccessToken string
 	err := chromedp.Run(ctx,
-		chromedp.Navigate(`https://manganel.me/`),
+		chromedp.Navigate(`https://manganel.me/manga/my-wife-is-a-demon-queen`),
 		chromedp.Sleep(10*time.Second),
 		chromedp.ActionFunc(func(ctx context.Context) error {
 			cookies, err := network.GetAllCookies().Do(ctx)
