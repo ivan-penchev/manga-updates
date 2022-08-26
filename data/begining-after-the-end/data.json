@@ -1,10 +1,16 @@
 {
  "name": "The Beginning After the End",
  "shouldNotify": false,
- "lastUpdate": "2022-08-19T16:16:02Z",
+ "lastUpdate": "2022-08-26T16:15:48Z",
  "slug": "the-beginning-after-the-end",
  "status": "ongoing",
  "chapters": [
+  {
+   "name": 157,
+   "slug": null,
+   "date": "2022-08-26T16:15:48Z",
+   "mangaNelUri": "https://manganel.me/chapter/the-beginning-after-the-end/chapter-157"
+  },
   {
    "name": 156,
    "slug": null,
