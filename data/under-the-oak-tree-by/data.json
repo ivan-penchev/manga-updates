@@ -1,9 +1,339 @@
 {
-  "name": "",
-  "shouldNotify": true,
-  "lastUpdate": null,
-  "slug": "under-the-oak-tree-by",
-  "status": "",
-  "latestChapter": null,
-  "chapters": []
+ "name": "Under The Oak Tree",
+ "shouldNotify": false,
+ "lastUpdate": "2022-09-10T01:20:58Z",
+ "slug": "under-the-oak-tree-by",
+ "status": "ongoing",
+ "chapters": [
+  {
+   "name": 51.5,
+   "slug": null,
+   "date": "2022-09-10T01:20:58Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-51.5"
+  },
+  {
+   "name": 51,
+   "slug": null,
+   "date": "2022-09-09T23:48:20Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-51"
+  },
+  {
+   "name": 50.5,
+   "slug": null,
+   "date": "2022-08-20T08:17:00Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-50.5"
+  },
+  {
+   "name": 50,
+   "slug": null,
+   "date": "2022-08-20T03:06:09Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-50"
+  },
+  {
+   "name": 49,
+   "slug": null,
+   "date": "2022-08-10T10:35:18Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-49"
+  },
+  {
+   "name": 48,
+   "slug": null,
+   "date": "2022-08-04T04:24:03Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-48"
+  },
+  {
+   "name": 47,
+   "slug": null,
+   "date": "2022-07-20T05:41:09Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-47"
+  },
+  {
+   "name": 46,
+   "slug": null,
+   "date": "2022-05-23T16:20:57Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-46"
+  },
+  {
+   "name": 45,
+   "slug": null,
+   "date": "2022-05-10T06:08:29Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-45"
+  },
+  {
+   "name": 44,
+   "slug": null,
+   "date": "2022-04-20T08:39:53Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-44"
+  },
+  {
+   "name": 43,
+   "slug": null,
+   "date": "2022-04-10T11:51:52Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-43"
+  },
+  {
+   "name": 42,
+   "slug": null,
+   "date": "2022-03-20T13:46:46Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-42"
+  },
+  {
+   "name": 41,
+   "slug": null,
+   "date": "2022-03-10T18:43:54Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-41"
+  },
+  {
+   "name": 40,
+   "slug": null,
+   "date": "2022-02-20T18:30:59Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-40"
+  },
+  {
+   "name": 39,
+   "slug": null,
+   "date": "2022-02-10T13:14:19Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-39"
+  },
+  {
+   "name": 38,
+   "slug": null,
+   "date": "2022-01-20T10:24:23Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-38"
+  },
+  {
+   "name": 37,
+   "slug": null,
+   "date": "2022-01-10T15:12:31Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-37"
+  },
+  {
+   "name": 36,
+   "slug": null,
+   "date": "2021-12-30T21:47:10Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-36"
+  },
+  {
+   "name": 35,
+   "slug": null,
+   "date": "2021-12-24T06:28:31Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-35"
+  },
+  {
+   "name": 34,
+   "slug": null,
+   "date": "2021-08-10T15:41:03Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-34"
+  },
+  {
+   "name": 33,
+   "slug": null,
+   "date": "2021-07-30T14:27:22Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-33"
+  },
+  {
+   "name": 32,
+   "slug": null,
+   "date": "2021-07-10T19:28:49Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-32"
+  },
+  {
+   "name": 31.5,
+   "slug": null,
+   "date": "2021-07-02T07:46:37Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-31.5"
+  },
+  {
+   "name": 31,
+   "slug": null,
+   "date": "2021-06-30T16:01:05Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-31"
+  },
+  {
+   "name": 30.5,
+   "slug": null,
+   "date": "2021-06-21T04:28:47Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-30.5"
+  },
+  {
+   "name": 30,
+   "slug": null,
+   "date": "2021-06-21T04:28:47Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-30"
+  },
+  {
+   "name": 29,
+   "slug": null,
+   "date": "2021-06-11T02:50:21Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-29"
+  },
+  {
+   "name": 28,
+   "slug": null,
+   "date": "2021-05-31T06:37:00Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-28"
+  },
+  {
+   "name": 27,
+   "slug": null,
+   "date": "2021-05-21T02:34:23Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-27"
+  },
+  {
+   "name": 26,
+   "slug": null,
+   "date": "2021-05-11T02:48:39Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-26"
+  },
+  {
+   "name": 25,
+   "slug": null,
+   "date": "2021-05-02T02:50:15Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-25"
+  },
+  {
+   "name": 24,
+   "slug": null,
+   "date": "2021-04-11T20:33:17Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-24"
+  },
+  {
+   "name": 23,
+   "slug": null,
+   "date": "2021-04-05T04:04:11Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-23"
+  },
+  {
+   "name": 22,
+   "slug": null,
+   "date": "2021-03-22T05:15:28Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-22"
+  },
+  {
+   "name": 21,
+   "slug": null,
+   "date": "2021-03-14T08:17:52Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-21"
+  },
+  {
+   "name": 20,
+   "slug": null,
+   "date": "2021-03-03T08:36:34Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-20"
+  },
+  {
+   "name": 19,
+   "slug": null,
+   "date": "2021-02-20T08:52:05Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-19"
+  },
+  {
+   "name": 18,
+   "slug": null,
+   "date": "2021-02-10T07:22:40Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-18"
+  },
+  {
+   "name": 17,
+   "slug": null,
+   "date": "2021-02-05T15:06:44Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-17"
+  },
+  {
+   "name": 16,
+   "slug": null,
+   "date": "2021-01-13T00:52:54Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-16"
+  },
+  {
+   "name": 15,
+   "slug": null,
+   "date": "2020-12-30T11:17:20Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-15"
+  },
+  {
+   "name": 14,
+   "slug": null,
+   "date": "2020-12-30T11:17:20Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-14"
+  },
+  {
+   "name": 13,
+   "slug": null,
+   "date": "2020-12-12T23:36:08Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-13"
+  },
+  {
+   "name": 12,
+   "slug": null,
+   "date": "2020-12-03T17:23:38Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-12"
+  },
+  {
+   "name": 11,
+   "slug": null,
+   "date": "2020-11-21T01:36:17Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-11"
+  },
+  {
+   "name": 10,
+   "slug": null,
+   "date": "2020-11-15T12:51:00Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-10"
+  },
+  {
+   "name": 9,
+   "slug": null,
+   "date": "2020-11-12T06:06:21Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-9"
+  },
+  {
+   "name": 8,
+   "slug": null,
+   "date": "2020-11-07T18:36:28Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-8"
+  },
+  {
+   "name": 7,
+   "slug": null,
+   "date": "2020-10-14T04:48:14Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-7"
+  },
+  {
+   "name": 6,
+   "slug": null,
+   "date": "2020-09-23T07:37:14Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-6"
+  },
+  {
+   "name": 5,
+   "slug": null,
+   "date": "2020-09-16T02:21:17Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-5"
+  },
+  {
+   "name": 4,
+   "slug": null,
+   "date": "2020-08-31T00:03:34Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-4"
+  },
+  {
+   "name": 3,
+   "slug": null,
+   "date": "2020-08-30T20:33:38Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-3"
+  },
+  {
+   "name": 2,
+   "slug": null,
+   "date": "2020-08-30T19:05:47Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-2"
+  },
+  {
+   "name": 1,
+   "slug": null,
+   "date": "2020-08-30T17:49:14Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-1"
+  }
+ ]
 }
