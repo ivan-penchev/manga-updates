@@ -1,15 +1,21 @@
 {
  "name": "Star Martial God Technique",
  "shouldNotify": false,
- "lastUpdate": "2022-11-21T14:11:05Z",
+ "lastUpdate": "2022-11-22T05:41:26Z",
  "slug": "star-martial-god-technique",
  "status": "ongoing",
  "chapters": [
   {
-   "name": 600.5,
+   "name": 600,
    "slug": null,
-   "date": "2022-11-21T14:11:05Z",
-   "mangaNelUri": "https://manganel.me/chapter/star-martial-god-technique/chapter-600.5"
+   "date": "2022-11-22T05:41:26Z",
+   "mangaNelUri": "https://manganel.me/chapter/star-martial-god-technique/chapter-600"
+  },
+  {
+   "name": 599,
+   "slug": null,
+   "date": "2022-11-22T05:41:04Z",
+   "mangaNelUri": "https://manganel.me/chapter/star-martial-god-technique/chapter-599"
   },
   {
    "name": 598,
@@ -30,12 +36,6 @@
    "mangaNelUri": "https://manganel.me/chapter/star-martial-god-technique/chapter-596"
   },
   {
-   "name": 595.5,
-   "slug": null,
-   "date": "2022-11-21T13:56:07Z",
-   "mangaNelUri": "https://manganel.me/chapter/star-martial-god-technique/chapter-595.5"
-  },
-  {
    "name": 595,
    "slug": null,
    "date": "2022-11-21T13:56:07Z",
@@ -52,6 +52,12 @@
    "slug": null,
    "date": "2022-11-21T13:56:07Z",
    "mangaNelUri": "https://manganel.me/chapter/star-martial-god-technique/chapter-593"
+  },
+  {
+   "name": 592,
+   "slug": null,
+   "date": "2022-11-22T01:31:30Z",
+   "mangaNelUri": "https://manganel.me/chapter/star-martial-god-technique/chapter-592"
   },
   {
    "name": 591,
