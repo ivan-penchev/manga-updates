@@ -38,7 +38,11 @@ func (m *MangaEntity) IsOlder(n MangaEntity) bool {
 func (m *MangaEntity) GetMissingChapters(n MangaEntity) []ChapterEntity {
 	lenthCurrent := len(m.Chapters)
 	lenthNewer := len(n.Chapters)
-	endArray := lenthNewer - lenthCurrent
+	endArray := 0
+	if lenthNewer > lenthCurrent {
+		endArray = lenthNewer - lenthCurrent
+	}
+	
 	vals2 := n.Chapters[0:endArray]
 
 	return vals2
