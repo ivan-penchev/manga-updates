@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"os"
 	"time"
@@ -56,9 +55,6 @@ func main() {
 				if cookie.Name == "mhub_access" {
 					mhubApiAccessToken = cookie.Value
 				}
-			}
-
-			if mhubApiAccessToken == "" {
 			}
 
 			return nil
