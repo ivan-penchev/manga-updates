@@ -59,7 +59,6 @@ func main() {
 			}
 
 			if mhubApiAccessToken == "" {
-				return errors.New("can't find api key, inside cookiesgit")
 			}
 
 			return nil
