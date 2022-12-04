@@ -2,10 +2,10 @@ name: "Send email for Manga Updates"
 
 on:
   workflow_dispatch:
-  schedule:
-    # Runs every evening 4 hours
-    # GitHub Actions only runs scheduled jobs on the default branch of your repository (usually master or main).
-    - cron: "0 */6 * * *"
+#   schedule:
+#     # Runs every evening 4 hours
+#     # GitHub Actions only runs scheduled jobs on the default branch of your repository (usually master or main).
+#     - cron: "0 */6 * * *"
 
 ## Common variables for both jobs
 env:
