@@ -1,15 +1,27 @@
 {
  "name": "Under The Oak Tree",
  "shouldNotify": false,
- "lastUpdate": "2022-12-01T14:57:25Z",
+ "lastUpdate": "2022-12-19T17:29:22Z",
  "slug": "under-the-oak-tree-by",
  "status": "ongoing",
  "chapters": [
+  {
+   "name": 59,
+   "slug": null,
+   "date": "2022-12-19T17:29:22Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-59"
+  },
   {
    "name": 58,
    "slug": null,
    "date": "2022-12-01T14:57:25Z",
    "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-58"
+  },
+  {
+   "name": 57,
+   "slug": null,
+   "date": "2022-12-02T01:09:40Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-57"
   },
   {
    "name": 56,
