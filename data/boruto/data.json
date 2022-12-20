@@ -1,10 +1,16 @@
 {
  "name": "Boruto: Naruto Next Generations",
  "shouldNotify": false,
- "lastUpdate": "2022-11-20T16:55:46Z",
+ "lastUpdate": "2022-12-20T17:11:04Z",
  "slug": "boruto-naruto-next-generations_110",
  "status": "ongoing",
  "chapters": [
+  {
+   "name": 76,
+   "slug": null,
+   "date": "2022-12-20T17:11:04Z",
+   "mangaNelUri": "https://manganel.me/chapter/boruto-naruto-next-generations_110/chapter-76"
+  },
   {
    "name": 75,
    "slug": null,
