@@ -1,10 +1,16 @@
 {
  "name": "Peerless Dad",
  "shouldNotify": false,
- "lastUpdate": "2023-01-22T23:11:17Z",
+ "lastUpdate": "2023-01-28T13:41:27Z",
  "slug": "peerless-dad_102",
  "status": "ongoing",
  "chapters": [
+  {
+   "name": 250,
+   "slug": null,
+   "date": "2023-01-28T13:41:27Z",
+   "mangaNelUri": "https://manganel.me/chapter/peerless-dad_102/chapter-250"
+  },
   {
    "name": 249,
    "slug": null,
