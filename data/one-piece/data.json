@@ -1,10 +1,16 @@
 {
  "name": "One Piece",
  "shouldNotify": false,
- "lastUpdate": "2023-04-19T20:34:26Z",
+ "lastUpdate": "2023-04-27T11:15:45Z",
  "slug": "one-piece_116",
  "status": "ongoing",
  "chapters": [
+  {
+   "name": 1082,
+   "slug": null,
+   "date": "2023-04-27T11:15:45Z",
+   "mangaNelUri": "https://manganel.me/chapter/one-piece_116/chapter-1082"
+  },
   {
    "name": 1081,
    "slug": null,
