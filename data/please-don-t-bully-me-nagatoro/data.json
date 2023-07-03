@@ -1,10 +1,16 @@
 {
  "name": "Please don't bully me, Nagatoro",
  "shouldNotify": false,
- "lastUpdate": "2023-06-19T18:56:12Z",
+ "lastUpdate": "2023-07-03T18:03:00Z",
  "slug": "please-don-t-bully-me-nagatoro",
  "status": "ongoing",
  "chapters": [
+  {
+   "name": 131,
+   "slug": null,
+   "date": "2023-07-03T18:03:00Z",
+   "mangaNelUri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-131"
+  },
   {
    "name": 130,
    "slug": null,
