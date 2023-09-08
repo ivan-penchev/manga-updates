@@ -1,10 +1,16 @@
 {
  "name": "Onepunch-Man",
  "shouldNotify": false,
- "lastUpdate": "2023-08-14T09:05:57Z",
+ "lastUpdate": "2023-09-08T05:29:24Z",
  "slug": "onepunch-man_113",
  "status": "ongoing",
  "chapters": [
+  {
+   "name": 191,
+   "slug": null,
+   "date": "2023-09-08T05:29:24Z",
+   "mangaNelUri": "https://manganel.me/chapter/onepunch-man_113/chapter-191"
+  },
   {
    "name": 190,
    "slug": null,
