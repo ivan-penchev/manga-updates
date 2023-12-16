@@ -1,10 +1,16 @@
 {
  "name": "Under The Oak Tree",
  "shouldNotify": false,
- "lastUpdate": "2023-12-09T13:37:55Z",
+ "lastUpdate": "2023-12-16T15:12:05Z",
  "slug": "under-the-oak-tree-by",
  "status": "ongoing",
  "chapters": [
+  {
+   "name": 86,
+   "slug": null,
+   "date": "2023-12-16T15:12:05Z",
+   "mangaNelUri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-86"
+  },
   {
    "name": 85,
    "slug": null,
