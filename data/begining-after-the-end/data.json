@@ -1,10 +1,16 @@
 {
  "name": "The Beginning After the End",
  "shouldNotify": false,
- "lastUpdate": "2023-12-17T02:13:26Z",
+ "lastUpdate": "2023-12-24T05:58:09Z",
  "slug": "the-beginning-after-the-end",
  "status": "ongoing",
  "chapters": [
+  {
+   "name": 183,
+   "slug": null,
+   "date": "2023-12-24T05:58:09Z",
+   "mangaNelUri": "https://manganel.me/chapter/the-beginning-after-the-end/chapter-183"
+  },
   {
    "name": 182,
    "slug": null,
