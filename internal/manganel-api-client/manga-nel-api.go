@@ -27,7 +27,7 @@ func NewMangaNelAPIClient(logger logrus.FieldLogger, addr string, apiKey string)
 	client.Transport = cloudflarebp.AddCloudFlareByPass(client.Transport)
 
 	graphqlClientWithOptions := graphql.WithHTTPClient(client)
-	graphqlClient := graphql.NewClient("https://api.mghubcdn.com/graphql", graphqlClientWithOptions)
+	graphqlClient := graphql.NewClient(addr, graphqlClientWithOptions)
 
 	return &MangaNelAPIClient{
 		addr:   addr,
