@@ -18,7 +18,7 @@ import (
 )
 
 type config struct {
-	MangaNelGraphQLEndpoint string `env:"API_ENDPOINT" envDefault:"https://api.mghubcdn.com/graphql"`
+	MangaNelGraphQLEndpoint string `env:"API_ENDPOINT" envDefault:"https://manganel.me/api/graphql"`
 	SeriesDataFolder        string `env:"SERIES_DATAFOLDER" envDefault:"$HOME/repos/manga-updates/data" envExpand:"true"`
 	SendGridAPIKey          string `env:"SENDGRID_API_KEY" envDefault:"api-key-here"`
 }
