@@ -9,7 +9,6 @@ require (
 	github.com/chromedp/chromedp v0.8.4
 	github.com/machinebox/graphql v0.2.2
 	github.com/sendgrid/sendgrid-go v3.11.1+incompatible
-	github.com/sirupsen/logrus v1.8.1
 )
 
 require (
@@ -17,6 +16,7 @@ require (
 	github.com/PuerkitoBio/goquery v1.8.0 // indirect
 	github.com/andybalholm/cascadia v1.3.1 // indirect
 	github.com/chromedp/sysutil v1.0.0 // indirect
+	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/gobwas/httphead v0.1.0 // indirect
 	github.com/gobwas/pool v0.2.1 // indirect
 	github.com/gobwas/ws v1.1.0 // indirect

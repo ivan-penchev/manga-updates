@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"log/slog"
 	"os"
 	"time"
 
@@ -14,7 +15,6 @@ import (
 	"github.com/ivan-penchev/manga-updates/internal/store"
 	"github.com/sendgrid/sendgrid-go"
 	"github.com/sendgrid/sendgrid-go/helpers/mail"
-	"github.com/sirupsen/logrus"
 )
 
 type config struct {
@@ -24,14 +24,16 @@ type config struct {
 }
 
 func main() {
-	log := logrus.New()
-	log.SetFormatter(&logrus.TextFormatter{FullTimestamp: true})
+	logger := slog.New(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{
+		Level: slog.LevelInfo,
+	}))
+	slog.SetDefault(logger)
 
 	ts := time.Now()
 
 	cfg := config{}
 	if err := env.Parse(&cfg); err != nil {
-		fmt.Printf("%+v\n", err)
+		logger.Error("failed to parse configuration", "error", err)
 	}
 	innerCtx, innerCancel := chromedp.NewContext(context.Background())
 	defer innerCancel()
@@ -62,7 +64,7 @@ func main() {
 	)
 
 	if err != nil {
-		log.Error(err)
+		logger.Error("failed to find manganel access cookie", "error", err)
 		os.Exit(1)
 	}
 
@@ -75,31 +77,33 @@ func main() {
 		return
 	}
 
-	mangaNelClient := manganelapiclient.NewMangaNelAPIClient(log, cfg.MangaNelGraphQLEndpoint, mhubApiAccessToken)
+	mangaNelClient := manganelapiclient.NewMangaNelAPIClient(logger, cfg.MangaNelGraphQLEndpoint, mhubApiAccessToken)
 	for path, manga := range persistedMangaSeries {
-		log.Infof("Looking at %s, data from %s", manga.Name, path)
+		logger.Info("Looking at", "mangaName", manga.Name, "dataPath", path)
 
 		mangaResponse, err := mangaNelClient.GetMangaSeriesFull(manga.Slug)
 		if err != nil {
-			log.Error(err)
+			logger.Error("failed to extract full series", err)
 			os.Exit(1)
 		}
 
 		if manga.IsNew() {
-			log.Infof("New manga title (%s) added for updates, it has %d chapters so far", mangaResponse.Name, len(mangaResponse.Chapters))
+			logMessage := fmt.Sprint("New manga title (%s) added for updates, it has %d chapters so far", mangaResponse.Name, len(mangaResponse.Chapters))
+			logger.Info(logMessage)
 			err = store.PersistestManagaTitle(path, *mangaResponse)
 			if err != nil {
-				log.Error(err)
+				logger.Error("failed to persist manga", err)
 				os.Exit(1)
 
 			}
-			log.Infof("New manga title (%s) persisted information %s", mangaResponse.Name, path)
+			logMessage = fmt.Sprintf("New manga title (%s) persisted information %s", mangaResponse.Name, path)
+			logger.Info(logMessage)
 			continue
 		}
 
 		if manga.IsOlder(*mangaResponse) {
 			chaptersMissing := manga.GetMissingChapters(*mangaResponse)
-			log.Infof("Manga (%s) has %d new chapters", manga.Name, len(chaptersMissing))
+			logger.Info("Manga has new chapters", "mangaName", manga.Name, "numberOfNewChapters", len(chaptersMissing))
 			if len(chaptersMissing) > 0 {
 
 				m := mail.NewV3Mail()
@@ -127,19 +131,19 @@ func main() {
 				request.Body = Body
 				_, err := sendgrid.API(request)
 				if err != nil {
-					log.Println(err)
+					logger.Error("failed to send email", "error", err)
 				}
 				err = store.PersistestManagaTitle(path, *mangaResponse)
 				if err != nil {
-					log.Error(err)
+					logger.Error("failed to persist manga title", "error", err)
 					os.Exit(1)
 				}
-				log.Infof("Manga title (%s) persisted information %s", mangaResponse.Name, path)
+				logger.Info("Manga persisted information", "mangaName", mangaResponse.Name, "dataPath", path)
 			}
 			continue
 		}
-		log.Infof("Manga (%s) has no new updates", manga.Name)
+		logger.Info("Manga has no new updates", "mangaName", manga.Name)
 	}
 
-	log.Infof("Completed manga-updates main (duration=%s)", time.Since(ts))
+	logger.Info("Completed manga-updates main", "durationInSeconds", time.Since(ts).Seconds())
 }

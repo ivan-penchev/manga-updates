@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"log/slog"
 	"net/http"
 	"reflect"
 	"sort"
@@ -12,22 +13,22 @@ import (
 	cloudflarebp "github.com/DaRealFreak/cloudflare-bp-go"
 	"github.com/ivan-penchev/manga-updates/pkg/types"
 	"github.com/machinebox/graphql"
-	"github.com/sirupsen/logrus"
 )
 
 type MangaNelAPIClient struct {
 	addr   string
 	apiKey string
 	client *graphql.Client
-	logger logrus.FieldLogger
+	logger *slog.Logger
 }
 
-func NewMangaNelAPIClient(logger logrus.FieldLogger, addr string, apiKey string) *MangaNelAPIClient {
+func NewMangaNelAPIClient(logger *slog.Logger, addr string, apiKey string) *MangaNelAPIClient {
 	client := &http.Client{Timeout: time.Second * 10}
 	client.Transport = cloudflarebp.AddCloudFlareByPass(client.Transport)
 
 	graphqlClientWithOptions := graphql.WithHTTPClient(client)
 	graphqlClient := graphql.NewClient(addr, graphqlClientWithOptions)
+	graphqlClient.Log = func(s string) { logger.Debug(s) }
 
 	return &MangaNelAPIClient{
 		addr:   addr,
@@ -90,13 +91,13 @@ func (m *MangaNelAPIClient) getMangaSeries(slug string, shouldIncludeChapters bo
 
 		number, ok := ss["number"].(float64)
 		if !ok {
-			m.logger.Errorf("cant find number %v of type float64", ss)
+			m.logger.Error("cant find chapter number of type float64", "value", ss)
 		}
 		chapterUpdateTime, ok := ss["date"].(string)
 		timeUpdate, _ := time.Parse(time.RFC3339, chapterUpdateTime)
 
 		if !ok {
-			m.logger.Errorf("cant find slug %v of type string", ss)
+			m.logger.Error("cant find chapter slug of type string", "value", ss)
 		}
 		chapter := types.ChapterEntity{
 			Number:      &number,
@@ -111,7 +112,7 @@ func (m *MangaNelAPIClient) getMangaSeries(slug string, shouldIncludeChapters bo
 	return &manga, nil
 }
 
-//manga(x:mn05,slug:"my-wife-is-a-demon-queen"){id,rank,title,slug,status,image,latestChapter,author,artist,genres,description,alternativeTitle,mainSlug,isYaoi,isPorn,isSoftPorn,unauthFile,noCoverAd,isLicensed,createdDate,updatedDate,chapters{id,number,title,slug,date}}}
+// manga(x:mn05,slug:"my-wife-is-a-demon-queen"){id,rank,title,slug,status,image,latestChapter,author,artist,genres,description,alternativeTitle,mainSlug,isYaoi,isPorn,isSoftPorn,unauthFile,noCoverAd,isLicensed,createdDate,updatedDate,chapters{id,number,title,slug,date}}}
 func getQueryForSlug(slug string, includeChapters bool) string {
 	if includeChapters {
 		return fmt.Sprintf(`
