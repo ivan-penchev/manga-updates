@@ -27,7 +27,7 @@ jobs:
       - name: Run manga-updates binary
         env:
           SERIES_DATAFOLDER: ./data
-          API_ENDPOINT: "https://manganel.me/api/graphql"
+          API_ENDPOINT: "https://api.mghcdn.com/graphql"
         run: |
           go mod vendor
           go run cmd/manga-updates/main.go
