@@ -2,10 +2,11 @@ package store
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/fs"
-	"io/ioutil"
+	"os"
 	"path/filepath"
+
+	"log/slog"
 
 	"github.com/ivan-penchev/manga-updates/pkg/types"
 )
@@ -22,7 +23,7 @@ type fileStore struct {
 // PersistestManagaTitle implements Store
 func (*fileStore) PersistestManagaTitle(location string, mangaTitle types.MangaEntity) error {
 	file, _ := json.MarshalIndent(mangaTitle, "", " ")
-	return ioutil.WriteFile(location, file, 0644)
+	return os.WriteFile(location, file, 0644)
 }
 
 // GetMangaSeries returns the file location and file data
@@ -32,19 +33,19 @@ func (f *fileStore) GetMangaSeries() map[string]types.MangaEntity {
 		return filepath.Ext(s) == ".json"
 	})
 	for _, file := range files {
-		byteValue, err := ioutil.ReadFile(file)
+		byteValue, err := os.ReadFile(file)
 		if err != nil {
-			fmt.Println("Cant open file")
+			slog.Error("Cant open file")
 			continue
 		}
 		var mangaSeries types.MangaEntity
 		err = json.Unmarshal(byteValue, &mangaSeries)
 		if err != nil {
-			fmt.Println("File is not in correct structure")
+			slog.Error("File is not in correct structure")
 			continue
 		}
 		if mangaSeries.Slug == "" || mangaSeries.Slug == "<insert id string>" {
-			fmt.Println("Slug for the manga title is not formatted correctly")
+			slog.Error("Slug for the manga title is not formatted correctly")
 			continue
 		}
 		persistedMangaSeries[file] = mangaSeries

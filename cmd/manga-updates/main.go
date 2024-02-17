@@ -88,7 +88,7 @@ func main() {
 		}
 
 		if manga.IsNew() {
-			logMessage := fmt.Sprint("New manga title (%s) added for updates, it has %d chapters so far", mangaResponse.Name, len(mangaResponse.Chapters))
+			logMessage := fmt.Sprintf("New manga title (%s) added for updates, it has %d chapters so far", mangaResponse.Name, len(mangaResponse.Chapters))
 			logger.Info(logMessage)
 			err = store.PersistestManagaTitle(path, *mangaResponse)
 			if err != nil {
@@ -114,7 +114,7 @@ func main() {
 
 				p := mail.NewPersonalization()
 				tos := []*mail.Email{
-					&mail.Email{Address: "thefolenangel@gmail.com"},
+					{Address: "thefolenangel@gmail.com"},
 				}
 				p.AddTos(tos...)
 				// if we have multiple simultatnions updates, take the oldest one.
