@@ -47,7 +47,7 @@ func WithRecipients(recipients ...string) notifierOption {
 	}
 }
 
-func NewNotifier(opts ...notifierOption) Notifier {
+func NewNotifier(opts ...notifierOption) (Notifier, error) {
 
 	config := &notifierConfig{}
 	for _, opt := range opts {
@@ -56,7 +56,7 @@ func NewNotifier(opts ...notifierOption) Notifier {
 
 	if config.apiKey == "" {
 		slog.Debug("apiKey is empty, giving a standard output notifier")
-		return standardOutNotifier{}
+		return standardOutNotifier{}, nil
 	}
 
 	return newSendgridNotifier(config)

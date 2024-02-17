@@ -1,17 +1,38 @@
 package notifier
 
 import (
+	"errors"
 	"fmt"
+	"regexp"
 
 	"github.com/ivan-penchev/manga-updates/pkg/types"
 	"github.com/sendgrid/sendgrid-go"
 	"github.com/sendgrid/sendgrid-go/helpers/mail"
 )
 
-func newSendgridNotifier(config *notifierConfig) Notifier {
+var emailRegex = regexp.MustCompile(`^[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,4}$`)
+
+func isValidEmail(email string) bool {
+	return emailRegex.MatchString(email)
+}
+
+func newSendgridNotifier(config *notifierConfig) (Notifier, error) {
+	if config.fromEmail == "" || !isValidEmail(config.fromEmail) {
+		return nil, fmt.Errorf("invalid sender email: %s", config.fromEmail)
+	}
+
+	if len(config.recipients) == 0 {
+		return nil, errors.New("no recipient emails provided")
+	}
+	for _, recipient := range config.recipients {
+		if !isValidEmail(recipient) {
+			return nil, fmt.Errorf("invalid recipient email: %s", recipient)
+		}
+	}
+
 	return sendgridNotifier{
 		config: config,
-	}
+	}, nil
 }
 
 type sendgridNotifier struct {
