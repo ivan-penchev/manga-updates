@@ -1,0 +1,34 @@
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - id: manga-updates
+    main: ./cmd/manga-updates/main.go
+    binary: manga-updates
+    goos:
+      - linux
+    goarch:
+      - amd64
+      - arm64
+      - 386
+    flags:
+      - -trimpath
+    ldflags:
+      - -s -w -X main.version={{.Version}}
+    env:
+      - CGO_ENABLED=0
+
+archives:
+  - format: zip
+    files:
+      - LICENSE
+      - README.md
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - '^docs:'
+      - 'Updated state'
+      - 'Updated version'
