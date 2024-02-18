@@ -1,11 +1,17 @@
 {
  "name": "Star Martial God Technique",
- "shouldNotify": true,
- "lastUpdate": "2024-02-14T15:29:42Z",
+ "shouldNotify": false,
+ "lastUpdate": "2024-02-18T13:18:01Z",
  "slug": "star-martial-god-technique",
  "status": "ongoing",
  "source": "manganel",
  "chapters": [
+  {
+   "name": 728,
+   "slug": null,
+   "date": "2024-02-18T13:18:01Z",
+   "uri": "https://manganel.me/chapter/star-martial-god-technique/chapter-728"
+  },
   {
    "name": 727,
    "slug": null,
