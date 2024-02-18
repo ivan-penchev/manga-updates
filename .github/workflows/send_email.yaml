@@ -24,6 +24,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
       - name: Run manga-updates binary
         run: |
           LATEST_RELEASE_URL=$(curl -s \
@@ -36,7 +37,7 @@ jobs:
             -H 'Accept: application/octet-stream' \
             -o manga-updates.zip \
             "$LATEST_RELEASE_URL"
-        
+          file manga-updates.zip
           unzip manga-updates.zip -d manga-updates
           
           chmod +x manga-updates/manga-updates
