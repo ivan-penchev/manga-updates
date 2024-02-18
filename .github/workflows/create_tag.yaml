@@ -16,6 +16,8 @@ on:
 concurrency: 
   group: generate-build-tag-group
 
+env:
+  GITHUB_TOKEN: ${{ secrets.PAT}}
 jobs:
   update:
     runs-on: ubuntu-latest
