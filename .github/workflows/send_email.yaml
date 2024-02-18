@@ -32,8 +32,11 @@ jobs:
       
       - name: Run manga-updates binary
         run: |
-          go mod vendor
-          go run cmd/manga-updates/main.go
+          LATEST_RELEASE_URL=$(curl -s https://api.github.com/repos/ivan-penchev/manga-updates/releases/latest | jq -r '.assets[] | select(.name | contains("linux_amd64")) | .browser_download_url')
+          curl -L $LATEST_RELEASE_URL -o manga-updates.zip
+          unzip manga-updates.zip -d manga-updates
+          chmod +x manga-updates/manga-updates
+          ./manga-updates/manga-updates
           if [ -n "$(git status --porcelain)" ]; then
             echo "commiting changes";
             git config --global user.name 'MangaUpdates (Automation)'
