@@ -100,16 +100,15 @@ func main() {
 			os.Exit(1)
 		}
 
-		if manga.IsNew() {
-			logMessage := fmt.Sprintf("New manga title (%s) added for updates, it has %d chapters so far", mangaResponse.Name, len(mangaResponse.Chapters))
-			logger.Info(logMessage)
-			err = store.PersistestManagaTitle(path, *mangaResponse)
-			if err != nil {
-				logger.Error("failed to persist manga", err)
-				os.Exit(1)
+		err = store.PersistestManagaTitle(path, *mangaResponse)
+		if err != nil {
+			logger.Error("failed to persist manga", err)
+			os.Exit(1)
 
-			}
-			logMessage = fmt.Sprintf("New manga title (%s) persisted information %s", mangaResponse.Name, path)
+		}
+
+		if manga.IsNew() {
+			logMessage := fmt.Sprintf("New manga title (%s) added for update notifications, it has %d chapters so far", mangaResponse.Name, len(mangaResponse.Chapters))
 			logger.Info(logMessage)
 			continue
 		}
@@ -127,12 +126,6 @@ func main() {
 				if err != nil {
 					logger.Error("failed to send email", "error", err)
 				}
-				err = store.PersistestManagaTitle(path, *mangaResponse)
-				if err != nil {
-					logger.Error("failed to persist manga title", "error", err)
-					os.Exit(1)
-				}
-				logger.Info("Manga persisted information", "mangaName", mangaResponse.Name, "dataPath", path)
 			}
 			continue
 		}
