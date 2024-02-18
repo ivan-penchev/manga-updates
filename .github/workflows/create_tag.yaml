@@ -40,9 +40,5 @@ jobs:
       run: |
         git config --global user.name 'MangaUpdates (Automation)'
         git config --global user.email manga@penchev.com
-
-    - name: Tag the repository
-      run: git tag -fa v${{ steps.git-describe-semver.outputs.version }} -m "Updated version to v${{ steps.git-describe-semver.outputs.version }}"
-
-    - name: Push the tag to main
-      run: git push --follow-tags
+        git tag -fa v${{ steps.git-describe-semver.outputs.version }} -m "Updated version to v${{ steps.git-describe-semver.outputs.version }}"
+        git push origin v${{ steps.git-describe-semver.outputs.version }}
