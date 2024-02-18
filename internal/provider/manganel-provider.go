@@ -75,6 +75,7 @@ func (mp *mangaNelProvider) IsNewerVersionAvailable(manga types.MangaEntity) (bo
 	}
 
 	mangaResponse, err := mp.mangaNelClient.GetMangaSeriesFull(manga.Slug)
+	mangaResponse.ShouldNotify = manga.ShouldNotify
 
 	if err != nil {
 		return false, err
@@ -101,6 +102,7 @@ func (mp *mangaNelProvider) GetLatestVersionMangaEntity(manga types.MangaEntity)
 	}
 
 	mangaResponse, err := mp.mangaNelClient.GetMangaSeriesFull(manga.Slug)
+	mangaResponse.ShouldNotify = manga.ShouldNotify
 
 	if err != nil {
 		return nil, err

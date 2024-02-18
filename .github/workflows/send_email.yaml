@@ -22,6 +22,8 @@ jobs:
     if: ${{ github.event_name == 'workflow_dispatch'}}
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
       - name: Run manga-updates binary
         run: |
           LATEST_RELEASE_URL=$(curl -s \
@@ -36,11 +38,11 @@ jobs:
             "$LATEST_RELEASE_URL"
         
           unzip manga-updates.zip -d manga-updates
-
+          
           chmod +x manga-updates/manga-updates
 
           ./manga-updates/manga-updates
-          
+
           if [ -n "$(git status --porcelain)" ]; then
             echo "commiting changes";
             git config --global user.name 'MangaUpdates (Automation)'
