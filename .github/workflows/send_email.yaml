@@ -32,7 +32,10 @@ jobs:
       
       - name: Run manga-updates binary
         run: |
-          LATEST_RELEASE_URL=$(curl -s https://api.github.com/repos/ivan-penchev/manga-updates/releases/latest | jq -r '.assets[] | select(.name | contains("linux_amd64")) | .browser_download_url')
+          LATEST_RELEASE_URL=$(curl -s \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/ivan-penchev/manga-updates/releases/latest | \
+            jq -r '.assets[] | select(.name | contains("linux_amd64")) | .url')
           curl -L $LATEST_RELEASE_URL -o manga-updates.zip
           unzip manga-updates.zip -d manga-updates
           chmod +x manga-updates/manga-updates
