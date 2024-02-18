@@ -10,6 +10,7 @@ type MangaStatus string
 const (
 	MangaSourceMangaNel MangaSource = "manganel"
 	MangaSourceMangaDex MangaSource = "mangadex"
+
 	MangaStatusOngoing  MangaStatus = "ongoing"
 	MangaStatusComplete MangaStatus = "complete"
 )
@@ -35,8 +36,7 @@ type ChapterEntity struct {
 // if they are, it means the entity has never been synced before.
 // and should be considered new for the purpose of syncing
 //
-// Assumes if default values are present, that the entity has never been synced before
-
+// Assumes that the default values will always be present, when the entity has never been synced before.
 func (m *MangaEntity) IsNew() bool {
 	if len(m.Chapters) == 0 && m.LastUpdate.IsZero() {
 		return true
