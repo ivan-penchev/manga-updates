@@ -28,8 +28,12 @@ type ChapterEntity struct {
 	URI    string     `json:"uri"`
 }
 
-// looks if default values are present on a MangaEntity
-// assumes if default values are present, that the entity has never been synced before
+// examine if default values are present on a MangaEntity,
+// if they are, it means the entity has never been synced before.
+// and should be considered new for the purpose of syncing
+//
+// Assumes if default values are present, that the entity has never been synced before
+
 func (m *MangaEntity) IsNew() bool {
 	if len(m.Chapters) == 0 && m.LastUpdate.IsZero() {
 		return true
