@@ -5,10 +5,13 @@ import (
 )
 
 type MangaSource string
+type MangaStatus string
 
 const (
 	MangaSourceMangaNel MangaSource = "manganel"
 	MangaSourceMangaDex MangaSource = "mangadex"
+	MangaStatusOngoing  MangaStatus = "ongoing"
+	MangaStatusComplete MangaStatus = "complete"
 )
 
 type MangaEntity struct {
@@ -16,7 +19,7 @@ type MangaEntity struct {
 	ShouldNotify bool            `json:"shouldNotify"`
 	LastUpdate   time.Time       `json:"lastUpdate"`
 	Slug         string          `json:"slug"`
-	Status       string          `json:"status"`
+	Status       MangaStatus     `json:"status"`
 	Source       MangaSource     `json:"source"`
 	Chapters     []ChapterEntity `json:"chapters"`
 }
