@@ -25,8 +25,33 @@ archives:
 
 changelog:
   sort: asc
+  use: github
   filters:
     exclude:
       - '^docs:'
       - 'Updated state'
       - 'Updated version'
+      - Merge pull request
+      - Merge remote-tracking branch
+      - Merge branch
+  groups:
+    - title: Dependency updates
+      regexp: '^.*?(feat|fix|chore)\(deps\)!?:.+$'
+      order: 300
+    - title: "New Features"
+      regexp: '^.*?feat(\([[:word:]]+\))??!?:.+$'
+      order: 100
+    - title: "Security updates"
+      regexp: '^.*?sec(\([[:word:]]+\))??!?:.+$'
+      order: 150
+    - title: "Bug fixes"
+      regexp: '^.*?(fix|refactor)(\([[:word:]]+\))??!?:.+$'
+      order: 200
+    - title: "Documentation updates"
+      regexp: ^.*?docs?(\([[:word:]]+\))??!?:.+$
+      order: 400
+    - title: "Build process updates"
+      regexp: ^.*?(build|ci)(\([[:word:]]+\))??!?:.+$
+      order: 400
+    - title: Other work
+      order: 9999
