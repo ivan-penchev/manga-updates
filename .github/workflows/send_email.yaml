@@ -32,17 +32,19 @@ jobs:
             https://api.github.com/repos/ivan-penchev/manga-updates/releases/latest | \
             jq -r '.assets[] | select(.name | contains("linux_amd64")) | .url')
 
+          TEMP_DIR=$RUNNER_TEMP/manga-updates
+          mkdir -p "$TEMP_DIR"
           curl -L \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             -H 'Accept: application/octet-stream' \
-            -o manga-updates.zip \
+            -o "$TEMP_DIR/manga-updates.zip" \
             "$LATEST_RELEASE_URL"
-          file manga-updates.zip
-          unzip manga-updates.zip -d manga-updates
+          file "$TEMP_DIR/manga-updates.zip"
+          unzip "$TEMP_DIR/manga-updates.zip" -d "$TEMP_DIR"
           
-          chmod +x manga-updates/manga-updates
+          chmod +x "$TEMP_DIR/manga-updates/manga-updates"
 
-          ./manga-updates/manga-updates
+          "$TEMP_DIR/manga-updates/manga-updates"
 
           if [ -n "$(git status --porcelain)" ]; then
             echo "commiting changes";
