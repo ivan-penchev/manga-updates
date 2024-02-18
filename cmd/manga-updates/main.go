@@ -100,7 +100,7 @@ func main() {
 			os.Exit(1)
 		}
 
-		err = store.PersistestManagaTitle(path, *mangaResponse)
+		err = store.PersistManagaTitle(path, *mangaResponse)
 		if err != nil {
 			logger.Error("failed to persist manga", err)
 			os.Exit(1)

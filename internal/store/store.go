@@ -13,7 +13,7 @@ import (
 
 type Store interface {
 	GetMangaSeries() map[string]types.MangaEntity
-	PersistestManagaTitle(location string, mangaTitle types.MangaEntity) error
+	PersistManagaTitle(location string, mangaTitle types.MangaEntity) error
 }
 
 type fileStore struct {
@@ -21,7 +21,7 @@ type fileStore struct {
 }
 
 // PersistestManagaTitle implements Store
-func (*fileStore) PersistestManagaTitle(location string, mangaTitle types.MangaEntity) error {
+func (*fileStore) PersistManagaTitle(location string, mangaTitle types.MangaEntity) error {
 	file, _ := json.MarshalIndent(mangaTitle, "", " ")
 	return os.WriteFile(location, file, 0644)
 }
