@@ -37,6 +37,14 @@ func main() {
 	if err := env.Parse(&cfg); err != nil {
 		logger.Error("failed to parse configuration", "error", err)
 	}
+	store := store.NewStore(cfg.SeriesDataFolder)
+	persistedMangaSeries := store.GetMangaSeries()
+
+	if len(persistedMangaSeries) == 0 {
+		fmt.Println("No series to monitor")
+		return
+	}
+
 	innerCtx, innerCancel := chromedp.NewContext(context.Background())
 	defer innerCancel()
 	// create a timeout
@@ -70,8 +78,6 @@ func main() {
 		os.Exit(1)
 	}
 
-	store := store.NewStore(cfg.SeriesDataFolder)
-
 	notifier, err := notifier.NewNotifier(
 		notifier.WithRecipients(cfg.NotificationRecipientEmail),
 		notifier.WithSenderEmail(cfg.NotificationSenderEmail),
@@ -82,13 +88,6 @@ func main() {
 	if err != nil {
 		logger.Error("failed to create notifier", "error", err)
 		os.Exit(1)
-	}
-
-	persistedMangaSeries := store.GetMangaSeries()
-
-	if len(persistedMangaSeries) == 0 {
-		fmt.Println("No series to monitor")
-		return
 	}
 
 	mangaNelClient := manganelapiclient.NewMangaNelAPIClient(logger, cfg.MangaNelGraphQLEndpoint, mhubApiAccessToken)
@@ -120,7 +119,9 @@ func main() {
 			logger.Info("Manga has new chapters", "mangaName", manga.Name, "numberOfNewChapters", len(chaptersMissing))
 			if len(chaptersMissing) > 0 {
 
-				// if we have multiple simultatnions updates, take the oldest one.
+				// If we have multiple simultatnions updates they will be ordered descending
+				// meaning the newest one will be first, and the olders updates will be last.
+				// Take the oldest one by taking the last index.
 				indexToTake := len(chaptersMissing) - 1
 				err := notifier.NotifyForNewChapter(chaptersMissing[indexToTake], manga)
 				if err != nil {
