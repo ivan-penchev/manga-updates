@@ -19,21 +19,20 @@ type MangaNelAPIClient struct {
 	addr   string
 	apiKey string
 	client *graphql.Client
-	logger *slog.Logger
 }
 
-func NewMangaNelAPIClient(logger *slog.Logger, addr string, apiKey string) *MangaNelAPIClient {
+func NewMangaNelAPIClient(addr string, apiKey string) *MangaNelAPIClient {
 	client := &http.Client{Timeout: time.Second * 10}
 	client.Transport = cloudflarebp.AddCloudFlareByPass(client.Transport)
 
 	graphqlClientWithOptions := graphql.WithHTTPClient(client)
 	graphqlClient := graphql.NewClient(addr, graphqlClientWithOptions)
-	graphqlClient.Log = func(s string) { logger.Debug(s) }
+	graphqlClient.Log = func(s string) { slog.Debug(s) }
 
 	return &MangaNelAPIClient{
 		addr:   addr,
 		client: graphqlClient,
-		logger: logger,
+
 		apiKey: apiKey,
 	}
 }
@@ -58,17 +57,18 @@ func (m *MangaNelAPIClient) getMangaSeries(slug string, shouldIncludeChapters bo
 	}
 	mapResponse, ok := graphqlResponse.(map[string]interface{})
 	if !ok {
-		return nil, errors.New("Cant cast graphQL response from server to a map")
+		return nil, errors.New("cant cast graphQL response from server to a map")
 	}
 	mapManga, ok := mapResponse["manga"].(map[string]interface{})
 	if !ok {
-		return nil, errors.New("Cant cast manga query from graphQL response to a map")
+		return nil, errors.New("cant cast manga query from graphQL response to a map")
 	}
 
 	manga := types.MangaEntity{}
 	manga.Name = mapManga["title"].(string)
 	manga.Slug = mapManga["slug"].(string)
-	manga.Status = mapManga["status"].(string)
+	manga.Status = types.MangaStatus(mapManga["status"].(string))
+	manga.Source = types.MangaSourceMangaNel
 	updateLastString := mapManga["updatedDate"].(string)
 	timeUpdate, _ := time.Parse(time.RFC3339, updateLastString)
 	manga.LastUpdate = timeUpdate
@@ -79,7 +79,7 @@ func (m *MangaNelAPIClient) getMangaSeries(slug string, shouldIncludeChapters bo
 
 	mapChapters, ok := mapManga["chapters"].([]interface{})
 	if !ok {
-		return nil, errors.New("Cant cast manga chapters query from graphQL response to a map")
+		return nil, errors.New("cant cast manga chapters query from graphQL response to a map")
 	}
 
 	for _, v := range mapChapters {
@@ -91,18 +91,18 @@ func (m *MangaNelAPIClient) getMangaSeries(slug string, shouldIncludeChapters bo
 
 		number, ok := ss["number"].(float64)
 		if !ok {
-			m.logger.Error("cant find chapter number of type float64", "value", ss)
+			slog.Error("cant find chapter number of type float64", "value", ss)
 		}
 		chapterUpdateTime, ok := ss["date"].(string)
 		timeUpdate, _ := time.Parse(time.RFC3339, chapterUpdateTime)
 
 		if !ok {
-			m.logger.Error("cant find chapter slug of type string", "value", ss)
+			slog.Error("cant find chapter slug of type string", "value", ss)
 		}
 		chapter := types.ChapterEntity{
-			Number:      &number,
-			Date:        &timeUpdate,
-			ManganelURI: fmt.Sprintf("https://manganel.me/chapter/%s/chapter-%v", manga.Slug, number),
+			Number: &number,
+			Date:   &timeUpdate,
+			URI:    fmt.Sprintf("https://manganel.me/chapter/%s/chapter-%v", manga.Slug, number),
 		}
 		manga.Chapters = append(manga.Chapters, chapter)
 	}

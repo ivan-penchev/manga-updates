@@ -12,7 +12,7 @@ func (s standardOutNotifier) NotifyForNewChapter(chapter types.ChapterEntity, fr
 	slog.Info("Notifying about new chapter",
 		"mangaName", fromManga.Name,
 		"chapterNumber", chapter.Number,
-		"readUrl", chapter.ManganelURI,
+		"readUrl", chapter.URI,
 	)
 	return nil
 }
