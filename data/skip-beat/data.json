@@ -1,6 +1,6 @@
 {
  "name": "Skip Beat!",
- "shouldNotify": false,
+ "shouldNotify": true,
  "lastUpdate": "2024-02-05T05:44:22Z",
  "slug": "skip-beat_110",
  "status": "ongoing",
