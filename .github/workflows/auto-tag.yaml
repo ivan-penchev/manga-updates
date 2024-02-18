@@ -25,7 +25,7 @@ jobs:
       with:
         version: latest
         dir: .
-        fallback: v0.0.0
+        fallback: v1.0.0
         drop-prefix: true
         prerelease-prefix: dev
         prerelease-suffix: SNAPSHOT
