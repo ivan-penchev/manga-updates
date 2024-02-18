@@ -25,21 +25,27 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Go 1.x
-        uses: actions/setup-go@v5
-        with:
-          go-version-file: 'go.mod'
-      
       - name: Run manga-updates binary
         run: |
           LATEST_RELEASE_URL=$(curl -s \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             https://api.github.com/repos/ivan-penchev/manga-updates/releases/latest | \
             jq -r '.assets[] | select(.name | contains("linux_amd64")) | .url')
-          curl -L $LATEST_RELEASE_URL -o manga-updates.zip
-          unzip manga-updates.zip -d manga-updates
-          chmod +x manga-updates/manga-updates
-          ./manga-updates/manga-updates
+
+          TEMP_DIR=$RUNNER_TEMP/manga-updates-bin
+          mkdir -p "$TEMP_DIR"
+          curl -L \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H 'Accept: application/octet-stream' \
+            -o "$TEMP_DIR/manga-updates.zip" \
+            "$LATEST_RELEASE_URL"
+          file "$TEMP_DIR/manga-updates.zip"
+          unzip "$TEMP_DIR/manga-updates.zip" -d "$TEMP_DIR"
+          
+          chmod +x "$TEMP_DIR/manga-updates"
+
+          "$TEMP_DIR/manga-updates"
+
           if [ -n "$(git status --porcelain)" ]; then
             echo "commiting changes";
             git config --global user.name 'MangaUpdates (Automation)'
@@ -57,15 +63,27 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Go 1.x
-        uses: actions/setup-go@v5
-        with:
-          go-version-file: 'go.mod'
-
       - name: Run manga-updates binary
         run: |
-          go mod vendor
-          go run cmd/manga-updates/main.go
+          LATEST_RELEASE_URL=$(curl -s \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/ivan-penchev/manga-updates/releases/latest | \
+            jq -r '.assets[] | select(.name | contains("linux_amd64")) | .url')
+
+          TEMP_DIR=$RUNNER_TEMP/manga-updates-bin
+          mkdir -p "$TEMP_DIR"
+          curl -L \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H 'Accept: application/octet-stream' \
+            -o "$TEMP_DIR/manga-updates.zip" \
+            "$LATEST_RELEASE_URL"
+          file "$TEMP_DIR/manga-updates.zip"
+          unzip "$TEMP_DIR/manga-updates.zip" -d "$TEMP_DIR"
+          
+          chmod +x "$TEMP_DIR/manga-updates"
+
+          "$TEMP_DIR/manga-updates"
+
           if [ -n "$(git status --porcelain)" ]; then
             echo "commiting changes";
             git config --global user.name 'MangaUpdates (Automation)'

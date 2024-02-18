@@ -1,6 +1,6 @@
 {
  "name": "One Piece",
- "shouldNotify": false,
+ "shouldNotify": true,
  "lastUpdate": "2024-02-15T21:51:34Z",
  "slug": "one-piece_116",
  "status": "ongoing",
