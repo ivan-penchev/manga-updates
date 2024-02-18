@@ -14,10 +14,10 @@ type MangaEntity struct {
 }
 
 type ChapterEntity struct {
-	Number      *float64   `json:"name"`
-	Slug        *string    `json:"slug"`
-	Date        *time.Time `json:"date"`
-	ManganelURI string     `json:"mangaNelUri"`
+	Number *float64   `json:"name"`
+	Slug   *string    `json:"slug"`
+	Date   *time.Time `json:"date"`
+	URI    string     `json:"uri"`
 }
 
 // looks if default values are present on a MangaEntity
@@ -42,7 +42,7 @@ func (m *MangaEntity) GetMissingChapters(n MangaEntity) []ChapterEntity {
 	if lenthNewer > lenthCurrent {
 		endArray = lenthNewer - lenthCurrent
 	}
-	
+
 	vals2 := n.Chapters[0:endArray]
 
 	return vals2

@@ -55,7 +55,7 @@ func (s sendgridNotifier) NotifyForNewChapter(chapter types.ChapterEntity, fromM
 
 	if s.config.templateID != "" {
 		m.SetTemplateID(s.config.templateID)
-		p.SetDynamicTemplateData("manga_read_url", chapter.ManganelURI)
+		p.SetDynamicTemplateData("manga_read_url", chapter.URI)
 		p.SetDynamicTemplateData("manga_name", fromManga.Name)
 		p.SetDynamicTemplateData("chapter", chapter.Number)
 		p.SetDynamicTemplateData("subject", fmt.Sprintf("%s update", fromManga.Name))
