@@ -11,7 +11,6 @@ builds:
     goarch:
       - amd64
       - arm64
-      - 386
     flags:
       - -trimpath
     ldflags:
@@ -22,7 +21,6 @@ builds:
 archives:
   - format: zip
     files:
-      - LICENSE
       - README.md
 
 changelog:
