@@ -34,7 +34,7 @@ func (m *MangaEntity) IsOlder(n MangaEntity) bool {
 	return m.LastUpdate.Before(n.LastUpdate)
 }
 
-// Compares if the current MangaEntity is older
+// returns the missing chapters between the current manga and the new one
 func (m *MangaEntity) GetMissingChapters(n MangaEntity) []ChapterEntity {
 	lenthCurrent := len(m.Chapters)
 	lenthNewer := len(n.Chapters)
