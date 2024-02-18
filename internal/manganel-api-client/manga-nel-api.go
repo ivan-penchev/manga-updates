@@ -69,6 +69,7 @@ func (m *MangaNelAPIClient) getMangaSeries(slug string, shouldIncludeChapters bo
 	manga.Name = mapManga["title"].(string)
 	manga.Slug = mapManga["slug"].(string)
 	manga.Status = mapManga["status"].(string)
+	manga.Source = types.MangaSourceMangaNel
 	updateLastString := mapManga["updatedDate"].(string)
 	timeUpdate, _ := time.Parse(time.RFC3339, updateLastString)
 	manga.LastUpdate = timeUpdate

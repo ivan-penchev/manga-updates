@@ -4,12 +4,20 @@ import (
 	"time"
 )
 
+type MangaSource string
+
+const (
+	MangaSourceMangaNel MangaSource = "manganel"
+	MangaSourceMangaDex MangaSource = "mangadex"
+)
+
 type MangaEntity struct {
 	Name         string          `json:"name"`
 	ShouldNotify bool            `json:"shouldNotify"`
 	LastUpdate   time.Time       `json:"lastUpdate"`
 	Slug         string          `json:"slug"`
 	Status       string          `json:"status"`
+	Source       MangaSource     `json:"source"`
 	Chapters     []ChapterEntity `json:"chapters"`
 }
 
