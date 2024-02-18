@@ -17,18 +17,24 @@ jobs:
   update:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 0
     - id: git-describe-semver
       uses: choffmeister/git-describe-semver@main
       with:
-        version: latest
         dir: .
-        fallback: v1.0.0
+        fallback: v0.0.1-initial
         drop-prefix: true
         prerelease-prefix: dev
-        prerelease-suffix: SNAPSHOT
-        prerelease-timestamped: true
         next-release: ${{ github.event.inputs.nextReleaseType }}
     - run: echo This is the version ${{ steps.git-describe-semver.outputs.version }}
+
+    - name: Set Git config
+      run: |
+        git config --global user.name 'MangaUpdates (Automation)'
+        git config --global user.email manga@penchev.com
+    - name: Tag the repository
+      run: git tag -fa ${{ steps.git-describe-semver.outputs.version }} -m "Updated version to ${{ steps.git-describe-semver.outputs.version }}"
+    - name: Push the tag to main
+      run: git push --follow-tags
