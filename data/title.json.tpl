@@ -5,5 +5,6 @@
   "slug": "<insert id string>",
   "status": "",
   "latestChapter": null,
+  "source": "<insert manganel | mangadex>",
   "chapters": []
 }
