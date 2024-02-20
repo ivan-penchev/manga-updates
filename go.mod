@@ -10,6 +10,7 @@ require (
 	github.com/darylhjd/mangodex v0.0.0-20211231093527-e4a91c518fa0
 	github.com/machinebox/graphql v0.2.2
 	github.com/sendgrid/sendgrid-go v3.14.0+incompatible
+	github.com/stretchr/testify v1.7.2
 )
 
 require (
@@ -25,8 +26,10 @@ require (
 	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/matryer/is v1.4.0 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
+	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/sendgrid/rest v2.6.9+incompatible // indirect
-	github.com/stretchr/testify v1.7.2 // indirect
+	github.com/stretchr/objx v0.1.0 // indirect
 	golang.org/x/net v0.0.0-20220617184016-355a448f1bc9 // indirect
 	golang.org/x/sys v0.17.0 // indirect
+	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

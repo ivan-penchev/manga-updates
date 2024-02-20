@@ -1,0 +1,12 @@
+dir: "internal/mocks/"
+outpkg: "mocks"
+filename: "{{.InterfaceName}}.go"
+mockname: "{{.InterfaceName}}Mock"
+with-expecter: True
+packages:
+  github.com/ivan-penchev/manga-updates/internal/Store:
+    interfaces:
+      Store:
+  github.com/ivan-penchev/manga-updates/internal/Notifier:
+    interfaces:
+      Notifier:
