@@ -2,6 +2,7 @@ package provider
 
 import (
 	"errors"
+	"fmt"
 	"net/url"
 	"sort"
 	"strconv"
@@ -45,17 +46,38 @@ func NewMangaDexProviderFactory() func() (Provider, error) {
 func (mdp *mangaDexProvider) GetLatestVersionMangaEntity(manga types.MangaEntity) (*types.MangaEntity, error) {
 	v := url.Values{}
 	v.Add("translatedLanguage[]", "en") // hardcode it for now
-	res, err := mdp.mangaDexClient.Chapter.GetMangaChapters(manga.Slug, v)
+	initialResponse, err := mdp.mangaDexClient.Chapter.GetMangaChapters(manga.Slug, v)
 
-	if err != nil || res.Data == nil || len(res.Data) == 0 {
+	if err != nil || initialResponse.Data == nil || len(initialResponse.Data) == 0 {
 		return nil, errors.Join(err, errors.New("failed to get list of chapters for manga"))
 	}
 
-	chapterEntities := ConvertChaptersToEntities(res.Data)
+	chapters := initialResponse.Data
+
+	for len(chapters) < initialResponse.Total {
+		v.Add("offset", strconv.Itoa(len(chapters)))
+		res, err := mdp.mangaDexClient.Chapter.GetMangaChapters(manga.Slug, v)
+
+		if err != nil || res.Data == nil || len(res.Data) == 0 {
+			break
+		}
+
+		chapters = append(chapters, res.Data...)
+	}
+
+	var chapterEntities []types.ChapterEntity
+	for _, chapter := range chapters {
+		chapterEntity, err := convertChapterToEntity(chapter)
+		if err == nil {
+			chapterEntities = append(chapterEntities, chapterEntity)
+		}
+	}
 
 	// sort chapters in decdending order
 	sort.Slice(chapterEntities, func(i, j int) bool {
-		return chapterEntities[i].Date.After(*chapterEntities[j].Date)
+		return chapterEntities[i].Number != nil &&
+			chapterEntities[j].Number != nil &&
+			*chapterEntities[i].Number > *chapterEntities[j].Number
 	})
 
 	mangaUpdateTime := time.Now()
@@ -76,12 +98,9 @@ func (mdp *mangaDexProvider) GetLatestVersionMangaEntity(manga types.MangaEntity
 // IsNewerVersionAvailable implements Provider.
 func (mdp *mangaDexProvider) IsNewerVersionAvailable(manga types.MangaEntity) (bool, error) {
 
-	if manga.IsNew() {
-		return true, nil
-	}
-
 	v := url.Values{}
-	v.Add("title", "Academy’s Genius Swordmaster")
+	v.Add("title", manga.Name)
+	v.Add("order[relevance]", "desc")
 
 	res, err := mdp.mangaDexClient.Manga.GetMangaList(v)
 
@@ -93,7 +112,8 @@ func (mdp *mangaDexProvider) IsNewerVersionAvailable(manga types.MangaEntity) (b
 	for _, m := range res.Data {
 		if m.ID == manga.Slug {
 			// check if the latest chapter is inside the list of chapters we have
-			if m.Attributes.LastChapter != nil {
+			// but only do so, if the latest chapter is not empty, otherwise we can't compare.
+			if m.Attributes.LastChapter != nil && *m.Attributes.LastChapter != "" {
 				for _, c := range manga.Chapters {
 					// if we have the latest chapter exist, we don't need to update
 					if c.Slug == m.Attributes.LastChapter {
@@ -101,32 +121,25 @@ func (mdp *mangaDexProvider) IsNewerVersionAvailable(manga types.MangaEntity) (b
 					}
 				}
 				// we have not found the latest chapter, we need to update
-				return false, nil
+				return true, nil
 			} else {
-				return false, errors.New("can't find the manga's latest chapter")
+				// if the latest chapter on the manga object is empty,
+				// we can't compare, so we need to fetch the whole list of chapters
+				// and compare the latest chapter from the list,
+				// we do that by saying we need to update.
+				return true, nil
 			}
+
 		}
 	}
-	return false, errors.New("can't find the manga in the list, or the list is empty")
+
+	return false, errors.New("can't find the manga in the response from the api, or the response is empty")
 }
 
-// Kind implements Provider.
 func (*mangaDexProvider) Kind() types.MangaSource {
 	return types.MangaSourceMangaDex
 }
 
-func ConvertChaptersToEntities(chapters []m.Chapter) []types.ChapterEntity {
-	var chapterEntities []types.ChapterEntity
-	for _, chapter := range chapters {
-		chapterEntity, err := convertChapterToEntity(chapter)
-		if err == nil {
-			chapterEntities = append(chapterEntities, chapterEntity)
-		}
-	}
-	return chapterEntities
-}
-
-// convertChapterToEntity : Converts a single Chapter to a ChapterEntity.
 func convertChapterToEntity(chapter m.Chapter) (types.ChapterEntity, error) {
 	var number *float64
 	var date *time.Time
@@ -151,9 +164,15 @@ func convertChapterToEntity(chapter m.Chapter) (types.ChapterEntity, error) {
 
 	slug := &chapter.ID
 
+	uri := fmt.Sprintf("https://mangadex.org/chapter/%s", chapter.ID)
+	if chapter.Attributes.ExternalURL != nil && *chapter.Attributes.ExternalURL != "" {
+		uri = *chapter.Attributes.ExternalURL
+	}
+
 	return types.ChapterEntity{
 		Number: number,
 		Slug:   slug,
 		Date:   date,
+		URI:    uri,
 	}, nil
 }
