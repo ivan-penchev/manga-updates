@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/caarlos0/env/v10"
+
 	"github.com/ivan-penchev/manga-updates/internal/notifier"
 	"github.com/ivan-penchev/manga-updates/internal/provider"
 	"github.com/ivan-penchev/manga-updates/internal/store"
@@ -55,6 +56,7 @@ func main() {
 
 	providerRouter, err := provider.NewProviderRouter(
 		provider.NewMangaNelProviderFactory(cfg.MangaNelGraphQLEndpoint),
+		provider.NewMangaDexProviderFactory(),
 	)
 
 	if err != nil {
@@ -78,6 +80,7 @@ func main() {
 
 		if IsNewerVersionAvailable {
 			mangaResponse, err := provider.GetLatestVersionMangaEntity(manga)
+
 			if err != nil {
 				logger.Error("failed to get latest version", "manga", manga, "error", err)
 				continue
