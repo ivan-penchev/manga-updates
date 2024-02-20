@@ -12,13 +12,15 @@ type UpdateCheckerService struct {
 	notifier  notifier.Notifier
 	store     store.Store
 	providers provider.ProviderRouter
+	logger    *slog.Logger
 }
 
-func NewUpdateCheckerService(notifier notifier.Notifier, store store.Store, providers provider.ProviderRouter) (*UpdateCheckerService, error) {
+func NewUpdateCheckerService(notifier notifier.Notifier, store store.Store, providers provider.ProviderRouter, logger *slog.Logger) (*UpdateCheckerService, error) {
 	return &UpdateCheckerService{
 		notifier:  notifier,
 		store:     store,
 		providers: providers,
+		logger:    logger,
 	}, nil
 }
 
@@ -30,7 +32,7 @@ func (ucs *UpdateCheckerService) CheckForUpdates() error {
 	}
 
 	for path, manga := range persistedMangaSeries {
-		slog.Info("Looking at", "mangaName", manga.Name, "dataPath", path)
+		ucs.logger.Info("Looking at", "mangaName", manga.Name, "dataPath", path)
 		provider, err := ucs.providers.GetProvider(manga)
 
 		if err != nil {
@@ -39,7 +41,7 @@ func (ucs *UpdateCheckerService) CheckForUpdates() error {
 
 		IsNewerVersionAvailable, err := provider.IsNewerVersionAvailable(manga)
 		if err != nil {
-			slog.Error("failed to check for newer version", "manga", manga, "error", err)
+			ucs.logger.Error("failed to check for newer version", "manga", manga, "error", err)
 			continue
 		}
 
@@ -47,19 +49,19 @@ func (ucs *UpdateCheckerService) CheckForUpdates() error {
 			mangaResponse, err := provider.GetLatestVersionMangaEntity(manga)
 
 			if err != nil {
-				slog.Error("failed to get latest version", "manga", manga, "error", err)
+				ucs.logger.Error("failed to get latest version", "manga", manga, "error", err)
 				continue
 			}
 
 			err = ucs.store.PersistManagaTitle(path, *mangaResponse)
 			if err != nil {
-				slog.Error("failed to persist manga", "manga", manga, "error", err)
+				ucs.logger.Error("failed to persist manga", "manga", manga, "error", err)
 				continue
 			}
 
 			if manga.ShouldNotify {
 				chaptersMissing := manga.GetMissingChapters(*mangaResponse)
-				slog.Info("Manga has new chapters", "mangaName", manga.Name, "numberOfNewChapters", len(chaptersMissing))
+				ucs.logger.Info("Manga has new chapters", "mangaName", manga.Name, "numberOfNewChapters", len(chaptersMissing))
 				if len(chaptersMissing) > 0 {
 
 					// If we have multiple simultatnions updates they will be ordered descending

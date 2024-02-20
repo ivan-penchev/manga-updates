@@ -65,7 +65,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	updatecheckerService, err := updatechecker.NewUpdateCheckerService(notifier, store, providerRouter)
+	updatecheckerService, err := updatechecker.NewUpdateCheckerService(notifier, store, providerRouter, logger)
 
 	if err != nil {
 		logger.Error("failed to create update checker service", "error", err)
