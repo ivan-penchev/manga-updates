@@ -11,6 +11,7 @@ import (
 	"github.com/ivan-penchev/manga-updates/internal/notifier"
 	"github.com/ivan-penchev/manga-updates/internal/provider"
 	"github.com/ivan-penchev/manga-updates/internal/store"
+	updatechecker "github.com/ivan-penchev/manga-updates/internal/update-checker"
 )
 
 type config struct {
@@ -64,50 +65,16 @@ func main() {
 		os.Exit(1)
 	}
 
-	for path, manga := range persistedMangaSeries {
-		logger.Info("Looking at", "mangaName", manga.Name, "dataPath", path)
-		provider, err := providerRouter.GetProvider(manga)
-		if err != nil {
-			logger.Error("failed to get provider for manga", "manga", manga, "error", err)
-			continue
-		}
+	updatecheckerService, err := updatechecker.NewUpdateCheckerService(notifier, store, providerRouter)
 
-		IsNewerVersionAvailable, err := provider.IsNewerVersionAvailable(manga)
-		if err != nil {
-			logger.Error("failed to check for newer version", "manga", manga, "error", err)
-			continue
-		}
-
-		if IsNewerVersionAvailable {
-			mangaResponse, err := provider.GetLatestVersionMangaEntity(manga)
-
-			if err != nil {
-				logger.Error("failed to get latest version", "manga", manga, "error", err)
-				continue
-			}
-
-			err = store.PersistManagaTitle(path, *mangaResponse)
-			if err != nil {
-				logger.Error("failed to persist manga", "manga", manga, "error", err)
-				continue
-			}
-
-			if manga.ShouldNotify {
-				chaptersMissing := manga.GetMissingChapters(*mangaResponse)
-				logger.Info("Manga has new chapters", "mangaName", manga.Name, "numberOfNewChapters", len(chaptersMissing))
-				if len(chaptersMissing) > 0 {
-
-					// If we have multiple simultatnions updates they will be ordered descending
-					// meaning the newest one will be first, and the olders updates will be last.
-					// Take the oldest one by taking the last index.
-					indexToTake := len(chaptersMissing) - 1
-					err := notifier.NotifyForNewChapter(chaptersMissing[indexToTake], manga)
-					if err != nil {
-						logger.Error("failed to notify for manga", "manga", manga, "error", err)
-					}
-				}
-			}
-		}
+	if err != nil {
+		logger.Error("failed to create update checker service", "error", err)
+		os.Exit(1)
+	}
+	err = updatecheckerService.CheckForUpdates()
+	if err != nil {
+		logger.Error("failed to check for updates", "error", err)
+		os.Exit(1)
 	}
 	logger.Info("Completed manga-updates main", "durationInSeconds", time.Since(ts).Seconds())
 }

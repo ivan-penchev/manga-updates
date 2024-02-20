@@ -55,7 +55,7 @@ func NewNotifier(opts ...notifierOption) (Notifier, error) {
 	}
 
 	if config.apiKey == "" {
-		slog.Debug("apiKey is empty, giving a standard output notifier")
+		slog.Info("apiKey is empty, giving a standard output notifier")
 		return standardOutNotifier{}, nil
 	}
 
