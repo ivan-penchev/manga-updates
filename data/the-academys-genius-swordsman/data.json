@@ -1,9 +1,232 @@
 {
  "name": "The Academy's Genius Swordsman",
  "shouldNotify": false,
- "lastUpdate": null,
+ "lastUpdate": "2024-02-25T05:23:35Z",
  "slug": "633d470a-4146-4dd3-b841-93dd648c23a5",
  "status": "ongoing",
  "source": "mangadex",
- "chapters": []
+ "chapters": [
+  {
+   "name": 37,
+   "slug": "69463ba8-992b-4350-9762-e75d8fb06c70",
+   "date": "2024-02-25T05:23:35Z",
+   "uri": "https://mangadex.org/chapter/69463ba8-992b-4350-9762-e75d8fb06c70"
+  },
+  {
+   "name": 36,
+   "slug": "38ecc4e2-5a0f-4d44-9644-c044605781da",
+   "date": "2024-02-18T00:15:12Z",
+   "uri": "https://mangadex.org/chapter/38ecc4e2-5a0f-4d44-9644-c044605781da"
+  },
+  {
+   "name": 35,
+   "slug": "d43321d1-e944-4382-b11f-f09c6c388c85",
+   "date": "2024-02-10T21:49:09Z",
+   "uri": "https://mangadex.org/chapter/d43321d1-e944-4382-b11f-f09c6c388c85"
+  },
+  {
+   "name": 34,
+   "slug": "528b1f33-5ef8-4f40-823a-e8d5ca152901",
+   "date": "2024-02-03T23:51:31Z",
+   "uri": "https://mangadex.org/chapter/528b1f33-5ef8-4f40-823a-e8d5ca152901"
+  },
+  {
+   "name": 33,
+   "slug": "0c5d4ef2-e106-4b3e-8329-0a1f6a9ed280",
+   "date": "2024-01-28T20:19:56Z",
+   "uri": "https://mangadex.org/chapter/0c5d4ef2-e106-4b3e-8329-0a1f6a9ed280"
+  },
+  {
+   "name": 32,
+   "slug": "70581ac1-10bb-4b7b-a457-43be69940701",
+   "date": "2024-01-23T03:56:03Z",
+   "uri": "https://mangadex.org/chapter/70581ac1-10bb-4b7b-a457-43be69940701"
+  },
+  {
+   "name": 31,
+   "slug": "db0be427-f9c7-4439-a6f9-a75727fe3ab3",
+   "date": "2024-01-15T23:37:16Z",
+   "uri": "https://mangadex.org/chapter/db0be427-f9c7-4439-a6f9-a75727fe3ab3"
+  },
+  {
+   "name": 30,
+   "slug": "59a03868-034b-4209-af5f-2fe09ca9970e",
+   "date": "2024-01-08T23:20:25Z",
+   "uri": "https://mangadex.org/chapter/59a03868-034b-4209-af5f-2fe09ca9970e"
+  },
+  {
+   "name": 29,
+   "slug": "3a38229c-31ab-426d-871a-29140c0457ef",
+   "date": "2024-01-08T23:18:09Z",
+   "uri": "https://mangadex.org/chapter/3a38229c-31ab-426d-871a-29140c0457ef"
+  },
+  {
+   "name": 28,
+   "slug": "b05df866-6c78-49ad-81d6-51ee00b253c0",
+   "date": "2024-01-08T23:15:15Z",
+   "uri": "https://mangadex.org/chapter/b05df866-6c78-49ad-81d6-51ee00b253c0"
+  },
+  {
+   "name": 27,
+   "slug": "5a12ff30-fa2d-4fb5-9186-e0cbb85350be",
+   "date": "2024-01-08T23:12:16Z",
+   "uri": "https://mangadex.org/chapter/5a12ff30-fa2d-4fb5-9186-e0cbb85350be"
+  },
+  {
+   "name": 26,
+   "slug": "ff325108-c085-4928-adc0-638d7464093f",
+   "date": "2023-12-09T18:50:44Z",
+   "uri": "https://mangadex.org/chapter/ff325108-c085-4928-adc0-638d7464093f"
+  },
+  {
+   "name": 25,
+   "slug": "1891335f-fad9-4b54-a038-e9d6f1ac61f8",
+   "date": "2023-12-04T00:59:33Z",
+   "uri": "https://mangadex.org/chapter/1891335f-fad9-4b54-a038-e9d6f1ac61f8"
+  },
+  {
+   "name": 24,
+   "slug": "44d1489c-4659-48a0-ab46-cf1dbca1ea63",
+   "date": "2023-11-28T20:06:38Z",
+   "uri": "https://mangadex.org/chapter/44d1489c-4659-48a0-ab46-cf1dbca1ea63"
+  },
+  {
+   "name": 23,
+   "slug": "e502f5c7-c042-48c7-a9df-ab8a3821c186",
+   "date": "2023-11-28T20:03:59Z",
+   "uri": "https://mangadex.org/chapter/e502f5c7-c042-48c7-a9df-ab8a3821c186"
+  },
+  {
+   "name": 22,
+   "slug": "3975508c-6296-4f0a-ab37-4eba1d130d79",
+   "date": "2023-11-28T20:01:15Z",
+   "uri": "https://mangadex.org/chapter/3975508c-6296-4f0a-ab37-4eba1d130d79"
+  },
+  {
+   "name": 21,
+   "slug": "efcc21ad-8aaf-400a-af32-cb2fd22798a6",
+   "date": "2023-11-05T19:08:20Z",
+   "uri": "https://mangadex.org/chapter/efcc21ad-8aaf-400a-af32-cb2fd22798a6"
+  },
+  {
+   "name": 20,
+   "slug": "970558a6-e78e-4b59-98c9-f3f0dc40c433",
+   "date": "2023-10-28T23:28:44Z",
+   "uri": "https://mangadex.org/chapter/970558a6-e78e-4b59-98c9-f3f0dc40c433"
+  },
+  {
+   "name": 19,
+   "slug": "b1dfc6f8-32a8-4df3-aff7-3553a2a6d490",
+   "date": "2023-10-28T23:25:58Z",
+   "uri": "https://mangadex.org/chapter/b1dfc6f8-32a8-4df3-aff7-3553a2a6d490"
+  },
+  {
+   "name": 18,
+   "slug": "96bffdd4-0764-4e8e-8ded-457b50dbda37",
+   "date": "2023-10-22T21:36:12Z",
+   "uri": "https://mangadex.org/chapter/96bffdd4-0764-4e8e-8ded-457b50dbda37"
+  },
+  {
+   "name": 17,
+   "slug": "f8b008c4-b81a-4e34-b97b-1abbed6526c2",
+   "date": "2023-10-22T21:32:50Z",
+   "uri": "https://mangadex.org/chapter/f8b008c4-b81a-4e34-b97b-1abbed6526c2"
+  },
+  {
+   "name": 16,
+   "slug": "fd08223b-a0dd-405b-b5ba-7d80c4773ece",
+   "date": "2023-10-22T21:29:36Z",
+   "uri": "https://mangadex.org/chapter/fd08223b-a0dd-405b-b5ba-7d80c4773ece"
+  },
+  {
+   "name": 15,
+   "slug": "50d06b11-75e5-4b08-824d-680979c166de",
+   "date": "2023-10-22T21:26:24Z",
+   "uri": "https://mangadex.org/chapter/50d06b11-75e5-4b08-824d-680979c166de"
+  },
+  {
+   "name": 14,
+   "slug": "102110f2-b9d1-4594-86d9-4794bf1f3412",
+   "date": "2023-10-22T21:15:39Z",
+   "uri": "https://mangadex.org/chapter/102110f2-b9d1-4594-86d9-4794bf1f3412"
+  },
+  {
+   "name": 13,
+   "slug": "418fc9a0-85c2-4276-aeb7-18e1ce2af019",
+   "date": "2023-10-22T21:14:17Z",
+   "uri": "https://mangadex.org/chapter/418fc9a0-85c2-4276-aeb7-18e1ce2af019"
+  },
+  {
+   "name": 12,
+   "slug": "c2331a08-3692-4c93-bb42-0b8632f70ea9",
+   "date": "2023-10-22T21:06:48Z",
+   "uri": "https://mangadex.org/chapter/c2331a08-3692-4c93-bb42-0b8632f70ea9"
+  },
+  {
+   "name": 11,
+   "slug": "aa7bbaa1-554d-4d1b-8838-aae7c8a140cf",
+   "date": "2023-10-01T20:30:15Z",
+   "uri": "https://mangadex.org/chapter/aa7bbaa1-554d-4d1b-8838-aae7c8a140cf"
+  },
+  {
+   "name": 10,
+   "slug": "ab2fce88-ecab-4627-b788-2a06d860f66d",
+   "date": "2023-10-01T20:27:17Z",
+   "uri": "https://mangadex.org/chapter/ab2fce88-ecab-4627-b788-2a06d860f66d"
+  },
+  {
+   "name": 9,
+   "slug": "1c37d119-e568-4e79-8839-a8418a01a9ab",
+   "date": "2023-10-01T20:24:31Z",
+   "uri": "https://mangadex.org/chapter/1c37d119-e568-4e79-8839-a8418a01a9ab"
+  },
+  {
+   "name": 8,
+   "slug": "ecc8f276-e625-4efb-8ec7-42da7063fd3f",
+   "date": "2023-10-01T20:22:12Z",
+   "uri": "https://mangadex.org/chapter/ecc8f276-e625-4efb-8ec7-42da7063fd3f"
+  },
+  {
+   "name": 7,
+   "slug": "fffa14b9-cde9-454c-a07a-ae3005ffe783",
+   "date": "2023-10-01T20:19:13Z",
+   "uri": "https://mangadex.org/chapter/fffa14b9-cde9-454c-a07a-ae3005ffe783"
+  },
+  {
+   "name": 6,
+   "slug": "80864fbb-ad13-4320-a674-e139b310b84b",
+   "date": "2023-09-01T23:38:10Z",
+   "uri": "https://mangadex.org/chapter/80864fbb-ad13-4320-a674-e139b310b84b"
+  },
+  {
+   "name": 5,
+   "slug": "a8ccbe33-5150-4edc-8cfd-549853e4c46c",
+   "date": "2023-08-26T04:29:52Z",
+   "uri": "https://mangadex.org/chapter/a8ccbe33-5150-4edc-8cfd-549853e4c46c"
+  },
+  {
+   "name": 4,
+   "slug": "fa3e5604-05fd-4af9-b3ea-0bc9092a75c2",
+   "date": "2023-08-26T04:27:09Z",
+   "uri": "https://mangadex.org/chapter/fa3e5604-05fd-4af9-b3ea-0bc9092a75c2"
+  },
+  {
+   "name": 3,
+   "slug": "8c89b7d6-95f7-4af8-b9ee-b4301a990b50",
+   "date": "2023-08-26T04:24:56Z",
+   "uri": "https://mangadex.org/chapter/8c89b7d6-95f7-4af8-b9ee-b4301a990b50"
+  },
+  {
+   "name": 2,
+   "slug": "3a5a1f35-371c-4719-bc5c-fc88311c3271",
+   "date": "2023-08-26T04:22:41Z",
+   "uri": "https://mangadex.org/chapter/3a5a1f35-371c-4719-bc5c-fc88311c3271"
+  },
+  {
+   "name": 1,
+   "slug": "bb7a70c0-4c91-4adc-b1f9-d23b7b2dceb7",
+   "date": "2023-08-26T04:19:38Z",
+   "uri": "https://mangadex.org/chapter/bb7a70c0-4c91-4adc-b1f9-d23b7b2dceb7"
+  }
+ ]
 }
