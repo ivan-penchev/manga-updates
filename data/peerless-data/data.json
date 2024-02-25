@@ -1,11 +1,17 @@
 {
  "name": "Peerless Dad",
  "shouldNotify": true,
- "lastUpdate": "2024-02-07T14:26:17Z",
+ "lastUpdate": "2024-02-25T03:56:21Z",
  "slug": "peerless-dad_102",
  "status": "ongoing",
  "source": "manganel",
  "chapters": [
+  {
+   "name": 291,
+   "slug": null,
+   "date": "2024-02-25T03:56:21Z",
+   "uri": "https://manganel.me/chapter/peerless-dad_102/chapter-291"
+  },
   {
    "name": 290,
    "slug": null,
