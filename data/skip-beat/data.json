@@ -1,16 +1,28 @@
 {
  "name": "Skip Beat!",
  "shouldNotify": true,
- "lastUpdate": "2024-02-05T05:44:22Z",
+ "lastUpdate": "2024-04-17T18:57:06Z",
  "slug": "skip-beat_110",
  "status": "ongoing",
  "source": "manganel",
  "chapters": [
   {
+   "name": 323,
+   "slug": null,
+   "date": "2024-04-17T18:57:06Z",
+   "uri": "https://manganel.me/chapter/skip-beat_110/chapter-323"
+  },
+  {
    "name": 321,
    "slug": null,
    "date": "2024-02-05T05:44:22Z",
    "uri": "https://manganel.me/chapter/skip-beat_110/chapter-321"
+  },
+  {
+   "name": 320,
+   "slug": null,
+   "date": "2024-04-17T18:57:06Z",
+   "uri": "https://manganel.me/chapter/skip-beat_110/chapter-320"
   },
   {
    "name": 319,
