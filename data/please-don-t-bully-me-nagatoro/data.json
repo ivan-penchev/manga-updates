@@ -1,11 +1,17 @@
 {
  "name": "Please don't bully me, Nagatoro",
  "shouldNotify": true,
- "lastUpdate": "2024-05-14T02:42:06Z",
+ "lastUpdate": "2024-06-03T19:11:50Z",
  "slug": "please-don-t-bully-me-nagatoro",
  "status": "ongoing",
  "source": "manganel",
  "chapters": [
+  {
+   "name": 151,
+   "slug": null,
+   "date": "2024-06-03T19:11:50Z",
+   "uri": "https://manganel.me/chapter/please-don-t-bully-me-nagatoro/chapter-151"
+  },
   {
    "name": 150,
    "slug": null,
