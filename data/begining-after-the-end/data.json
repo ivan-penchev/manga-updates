@@ -1,11 +1,17 @@
 {
  "name": "The Beginning After the End",
  "shouldNotify": true,
- "lastUpdate": "2024-06-13T22:57:41Z",
+ "lastUpdate": "2024-06-20T18:01:40Z",
  "slug": "the-beginning-after-the-end",
  "status": "ongoing",
  "source": "manganel",
  "chapters": [
+  {
+   "name": 182,
+   "slug": null,
+   "date": "2024-06-20T18:01:40Z",
+   "uri": "https://manganel.me/chapter/the-beginning-after-the-end/chapter-182"
+  },
   {
    "name": 181,
    "slug": null,
