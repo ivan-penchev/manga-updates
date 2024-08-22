@@ -9,7 +9,7 @@ require (
 	github.com/chromedp/chromedp v0.10.0
 	github.com/darylhjd/mangodex v0.0.0-20211231093527-e4a91c518fa0
 	github.com/machinebox/graphql v0.2.2
-	github.com/sendgrid/sendgrid-go v3.14.0+incompatible
+	github.com/sendgrid/sendgrid-go v3.15.0+incompatible
 	github.com/stretchr/testify v1.9.0
 )
 
