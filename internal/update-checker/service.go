@@ -41,7 +41,7 @@ func (ucs *UpdateCheckerService) CheckForUpdates() error {
 
 		IsNewerVersionAvailable, err := provider.IsNewerVersionAvailable(manga)
 		if err != nil {
-			ucs.logger.Error("failed to check for newer version", "manga", manga, "error", err)
+			ucs.logger.Error("failed to check for newer version", "manga", manga.Name, "error", err)
 			continue
 		}
 

@@ -10,7 +10,6 @@ import (
 	"sort"
 	"time"
 
-	cloudflarebp "github.com/DaRealFreak/cloudflare-bp-go"
 	"github.com/ivan-penchev/manga-updates/pkg/types"
 	"github.com/machinebox/graphql"
 )
@@ -22,17 +21,17 @@ type MangaNelAPIClient struct {
 }
 
 func NewMangaNelAPIClient(addr string, apiKey string) *MangaNelAPIClient {
-	client := &http.Client{Timeout: time.Second * 10}
-	client.Transport = cloudflarebp.AddCloudFlareByPass(client.Transport)
+	client := &http.Client{
+		Timeout: time.Second * 10,
+	}
 
 	graphqlClientWithOptions := graphql.WithHTTPClient(client)
 	graphqlClient := graphql.NewClient(addr, graphqlClientWithOptions)
-	graphqlClient.Log = func(s string) { slog.Debug(s) }
+	//graphqlClient.Log = func(s string) { slog.Error(s) }
 
 	return &MangaNelAPIClient{
 		addr:   addr,
 		client: graphqlClient,
-
 		apiKey: apiKey,
 	}
 }
@@ -46,20 +45,32 @@ func (m *MangaNelAPIClient) GetMangaSeriesShort(slug string) (*types.MangaEntity
 }
 
 func (m *MangaNelAPIClient) getMangaSeries(slug string, shouldIncludeChapters bool) (*types.MangaEntity, error) {
+	const maxAttempts = 3
+	var graphqlResponse any
+	var err error
 	graphqlRequest := graphql.NewRequest(getQueryForSlug(slug, shouldIncludeChapters))
 	graphqlRequest.Header.Add("Origin", "https://manganel.me")
 	graphqlRequest.Header.Add("Referer", "https://manganel.me/")
-	graphqlRequest.Header.Add("x-mhub-access", m.apiKey)
-	graphqlRequest.Header.Add("user-agent", "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Mobile Safari/537.36")
-	var graphqlResponse interface{}
-	if err := m.client.Run(context.Background(), graphqlRequest, &graphqlResponse); err != nil {
+	graphqlRequest.Header.Add("X-Mhub-Access", m.apiKey)
+	graphqlRequest.Header.Add("user-agent", "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Mobile Safari/537.36")
+	graphqlRequest.Header.Add("Sec-Ch-Ua", `"Chromium";v="124", "Google Chrome";v="124", "Not-A.Brand";v="99"`)
+
+	for attempt := 1; attempt <= maxAttempts; attempt++ {
+		err = m.client.Run(context.Background(), graphqlRequest, &graphqlResponse)
+		if err == nil {
+			break
+		}
+	}
+
+	if err != nil {
 		return nil, err
 	}
-	mapResponse, ok := graphqlResponse.(map[string]interface{})
+
+	mapResponse, ok := graphqlResponse.(map[string]any)
 	if !ok {
 		return nil, errors.New("cant cast graphQL response from server to a map")
 	}
-	mapManga, ok := mapResponse["manga"].(map[string]interface{})
+	mapManga, ok := mapResponse["manga"].(map[string]any)
 	if !ok {
 		return nil, errors.New("cant cast manga query from graphQL response to a map")
 	}
@@ -77,7 +88,7 @@ func (m *MangaNelAPIClient) getMangaSeries(slug string, shouldIncludeChapters bo
 		return &manga, nil
 	}
 
-	mapChapters, ok := mapManga["chapters"].([]interface{})
+	mapChapters, ok := mapManga["chapters"].([]any)
 	if !ok {
 		return nil, errors.New("cant cast manga chapters query from graphQL response to a map")
 	}
@@ -87,7 +98,7 @@ func (m *MangaNelAPIClient) getMangaSeries(slug string, shouldIncludeChapters bo
 		if s.Kind() != reflect.Map {
 			panic("InterfaceSlice() given a non-slice type")
 		}
-		ss, _ := v.(map[string]interface{})
+		ss, _ := v.(map[string]any)
 
 		number, ok := ss["number"].(float64)
 		if !ok {

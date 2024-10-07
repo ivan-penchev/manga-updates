@@ -3,6 +3,7 @@ package provider
 import (
 	"context"
 	"fmt"
+
 	"log/slog"
 	"sync"
 	"time"
@@ -26,7 +27,7 @@ func NewMangaNelProviderFactory(mangaNelGraphQLEndpoint string) func() (Provider
 		// navigate to a page, wait for an element, click
 		var mhubApiAccessToken string
 		err := chromedp.Run(innerCtx,
-			chromedp.Emulate(device.IPhone12),
+			chromedp.Emulate(device.IPhone13),
 			chromedp.Navigate(randomPageFromProviderToOpen),
 			chromedp.Sleep(4*time.Second),
 			chromedp.ActionFunc(func(ctx context.Context) error {
@@ -75,11 +76,12 @@ func (mp *mangaNelProvider) IsNewerVersionAvailable(manga types.MangaEntity) (bo
 	}
 
 	mangaResponse, err := mp.mangaNelClient.GetMangaSeriesFull(manga.Slug)
-	mangaResponse.ShouldNotify = manga.ShouldNotify
 
 	if err != nil {
 		return false, err
 	}
+
+	mangaResponse.ShouldNotify = manga.ShouldNotify
 
 	mp.mutex.Lock()
 	defer mp.mutex.Unlock()
