@@ -7,7 +7,7 @@ toolchain go1.22.2
 require (
 	github.com/caarlos0/env/v10 v10.0.0
 	github.com/chromedp/cdproto v0.0.0-20241003230502-a4a8f7c660df
-	github.com/chromedp/chromedp v0.10.0
+	github.com/chromedp/chromedp v0.11.0
 	github.com/darylhjd/mangodex v0.0.0-20211231093527-e4a91c518fa0
 	github.com/machinebox/graphql v0.2.2
 	github.com/sendgrid/sendgrid-go v3.16.0+incompatible
@@ -30,7 +30,7 @@ require (
 	github.com/sendgrid/rest v2.6.9+incompatible // indirect
 	github.com/stretchr/objx v0.5.2 // indirect
 	golang.org/x/net v0.23.0 // indirect
-	golang.org/x/sys v0.22.0 // indirect
+	golang.org/x/sys v0.26.0 // indirect
 	gopkg.in/check.v1 v1.0.0-20180628173108-788fd7840127 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
