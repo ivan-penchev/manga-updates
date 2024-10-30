@@ -26,12 +26,16 @@ jobs:
         uses: goreleaser/goreleaser-action@v5
         with:
           version: latest
-          args: release --rm-dist
+          args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # GoReleaser uses this token to create the release
       - name: Append changelog to existing file
         run: |
-          goreleaser changelog > TEMP_CHANGELOG.md
+          # Install GoReleaser
+          curl -sL https://git.io/goreleaser | bash
+
+          # Generate the changelog to a temporary file
+          ./goreleaser changelog > TEMP_CHANGELOG.md
           # Prepend the new changelog to the existing changelog
           cat TEMP_CHANGELOG.md CHANGELOG.md > NEW_CHANGELOG.md
 

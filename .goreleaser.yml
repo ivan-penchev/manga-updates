@@ -1,3 +1,5 @@
+version: 2
+
 before:
   hooks:
     - go mod tidy
@@ -22,6 +24,9 @@ archives:
   - format: zip
     files:
       - README.md
+release:
+  header: |
+    ## {{.Tag}} - {{ time "2006-01-02" }}
 
 changelog:
   sort: asc
