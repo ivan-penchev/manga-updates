@@ -23,9 +23,8 @@ jobs:
           go-version: 'stable'
        
       - name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v5
+        uses: goreleaser/goreleaser-action@v6
         with:
-          version: latest
           args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # GoReleaser uses this token to create the release
