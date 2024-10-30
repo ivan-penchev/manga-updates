@@ -1,1 +1,24 @@
+## v0.3.2 (v0.3.2)
+
+## v0.3.2 - 2024-10-30
+
+## Changelog
+### Bug fixes
+* f1fb62c68b90f9288aebd6a57630b8ce53fd876e: fix: get changelog from latest release instead (@ivan-penchev)
+* 2c7d0b101e0d87ff9a9b03bb117def56071a77a1: fix: get changelog from latest release instead (@ivan-penchev)
+* 688f727a86592a8e54fe3fe5cc422c3a21fceb2c: fix: get changelog from latest release instead (@ivan-penchev)
+### Dependency updates
+* 79bb1770ecc51e5bafacccf224be8a0d66125bef: chore(deps): bump github.com/chromedp/chromedp from 0.10.0 to 0.11.1 (#15) (@dependabot[bot])
+### Other work
+* 103377e99f1d016b42c3ceb07a5568aa539f95f6: bump: gorelaser action to v6 (@ivan-penchev)
+* a75ef201bb49b4d9407e1decf42763b7fe4f220e: chore: bumpb golangci-lint-action to v6 (@ivan-penchev)
+* 31d8554ef8cede39f978676b4ee23b208f7d553f: chore: fix config for goreleaser (@ivan-penchev)
+* 7da8be85a23446b02b7c057b339f180b1384e1c8: chore: fix config for goreleaser (@ivan-penchev)
+* d534620ffe4679ec75f85a4bb38392f39b24b61d: chore: fix config for goreleaser (@ivan-penchev)
+* 1a55671bff00e2d0bc594729d39e02529d6c5d76: chore: fix config for goreleaser (@ivan-penchev)
+* c276a2edc9442d80cb45fc1069bbd818587b413a: chore: fix config for goreleaser (@ivan-penchev)
+* 630264e5dd5a0b19f787cc164c0e98cc4cf18404: chore: fix config for goreleaser (@ivan-penchev)
+* 52bb1125cc20fc467b020188161e5550ef86072b: chore: trying to implement a changelog (@ivan-penchev)
+
+
 --- Start Changelog 30-October-2024 --- 
