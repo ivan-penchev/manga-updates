@@ -26,7 +26,6 @@ archives:
 changelog:
   sort: asc
   use: github
-  output: TEMP_CHANGELOG.md
   filters:
     exclude:
       - '^docs:'
