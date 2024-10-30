@@ -26,6 +26,7 @@ archives:
 changelog:
   sort: asc
   use: github
+  output: TEMP_CHANGELOG.md
   filters:
     exclude:
       - '^docs:'
@@ -34,6 +35,7 @@ changelog:
       - Merge pull request
       - Merge remote-tracking branch
       - Merge branch
+      - 'Update CHANGELOG'
   groups:
     - title: Dependency updates
       regexp: '^.*?(feat|fix|chore)\(deps\)!?:.+$'
