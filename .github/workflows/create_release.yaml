@@ -31,7 +31,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # GoReleaser uses this token to create the release
       - name: Append changelog to existing file
         run: |
-  
+          goreleaser changelog > TEMP_CHANGELOG.md
           # Prepend the new changelog to the existing changelog
           cat TEMP_CHANGELOG.md CHANGELOG.md > NEW_CHANGELOG.md
 
