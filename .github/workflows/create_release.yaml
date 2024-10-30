@@ -51,3 +51,5 @@ jobs:
           git add CHANGELOG.md
           git commit -m "Update CHANGELOG with new release notes"
           git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
