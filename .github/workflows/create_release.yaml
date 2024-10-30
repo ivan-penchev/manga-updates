@@ -30,12 +30,16 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # GoReleaser uses this token to create the release
       - name: Append changelog to existing file
         run: |
-          rm -rf ./dist
-          # Install GoReleaser
-          curl -sL https://git.io/goreleaser | bash
+          # Fetch the latest release details
+          latest_release=$(gh release view --json tagName,title,body -q '. | {tagName: .tagName, title: .title, body: .body}')
 
-          # Generate the changelog to a temporary file
-          ./goreleaser changelog > TEMP_CHANGELOG.md
+          tagName=$(echo $latest_release | jq -r '.tagName')
+          title=$(echo $latest_release | jq -r '.title')
+          body=$(echo $latest_release | jq -r '.body')
+
+          # Create a temporary file for the new changelog entry
+          echo -e "## $title ($tagName)\n\n$body\n\n" > TEMP_CHANGELOG.md
+
           # Prepend the new changelog to the existing changelog
           cat TEMP_CHANGELOG.md CHANGELOG.md > NEW_CHANGELOG.md
 
@@ -44,7 +48,7 @@ jobs:
 
           # Remove the temporary changelog file
           rm TEMP_CHANGELOG.md
-
+          
           # Commit and push the updated changelog file
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
