@@ -31,6 +31,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # GoReleaser uses this token to create the release
       - name: Append changelog to existing file
         run: |
+          rm -rf ./dist
           # Install GoReleaser
           curl -sL https://git.io/goreleaser | bash
 
