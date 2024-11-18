@@ -7,7 +7,7 @@ toolchain go1.23.2
 require (
 	github.com/caarlos0/env/v10 v10.0.0
 	github.com/chromedp/cdproto v0.0.0-20241022234722-4d5d5faf59fb
-	github.com/chromedp/chromedp v0.11.1
+	github.com/chromedp/chromedp v0.11.2
 	github.com/darylhjd/mangodex v0.0.0-20211231093527-e4a91c518fa0
 	github.com/machinebox/graphql v0.2.2
 	github.com/sendgrid/sendgrid-go v3.16.0+incompatible
