@@ -1,3 +1,13 @@
+## v0.3.3 (v0.3.3)
+
+## v0.3.3 - 2024-11-30
+
+## Changelog
+### Dependency updates
+* ff3fb842dd835eb813ef7403a30caedd34882d87: chore(deps): bump github.com/chromedp/chromedp from 0.11.1 to 0.11.2 (#16) (@dependabot[bot])
+* 979881359bdf9ce7c5b0fbb291d09edb42b71142: chore(deps): bump github.com/stretchr/testify from 1.9.0 to 1.10.0 (#17) (@dependabot[bot])
+
+
 ## v0.3.2 (v0.3.2)
 
 ## v0.3.2 - 2024-10-30
