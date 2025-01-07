@@ -1,11 +1,23 @@
 {
  "name": "Immortal, Invincible",
  "shouldNotify": true,
- "lastUpdate": "2025-01-05T22:16:54Z",
+ "lastUpdate": "2025-01-07T18:00:34Z",
  "slug": "immortal-invincible",
  "status": "ongoing",
  "source": "manganel",
  "chapters": [
+  {
+   "name": 180,
+   "slug": null,
+   "date": "2025-01-07T18:00:34Z",
+   "uri": "https://manganel.me/chapter/immortal-invincible/chapter-180"
+  },
+  {
+   "name": 179,
+   "slug": null,
+   "date": "2025-01-07T18:00:34Z",
+   "uri": "https://manganel.me/chapter/immortal-invincible/chapter-179"
+  },
   {
    "name": 178,
    "slug": null,
