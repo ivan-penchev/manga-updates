@@ -1,11 +1,17 @@
 {
  "name": "Skip Beat!",
  "shouldNotify": true,
- "lastUpdate": "2024-12-25T16:42:16Z",
+ "lastUpdate": "2025-01-17T20:41:36Z",
  "slug": "skip-beat_110",
  "status": "ongoing",
  "source": "manganel",
  "chapters": [
+  {
+   "name": 331,
+   "slug": null,
+   "date": "2025-01-17T20:41:36Z",
+   "uri": "https://manganel.me/chapter/skip-beat_110/chapter-331"
+  },
   {
    "name": 330,
    "slug": null,
