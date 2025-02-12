@@ -1,11 +1,17 @@
 {
  "name": "Solo Leveling: Ragnarok",
  "shouldNotify": true,
- "lastUpdate": "2025-02-05T14:11:09Z",
+ "lastUpdate": "2025-02-12T13:56:09Z",
  "slug": "solo-leveling-ragnarok",
  "status": "ongoing",
  "source": "manganel",
  "chapters": [
+  {
+   "name": 41,
+   "slug": null,
+   "date": "2025-02-12T13:56:09Z",
+   "uri": "https://manganel.me/chapter/solo-leveling-ragnarok/chapter-41"
+  },
   {
    "name": 40,
    "slug": null,
