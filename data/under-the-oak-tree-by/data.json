@@ -1,11 +1,17 @@
 {
  "name": "Under The Oak Tree",
  "shouldNotify": true,
- "lastUpdate": "2025-02-15T15:28:29Z",
+ "lastUpdate": "2025-02-23T09:44:40Z",
  "slug": "under-the-oak-tree-by",
  "status": "ongoing",
  "source": "manganel",
  "chapters": [
+  {
+   "name": 121,
+   "slug": null,
+   "date": "2025-02-23T09:44:40Z",
+   "uri": "https://manganel.me/chapter/under-the-oak-tree-by/chapter-121"
+  },
   {
    "name": 120,
    "slug": null,
