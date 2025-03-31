@@ -1,11 +1,23 @@
 {
  "name": "The Academy's Genius Swordsman",
  "shouldNotify": true,
- "lastUpdate": "2025-03-16T18:43:39Z",
+ "lastUpdate": "2025-03-30T21:13:04Z",
  "slug": "633d470a-4146-4dd3-b841-93dd648c23a5",
  "status": "ongoing",
  "source": "mangadex",
  "chapters": [
+  {
+   "name": 94,
+   "slug": "63f4440a-73ee-4be7-856e-8d0be0318dbc",
+   "date": "2025-03-30T21:13:04Z",
+   "uri": "https://mangadex.org/chapter/63f4440a-73ee-4be7-856e-8d0be0318dbc"
+  },
+  {
+   "name": 93,
+   "slug": "cec35d57-a0c1-44f9-9aea-bd2d25d44735",
+   "date": "2025-03-30T21:11:32Z",
+   "uri": "https://mangadex.org/chapter/cec35d57-a0c1-44f9-9aea-bd2d25d44735"
+  },
   {
    "name": 92,
    "slug": "78e28d97-1f3a-45bb-ba09-32236e4a735e",
