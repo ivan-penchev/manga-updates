@@ -20,7 +20,7 @@ env:
 jobs:
   manual-workflow-dispatch:
     if: ${{ github.event_name == 'workflow_dispatch'}}
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -58,7 +58,7 @@ jobs:
 
   automatic-workflow-dispatch:
     if: ${{ github.event_name == 'schedule' }}
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
