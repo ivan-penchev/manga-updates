@@ -1,11 +1,17 @@
 {
  "name": "One Piece",
  "shouldNotify": true,
- "lastUpdate": "2025-04-26T16:03:06Z",
+ "lastUpdate": "2025-05-08T19:24:22Z",
  "slug": "one-piece_116",
  "status": "ongoing",
  "source": "manganel",
  "chapters": [
+  {
+   "name": 1148,
+   "slug": null,
+   "date": "2025-05-08T19:24:22Z",
+   "uri": "https://manganel.me/chapter/one-piece_116/chapter-1148"
+  },
   {
    "name": 1147,
    "slug": null,
