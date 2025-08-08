@@ -1,159 +1,105 @@
 {
  "name": "Onepunch-Man",
  "shouldNotify": true,
- "lastUpdate": "2025-08-07T08:10:19Z",
+ "lastUpdate": "2025-08-08T02:25:21Z",
  "slug": "onepunch-man_113",
  "status": "ongoing",
  "source": "manganel",
  "chapters": [
   {
-   "name": 213,
-   "slug": null,
-   "date": "2025-08-07T08:10:19Z",
-   "uri": "https://manganel.me/chapter/onepunch-man_113/chapter-213"
-  },
-  {
-   "name": 212,
-   "slug": null,
-   "date": "2025-07-18T02:58:59Z",
-   "uri": "https://manganel.me/chapter/onepunch-man_113/chapter-212"
-  },
-  {
    "name": 211,
    "slug": null,
-   "date": "2024-12-26T15:29:01Z",
+   "date": "2025-08-08T02:25:21Z",
    "uri": "https://manganel.me/chapter/onepunch-man_113/chapter-211"
   },
   {
    "name": 210,
    "slug": null,
-   "date": "2024-12-12T12:57:21Z",
+   "date": "2025-08-08T02:27:54Z",
    "uri": "https://manganel.me/chapter/onepunch-man_113/chapter-210"
-  },
-  {
-   "name": 209.5,
-   "slug": null,
-   "date": "2025-07-18T12:26:40Z",
-   "uri": "https://manganel.me/chapter/onepunch-man_113/chapter-209.5"
   },
   {
    "name": 209,
    "slug": null,
-   "date": "2024-11-27T18:58:14Z",
+   "date": "2025-08-08T02:27:54Z",
    "uri": "https://manganel.me/chapter/onepunch-man_113/chapter-209"
   },
   {
    "name": 208,
    "slug": null,
-   "date": "2024-11-13T19:48:17Z",
+   "date": "2025-08-08T02:27:54Z",
    "uri": "https://manganel.me/chapter/onepunch-man_113/chapter-208"
   },
   {
    "name": 207,
    "slug": null,
-   "date": "2024-10-30T19:47:18Z",
+   "date": "2025-08-08T02:27:54Z",
    "uri": "https://manganel.me/chapter/onepunch-man_113/chapter-207"
   },
   {
    "name": 206,
    "slug": null,
-   "date": "2024-10-16T19:46:47Z",
+   "date": "2025-08-08T02:27:54Z",
    "uri": "https://manganel.me/chapter/onepunch-man_113/chapter-206"
   },
   {
    "name": 205,
    "slug": null,
-   "date": "2024-10-03T21:13:42Z",
+   "date": "2025-08-08T02:27:54Z",
    "uri": "https://manganel.me/chapter/onepunch-man_113/chapter-205"
   },
   {
    "name": 204,
    "slug": null,
-   "date": "2024-09-19T03:32:00Z",
+   "date": "2025-08-08T02:27:54Z",
    "uri": "https://manganel.me/chapter/onepunch-man_113/chapter-204"
-  },
-  {
-   "name": 203.5,
-   "slug": null,
-   "date": "2025-07-19T03:38:18Z",
-   "uri": "https://manganel.me/chapter/onepunch-man_113/chapter-203.5"
   },
   {
    "name": 203,
    "slug": null,
-   "date": "2024-09-05T06:22:41Z",
+   "date": "2025-08-08T02:27:54Z",
    "uri": "https://manganel.me/chapter/onepunch-man_113/chapter-203"
-  },
-  {
-   "name": 202.5,
-   "slug": null,
-   "date": "2025-07-19T03:38:03Z",
-   "uri": "https://manganel.me/chapter/onepunch-man_113/chapter-202.5"
   },
   {
    "name": 202,
    "slug": null,
-   "date": "2024-02-21T18:42:30Z",
+   "date": "2025-08-08T02:27:54Z",
    "uri": "https://manganel.me/chapter/onepunch-man_113/chapter-202"
-  },
-  {
-   "name": 201.5,
-   "slug": null,
-   "date": "2025-07-19T03:37:50Z",
-   "uri": "https://manganel.me/chapter/onepunch-man_113/chapter-201.5"
   },
   {
    "name": 201,
    "slug": null,
-   "date": "2024-02-07T22:11:30Z",
+   "date": "2025-08-08T02:27:54Z",
    "uri": "https://manganel.me/chapter/onepunch-man_113/chapter-201"
-  },
-  {
-   "name": 200.5,
-   "slug": null,
-   "date": "2025-07-19T03:37:29Z",
-   "uri": "https://manganel.me/chapter/onepunch-man_113/chapter-200.5"
   },
   {
    "name": 200,
    "slug": null,
-   "date": "2024-01-25T11:27:32Z",
+   "date": "2025-08-08T02:27:54Z",
    "uri": "https://manganel.me/chapter/onepunch-man_113/chapter-200"
-  },
-  {
-   "name": 199.5,
-   "slug": null,
-   "date": "2025-07-19T03:37:16Z",
-   "uri": "https://manganel.me/chapter/onepunch-man_113/chapter-199.5"
   },
   {
    "name": 199,
    "slug": null,
-   "date": "2023-12-27T19:13:49Z",
+   "date": "2025-08-08T02:27:54Z",
    "uri": "https://manganel.me/chapter/onepunch-man_113/chapter-199"
-  },
-  {
-   "name": 198.5,
-   "slug": null,
-   "date": "2025-07-19T03:37:02Z",
-   "uri": "https://manganel.me/chapter/onepunch-man_113/chapter-198.5"
   },
   {
    "name": 198,
    "slug": null,
-   "date": "2023-12-13T20:57:08Z",
+   "date": "2025-08-08T02:27:54Z",
    "uri": "https://manganel.me/chapter/onepunch-man_113/chapter-198"
   },
   {
    "name": 197,
    "slug": null,
-   "date": "2023-11-29T21:45:28Z",
+   "date": "2025-08-08T02:27:54Z",
    "uri": "https://manganel.me/chapter/onepunch-man_113/chapter-197"
   },
   {
    "name": 196,
    "slug": null,
-   "date": "2023-11-15T22:12:01Z",
+   "date": "2025-08-08T02:27:54Z",
    "uri": "https://manganel.me/chapter/onepunch-man_113/chapter-196"
   },
   {
