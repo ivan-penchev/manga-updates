@@ -1,11 +1,17 @@
 {
  "name": "Onepunch-Man",
  "shouldNotify": true,
- "lastUpdate": "2025-08-08T02:25:21Z",
+ "lastUpdate": "2025-08-14T07:42:37Z",
  "slug": "onepunch-man_113",
  "status": "ongoing",
  "source": "manganel",
  "chapters": [
+  {
+   "name": 212,
+   "slug": null,
+   "date": "2025-08-14T07:42:37Z",
+   "uri": "https://manganel.me/chapter/onepunch-man_113/chapter-212"
+  },
   {
    "name": 211,
    "slug": null,
