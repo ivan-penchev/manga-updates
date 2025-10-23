@@ -13,3 +13,9 @@ build:
 lint:
 	@echo "Running linter..."
 	golangci-lint run
+
+action:
+	@cmd /C echo $(filter-out $@,$(MAKECMDGOALS))
+
+%:    
+	@:

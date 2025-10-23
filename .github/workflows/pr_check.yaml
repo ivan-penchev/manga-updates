@@ -18,6 +18,8 @@ jobs:
         with:
           go-version-file: 'go.mod'
       
+      - uses: browser-actions/setup-chrome@v2
+      
       - run: go version
 
       - name: golangci-lint

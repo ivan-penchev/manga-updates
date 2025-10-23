@@ -22,10 +22,10 @@ func NewMangaNelProviderFactory(mangaNelGraphQLEndpoint string) func() (Provider
 		defer cancel()
 
 		opts := append(chromedp.DefaultExecAllocatorOptions[:],
-			chromedp.Flag("no-sandbox", true),
-			chromedp.Flag("headless", true),
+			// chromedp.Flag("no-sandbox", true),
+			// chromedp.Flag("headless", true),
 			chromedp.Flag("disable-gpu", true),
-			chromedp.Flag("disable-dev-shm-usage", true),
+			// chromedp.Flag("disable-dev-shm-usage", true),
 		)
 
 		allocCtx, cancelAlloc := chromedp.NewExecAllocator(ctx, opts...)
