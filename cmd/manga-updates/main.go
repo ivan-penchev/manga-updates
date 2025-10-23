@@ -19,6 +19,8 @@ type config struct {
 	SeriesDataFolder           string `env:"SERIES_DATAFOLDER" envDefault:"$HOME/repos/manga-updates/data" envExpand:"true"`
 	SendGridAPIKey             string `env:"SENDGRID_API_KEY"`
 	SendGridTemplateId         string `env:"SENDGRID_TEMPLATE_ID"`
+	SMTP2GOApiKey              string `env:"SMTP2GO_API_KEY"`
+	SMTP2GOTemplateId          string `env:"SMTP2GO_TEMPLATE_ID"`
 	NotificationRecipientEmail string `env:"NOTIFICATION_EMAIL_RECIPIENT,required"`
 	NotificationSenderEmail    string `env:"NOTIFICATION_EMAIL_SENDER,required"`
 }
@@ -43,13 +45,20 @@ func main() {
 		return
 	}
 
-	notifier, err := notifier.NewNotifier(
+	notifierOptions := []notifier.NotifierOption{
 		notifier.WithRecipients(cfg.NotificationRecipientEmail),
 		notifier.WithSenderEmail(cfg.NotificationSenderEmail),
-		notifier.WithTemplateID(cfg.SendGridTemplateId),
-		notifier.WithSendGridAPIKey(cfg.SendGridAPIKey),
-	)
+	}
 
+	if cfg.SendGridAPIKey != "" {
+		notifierOptions = append(notifierOptions, notifier.WithTemplateID(cfg.SendGridTemplateId))
+		notifierOptions = append(notifierOptions, notifier.WithSendGridAPIKey(cfg.SendGridAPIKey))
+	} else if cfg.SMTP2GOApiKey != "" {
+		notifierOptions = append(notifierOptions, notifier.WithTemplateID(cfg.SMTP2GOTemplateId))
+		notifierOptions = append(notifierOptions, notifier.WithSMTP2GOAPIKey(cfg.SMTP2GOApiKey))
+	}
+
+	notifier, err := notifier.NewNotifier(notifierOptions...)
 	if err != nil {
 		logger.Error("failed to create notifier", "error", err)
 		os.Exit(1)

@@ -9,8 +9,8 @@ on:
 
 ## Common variables for both jobs
 env:
-  SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
-  SENDGRID_TEMPLATE_ID: d-b4267c4ab110461e8e6cff80ff4aa0ca
+  SMTP2GO_API_KEY: ${{ secrets.SMTP2GO_API_KEY }}
+  SMTP2GO_TEMPLATE_ID: manganotify-new-chapter
   NOTIFICATION_EMAIL_RECIPIENT: thefolenangel@gmail.com
   NOTIFICATION_EMAIL_SENDER: manga@penchev.com
   SERIES_DATAFOLDER: ./data

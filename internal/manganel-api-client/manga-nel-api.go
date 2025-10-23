@@ -52,8 +52,8 @@ func (m *MangaNelAPIClient) getMangaSeries(slug string, shouldIncludeChapters bo
 	graphqlRequest.Header.Add("Origin", "https://manganel.me")
 	graphqlRequest.Header.Add("Referer", "https://manganel.me/")
 	graphqlRequest.Header.Add("X-Mhub-Access", m.apiKey)
-	graphqlRequest.Header.Add("user-agent", "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Mobile Safari/537.36")
-	graphqlRequest.Header.Add("Sec-Ch-Ua", `"Chromium";v="124", "Google Chrome";v="124", "Not-A.Brand";v="99"`)
+	graphqlRequest.Header.Add("user-agent", "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Mobile Safari/537.36")
+	graphqlRequest.Header.Add("Sec-Ch-Ua", `"Not)A;Brand";v="8", "Chromium";v="138", "Google Chrome";v="138""`)
 
 	for attempt := 1; attempt <= maxAttempts; attempt++ {
 		err = m.client.Run(context.Background(), graphqlRequest, &graphqlResponse)
