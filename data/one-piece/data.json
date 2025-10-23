@@ -1,11 +1,41 @@
 {
  "name": "One Piece",
  "shouldNotify": true,
- "lastUpdate": "2025-08-13T15:46:54Z",
+ "lastUpdate": "2025-10-09T22:44:45Z",
  "slug": "one-piece_116",
  "status": "ongoing",
  "source": "manganel",
  "chapters": [
+  {
+   "name": 1162,
+   "slug": null,
+   "date": "2025-10-09T22:44:45Z",
+   "uri": "https://manganel.me/chapter/one-piece_116/chapter-1162"
+  },
+  {
+   "name": 1161,
+   "slug": null,
+   "date": "2025-09-26T18:32:19Z",
+   "uri": "https://manganel.me/chapter/one-piece_116/chapter-1161"
+  },
+  {
+   "name": 1160,
+   "slug": null,
+   "date": "2025-09-12T19:42:42Z",
+   "uri": "https://manganel.me/chapter/one-piece_116/chapter-1160"
+  },
+  {
+   "name": 1159,
+   "slug": null,
+   "date": "2025-09-05T09:12:36Z",
+   "uri": "https://manganel.me/chapter/one-piece_116/chapter-1159"
+  },
+  {
+   "name": 1158,
+   "slug": null,
+   "date": "2025-08-29T12:22:59Z",
+   "uri": "https://manganel.me/chapter/one-piece_116/chapter-1158"
+  },
   {
    "name": 1157,
    "slug": null,
