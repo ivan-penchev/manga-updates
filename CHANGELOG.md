@@ -1,3 +1,12 @@
+## v0.4.0 (v0.4.0)
+
+## v0.4.0 - 2025-10-23
+
+## Changelog
+### New Features
+* ba4024511fb69e6c0d62a835d6eda29e4a301566: feat: add smtp2go notifier (#23) (@ivan-penchev)
+
+
 ## v0.3.4 (v0.3.4)
 
 ## v0.3.4 - 2025-10-23
