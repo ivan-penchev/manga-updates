@@ -1,4 +1,4 @@
-<h3 align="center"><img alt="logo" src="./logo.png" style="width: 30vw;"></h3>
+<h3 align="center"><img alt="logo" src="./output.png" style="width: 30vw;"></h3>
 <h2 align="center" style="border-bottom: none;">Manga-Updates</h2>
 
 ## Add a new series to check for updates
