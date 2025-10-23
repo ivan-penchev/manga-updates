@@ -1,5 +1,6 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 <h3 align="center"><img alt="logo" src="./logo.webp" style="width: 20vw;"></h3>
 
 # Manga Updates
@@ -24,6 +25,9 @@ The example demonstrates the expected directory structure for the project to wor
 >>>>>>> 80d9260 (chore: updated README)
 <h2 align="center" style="border-bottom: none;">Manga-Updates</h2>
 >>>>>>> d29b003 (chore: updated README)
+=======
+<h3 align="center"><img alt="logo" src="./logo.webp" style="width: 20vw;"></h3>
+>>>>>>> a96ed43 (chore: updated README)
 
 ```
 .
