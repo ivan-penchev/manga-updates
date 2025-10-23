@@ -47,7 +47,7 @@ func main() {
 
 	notifierOptions := []notifier.NotifierOption{
 		notifier.WithRecipients(cfg.NotificationRecipientEmail),
-		notifier.WithSenderEmail(cfg.NotificationRecipientEmail),
+		notifier.WithSenderEmail(cfg.NotificationSenderEmail),
 	}
 
 	if cfg.SendGridAPIKey != "" {
