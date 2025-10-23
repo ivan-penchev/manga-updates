@@ -3,6 +3,15 @@
 <<<<<<< HEAD
 <h3 align="center"><img alt="logo" src="./logo.webp" style="width: 20vw;"></h3>
 
+## Add a new series to check for updates
+```sh
+## make a folder inside the data folder with the title name
+mkdir data/one-piece
+## copy the title template inside as data.json
+cp data/title.json.tpl data/one-piece/data.json 
+```
+Copy the slug from the url of the series e.g. https://manganel.me/manga/unexpected-accident has the slug of "unexpected-accident" inside the data.json file.
+
 # Manga Updates
 
 This project started as a simple idea: to keep tabs on my favorite manga series and get a heads-up (via Email) whenever a new chapter dropped. The initial thought was to manage everything through a GitHub repository, with updates triggered by a scheduled GitHub Actions Workflow.
@@ -18,19 +27,8 @@ This project was originally designed to run within a GitHub repository, using a 
 ### Directory Structure
 
 The example demonstrates the expected directory structure for the project to work correctly with the GitHub workflow:
-=======
-<h3 align="center"><img alt="logo" src="./output.png" style="width: 30vw;"></h3>
-=======
-<h3 align="center"><img alt="logo" src="./logo.webp" style="width: 30vw;"></h3>
->>>>>>> 80d9260 (chore: updated README)
-<h2 align="center" style="border-bottom: none;">Manga-Updates</h2>
->>>>>>> d29b003 (chore: updated README)
-=======
-<h3 align="center"><img alt="logo" src="./logo.webp" style="width: 20vw;"></h3>
->>>>>>> a96ed43 (chore: updated README)
 
 ```
-<<<<<<< HEAD
 .
 ├── .github
 │   └── workflows
@@ -69,27 +67,13 @@ The `data.json` file is crucial for tracking each manga series. Here's a breakdo
 -   `source`: The provider to use for checking updates. Currently supported providers are `manganel` and `mangadex`.
 -   `chapters`: A list of chapters that have been detected. This is updated automatically.
 
-### Setting Up a New Manga Series
-
-To start monitoring a new manga series, you need to create a new `data.json` file for it. You can do this by copying the `data/title.json.tpl` file.
+#### Setting Up a New Manga Series
 
 When setting up a new manga for the first time, you only need to fill in the following fields:
 
 -   `name`: The human-readable name of the manga.
+-   `slug`: The URL-friendly identifier of the manga on the source website. For example, if the manga URL is `https://manganel.me/manga/solo-leveling`, the slug would be `solo-leveling`.
 -   `source`: The provider to use for checking for updates. Currently, the supported providers are `manganel` and `mangadex`.
--   `slug`: This is the **most crucial field** for identifying the manga. It's a unique identifier from the manga source's URL.
-
-#### Finding the `slug`
-
-The `slug` is the part of the URL that directly points to the manga series. Here's how to find it for each supported provider:
-
--   **For `manganel`:**
-    The slug is the last part of the URL. For example, for the manga at `https://manganel.me/manga/one-piece`, the slug is `one-piece`.
-
--   **For `mangadex`:**
-    The slug is the UUID in the URL. For example, for the manga at `https://mangadex.org/title/a77742b6-363c-4310-9eca-2b7992395b3a/one-piece`, the slug is `a77742b6-363c-4310-9eca-2b7992395b3a`.
-
-**It is essential that the `slug` is correct, otherwise the application will not be able to find the manga and check for updates.**
 
 All other fields in the `data.json` file will be populated automatically by the application once it runs.
 
@@ -127,48 +111,14 @@ Currently we have:
 - **MangaDex:** Fetches manga updates from the MangaDex API, utilizing a dedicated client library (`mangodex`) for efficient data retrieval.
 
 ### Notifier 
-These components are responsible for delivering notifications to the user when new manga chapters are detected.
-=======
-Copy the slug from the url of the series e.g. https://manganel.me/manga/unexpected-accident has the slug of "unexpected-accident" inside the data.json file.
-
-# Manga Updates
-
-This project started as a simple idea: to keep tabs on my favorite manga series and get a heads-up (via Email) whenever a new chapter dropped. The initial thought was to manage everything through a GitHub repository, with updates triggered by a scheduled GitHub Actions Workflow.
-
-But hey, there's nothing stopping you from running this locally on your machine! Plus, it's built with extensibility in mind, so feel free to tweak it or add your own twists.
-
-## Components and Support
-
-Currently, the application supports the following core components:
-
-### Provider
-- **MangaNel:** Fetches updates from MangaNel.
-- **MangaDex:** Fetches updates from MangaDex.
-
-### Notifier 
->>>>>>> 0cee209 (chore: updated README)
 - **SendGrid:** Sends email notifications via SendGrid.
 - **SMTP2GO:** Sends email notifications via SMTP2GO.
 - **Standard Output:** Prints notifications directly to the console (useful for testing and debugging).
 
 ### Store
-<<<<<<< HEAD
-This component manages the persistence of manga series data.
-- **Local files (JSON):** Manga series data is stored and managed in local JSON files within a directory, `$HOME/repos/manga-updates/data` by default .
-
-### Program Flow
-
-Current flow of the program, this is not parallezied. 
-
-```mermaid
-
-graph LR
-=======
 - **Local files (JSON):** Manga series data is stored and managed in local JSON files within the `data` directory.
 
-These components are all extendable, and you are more than welcome to contribute!
-
-## Program Flow (Mermaid Diagram)
+### Program Flow
 
 ```mermaid
 <<<<<<< HEAD
@@ -193,12 +143,8 @@ graph LR
     J -- No New Version --> I
 ```
 
-<<<<<<< HEAD
-## How to contribute (Develop)
-=======
 ## How to Run / How to Contribute
 
->>>>>>> 0cee209 (chore: updated README)
 To set up and run the `manga-updates` application for development, follow these steps:
 
 ### 1. Clone the Repository
