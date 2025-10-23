@@ -1,5 +1,4 @@
-<h3 align="center"><img alt="logo" src="./logo.webp" style="width: 30vw;"></h3>
-<h2 align="center" style="border-bottom: none;">Manga-Updates</h2>
+<h3 align="center"><img alt="logo" src="./logo.webp" style="width: 20vw;"></h3>
 
 ## Add a new series to check for updates
 ```sh
