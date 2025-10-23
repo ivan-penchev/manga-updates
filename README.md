@@ -133,7 +133,9 @@ Copy the slug from the url of the series e.g. https://manganel.me/manga/unexpect
 
 # Manga Updates
 
-This project helps you keep track of your favorite manga series and notifies you when new chapters are released.
+This project started as a simple idea: to keep tabs on my favorite manga series and get a heads-up (via Email) whenever a new chapter dropped. The initial thought was to manage everything through a GitHub repository, with updates triggered by a scheduled GitHub Actions Workflow.
+
+But hey, there's nothing stopping you from running this locally on your machine! Plus, it's built with extensibility in mind, so feel free to tweak it or add your own twists.
 
 ## Components and Support
 
@@ -169,8 +171,12 @@ These components are all extendable, and you are more than welcome to contribute
 ## Program Flow (Mermaid Diagram)
 
 ```mermaid
+<<<<<<< HEAD
 graph TD
 >>>>>>> 0cee209 (chore: updated README)
+=======
+graph LR
+>>>>>>> fe6ee58 (chore: updated README)
     A[Start] --> B{Load Configuration}
     B --> C[Initialize Store]
     C --> D[Get Persisted Manga Series]
