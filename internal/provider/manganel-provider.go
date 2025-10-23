@@ -19,7 +19,7 @@ import (
 func NewMangaNelProviderFactory(mangaNelGraphQLEndpoint string) func() (Provider, error) {
 	return func() (Provider, error) {
 
-		ctx, cancel := context.WithTimeout(context.Background(), 4500*time.Second)
+		ctx, cancel := context.WithTimeout(context.Background(), 45*time.Second)
 		defer cancel()
 
 		var allocCtx context.Context
