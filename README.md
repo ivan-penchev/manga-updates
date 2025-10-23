@@ -1,7 +1,5 @@
 <h3 align="center"><img alt="logo" src="./logo.webp" style="width: 20vw;"></h3>
 
-Copy the slug from the url of the series e.g. https://manganel.me/manga/unexpected-accident has the slug of "unexpected-accident" inside the data.json file.
-
 # Manga Updates
 
 This project started as a simple idea: to keep tabs on my favorite manga series and get a heads-up (via Email) whenever a new chapter dropped. The initial thought was to manage everything through a GitHub repository, with updates triggered by a scheduled GitHub Actions Workflow.
