@@ -3,12 +3,13 @@ package provider
 import (
 	"context"
 	"fmt"
+	"os"
 
 	"log/slog"
 	"sync"
 	"time"
 
-	"github.com/chromedp/cdproto/network"
+	"github.com/chromedp/cdproto/storage"
 	"github.com/chromedp/chromedp"
 	"github.com/chromedp/chromedp/device"
 	manganelapiclient "github.com/ivan-penchev/manga-updates/internal/manganel-api-client"
@@ -20,8 +21,31 @@ func NewMangaNelProviderFactory(mangaNelGraphQLEndpoint string) func() (Provider
 
 		ctx, cancel := context.WithTimeout(context.Background(), 45*time.Second)
 		defer cancel()
-		innerCtx, _ := chromedp.NewContext(ctx)
 
+		var allocCtx context.Context
+		var cancelAlloc context.CancelFunc
+
+		remoteURL := os.Getenv("REMOTE_CHROME_URL")
+
+		if remoteURL != "" {
+			// --- Use Remote Chrome (for local Docker testing) ---
+			allocCtx, cancelAlloc = chromedp.NewRemoteAllocator(ctx, remoteURL)
+
+		} else {
+			opts := append(chromedp.DefaultExecAllocatorOptions[:],
+				chromedp.Flag("no-sandbox", true),
+				chromedp.Flag("headless", true),
+				chromedp.Flag("disable-gpu", true),
+				chromedp.Flag("disable-dev-shm-usage", true),
+			)
+			allocCtx, cancelAlloc = chromedp.NewExecAllocator(ctx, opts...)
+		}
+
+		defer cancelAlloc()
+
+		// Create the chromedp context from the allocator
+		innerCtx, cancelInner := chromedp.NewContext(allocCtx)
+		defer cancelInner()
 		randomPageFromProviderToOpen := "https://manganel.me/manga/my-wife-is-a-demon-queen"
 
 		// navigate to a page, wait for an element, click
@@ -31,7 +55,7 @@ func NewMangaNelProviderFactory(mangaNelGraphQLEndpoint string) func() (Provider
 			chromedp.Navigate(randomPageFromProviderToOpen),
 			chromedp.Sleep(4*time.Second),
 			chromedp.ActionFunc(func(ctx context.Context) error {
-				cookies, err := network.GetCookies().Do(ctx)
+				cookies, err := storage.GetCookies().Do(ctx)
 				if err != nil {
 					return err
 				}
