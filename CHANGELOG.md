@@ -1,3 +1,12 @@
+## v1.0.0 (v1.0.0)
+
+## v1.0.0 - 2025-10-23
+
+## Changelog
+### New Features
+* c0a68d4ab7274933cb23186d5a2b46e266d79a23: feat: open-source the project (#24) (@ivan-penchev)
+
+
 ## v0.4.0 (v0.4.0)
 
 ## v0.4.0 - 2025-10-23
