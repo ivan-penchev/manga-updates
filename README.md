@@ -137,12 +137,17 @@ Currently we have:
 
 ### Program Flow
 
+Current flow of the program, this is not parallezied. 
 
 ```mermaid
+<<<<<<< HEAD
 <<<<<<< HEAD
 graph TD
 >>>>>>> 0cee209 (chore: updated README)
 =======
+=======
+
+>>>>>>> 11b615c (chore: updated README)
 graph LR
 >>>>>>> fe6ee58 (chore: updated README)
     A[Start] --> B{Load Configuration}
@@ -159,7 +164,6 @@ graph LR
     L --> I
     I -- No More Series --> M[End]
     J -- No New Version --> I
-
 ```
 
 ## How to Run / How to Contribute
