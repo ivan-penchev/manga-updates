@@ -67,13 +67,27 @@ The `data.json` file is crucial for tracking each manga series. Here's a breakdo
 -   `source`: The provider to use for checking updates. Currently supported providers are `manganel` and `mangadex`.
 -   `chapters`: A list of chapters that have been detected. This is updated automatically.
 
-#### Setting Up a New Manga Series
+### Setting Up a New Manga Series
+
+To start monitoring a new manga series, you need to create a new `data.json` file for it. You can do this by copying the `data/title.json.tpl` file.
 
 When setting up a new manga for the first time, you only need to fill in the following fields:
 
 -   `name`: The human-readable name of the manga.
--   `slug`: The URL-friendly identifier of the manga on the source website. For example, if the manga URL is `https://manganel.me/manga/solo-leveling`, the slug would be `solo-leveling`.
 -   `source`: The provider to use for checking for updates. Currently, the supported providers are `manganel` and `mangadex`.
+-   `slug`: This is the **most crucial field** for identifying the manga. It's a unique identifier from the manga source's URL.
+
+#### Finding the `slug`
+
+The `slug` is the part of the URL that directly points to the manga series. Here's how to find it for each supported provider:
+
+-   **For `manganel`:**
+    The slug is the last part of the URL. For example, for the manga at `https://manganel.me/manga/one-piece`, the slug is `one-piece`.
+
+-   **For `mangadex`:**
+    The slug is the UUID in the URL. For example, for the manga at `https://mangadex.org/title/a77742b6-363c-4310-9eca-2b7992395b3a/one-piece`, the slug is `a77742b6-363c-4310-9eca-2b7992395b3a`.
+
+**It is essential that the `slug` is correct, otherwise the application will not be able to find the manga and check for updates.**
 
 All other fields in the `data.json` file will be populated automatically by the application once it runs.
 
