@@ -28,7 +28,6 @@ func NewMangaNelProviderFactory(mangaNelGraphQLEndpoint string) func() (Provider
 		remoteURL := os.Getenv("REMOTE_CHROME_URL")
 
 		if remoteURL != "" {
-			// --- Use Remote Chrome (for local Docker testing) ---
 			allocCtx, cancelAlloc = chromedp.NewRemoteAllocator(ctx, remoteURL)
 
 		} else {
