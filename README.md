@@ -124,8 +124,10 @@ This component manages the persistence of manga series data.
 
 ### Program Flow
 
+Current flow of the program, this is not parallezied. 
 
 ```mermaid
+
 graph LR
     A[Start] --> B{Load Configuration}
     B --> C[Initialize Store]
@@ -141,7 +143,6 @@ graph LR
     L --> I
     I -- No More Series --> M[End]
     J -- No New Version --> I
-
 ```
 
 ## How to contribute (Develop)
