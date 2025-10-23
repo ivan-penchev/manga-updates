@@ -3,12 +3,13 @@ package provider
 import (
 	"context"
 	"fmt"
+	"os"
 
 	"log/slog"
 	"sync"
 	"time"
 
-	"github.com/chromedp/cdproto/network"
+	"github.com/chromedp/cdproto/storage"
 	"github.com/chromedp/chromedp"
 	"github.com/chromedp/chromedp/device"
 	manganelapiclient "github.com/ivan-penchev/manga-updates/internal/manganel-api-client"
@@ -18,17 +19,28 @@ import (
 func NewMangaNelProviderFactory(mangaNelGraphQLEndpoint string) func() (Provider, error) {
 	return func() (Provider, error) {
 
-		ctx, cancel := context.WithTimeout(context.Background(), 45*time.Second)
+		ctx, cancel := context.WithTimeout(context.Background(), 4500*time.Second)
 		defer cancel()
 
-		opts := append(chromedp.DefaultExecAllocatorOptions[:],
-			// chromedp.Flag("no-sandbox", true),
-			// chromedp.Flag("headless", true),
-			chromedp.Flag("disable-gpu", true),
-			// chromedp.Flag("disable-dev-shm-usage", true),
-		)
+		var allocCtx context.Context
+		var cancelAlloc context.CancelFunc
 
-		allocCtx, cancelAlloc := chromedp.NewExecAllocator(ctx, opts...)
+		remoteURL := os.Getenv("REMOTE_CHROME_URL")
+
+		if remoteURL != "" {
+			// --- Use Remote Chrome (for local Docker testing) ---
+			allocCtx, cancelAlloc = chromedp.NewRemoteAllocator(ctx, remoteURL)
+
+		} else {
+			opts := append(chromedp.DefaultExecAllocatorOptions[:],
+				chromedp.Flag("no-sandbox", true),
+				chromedp.Flag("headless", true),
+				chromedp.Flag("disable-gpu", true),
+				chromedp.Flag("disable-dev-shm-usage", true),
+			)
+			allocCtx, cancelAlloc = chromedp.NewExecAllocator(ctx, opts...)
+		}
+
 		defer cancelAlloc()
 
 		// Create the chromedp context from the allocator
@@ -43,7 +55,7 @@ func NewMangaNelProviderFactory(mangaNelGraphQLEndpoint string) func() (Provider
 			chromedp.Navigate(randomPageFromProviderToOpen),
 			chromedp.Sleep(4*time.Second),
 			chromedp.ActionFunc(func(ctx context.Context) error {
-				cookies, err := network.GetCookies().Do(ctx)
+				cookies, err := storage.GetCookies().Do(ctx)
 				if err != nil {
 					return err
 				}
