@@ -126,6 +126,7 @@ This component manages the persistence of manga series data.
 
 ### Program Flow
 
+
 ```mermaid
 graph LR
     A[Start] --> B{Load Configuration}
@@ -142,6 +143,7 @@ graph LR
     L --> I
     I -- No More Series --> M[End]
     J -- No New Version --> I
+
 ```
 
 ## How to contribute (Develop)
