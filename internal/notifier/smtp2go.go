@@ -135,8 +135,8 @@ func (s smtp2goNotifier) NotifyForNewChapter(chapter types.ChapterEntity, fromMa
 		email.TemplateID = s.config.templateID
 		email.TemplateData = templateData
 	} else {
-		htmlBody = fmt.Sprintf("<h1>%s Update!</h1><p>Chapter %.0f is now available.</p><p>Read it here: <a href=\"%s\">%s</a></p>", fromManga.Name, chapter.Number, chapter.URI, chapter.URI)
-		textBody = fmt.Sprintf("%s Update! Chapter %.0f is now available. Read it here: %s", fromManga.Name, chapter.Number, chapter.URI)
+		htmlBody = fmt.Sprintf("<h1>%s Update!</h1><p>Chapter %s is now available.</p><p>Read it here: <a href=\"%s\">%s</a></p>", fromManga.Name, fmt.Sprintf("%.0f", *chapter.Number), chapter.URI, chapter.URI)
+		textBody = fmt.Sprintf("%s Update! Chapter %s is now available. Read it here: %s", fromManga.Name, fmt.Sprintf("%.0f", *chapter.Number), chapter.URI)
 		email.HtmlBody = htmlBody
 		email.TextBody = textBody
 	}
