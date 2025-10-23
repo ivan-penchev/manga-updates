@@ -1,3 +1,14 @@
+## v0.3.4 (v0.3.4)
+
+## v0.3.4 - 2025-10-23
+
+## Changelog
+### Other work
+* 6afe7500ce19353b61d9d5b52c34222a0a3f06a0: Bump github.com/chromedp/chromedp from 0.11.2 to 0.13.6 (#22) (@dependabot[bot])
+* 8c7b2aa3983c6192fef4f3c3e592855454c09be9: chore: bump ubuntu runner to ubuntu-22.04 (@ivan-penchev)
+* a2cb225ccea4a1da95cfb91c4b1445443f7069ac: chore: specified ubuntu version (@ivan-penchev)
+
+
 ## v0.3.3 (v0.3.3)
 
 ## v0.3.3 - 2024-11-30
