@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <h3 align="center"><img alt="logo" src="./logo.webp" style="width: 20vw;"></h3>
 
 # Manga Updates
@@ -15,6 +16,10 @@ This project was originally designed to run within a GitHub repository, using a 
 ### Directory Structure
 
 The example demonstrates the expected directory structure for the project to work correctly with the GitHub workflow:
+=======
+<h3 align="center"><img alt="logo" src="./output.png" style="width: 30vw;"></h3>
+<h2 align="center" style="border-bottom: none;">Manga-Updates</h2>
+>>>>>>> d29b003 (chore: updated README)
 
 ```
 .
