@@ -1,0 +1,8 @@
+SERIES_DATAFOLDER=C:\Users\<username>\Documents\repos\manga-updates/data
+NOTIFICATION_EMAIL_RECIPIENT=everyday_use_account@gmail.com
+NOTIFICATION_EMAIL_SENDER=my_manga_specific_email@gmail.com
+REMOTE_CHROME_URL=ws://127.0.0.1:3000
+SMTP2GO_API_KEY=
+SMTP2GO_TEMPLATE_ID=
+SENDGRID_API_KEY=
+SENDGRID_TEMPLATE_ID=

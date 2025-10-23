@@ -9,11 +9,11 @@ on:
 
 ## Common variables for both jobs
 env:
-  SMTP2GO_API_KEY: ${{ secrets.SMTP2GO_API_KEY }}
-  SMTP2GO_TEMPLATE_ID: manganotify-new-chapter
-  NOTIFICATION_EMAIL_RECIPIENT: thefolenangel@gmail.com
-  NOTIFICATION_EMAIL_SENDER: manga@penchev.com
-  SERIES_DATAFOLDER: ./data
+  SMTP2GO_API_KEY: <"insert_your_smtp2go_api_key_here_as_a_secret_in_github_e.g., secrets.SMTP2GO_API_KEY">
+  SMTP2GO_TEMPLATE_ID: <"insert_template_id_here">
+  NOTIFICATION_EMAIL_RECIPIENT: <"insert_recipient_email_here, it can be your personal email, where you want to receive notifications">
+  NOTIFICATION_EMAIL_SENDER: <"insert_sender_email_here, it can be any email you own, from which the notifications will be sent">
+  SERIES_DATAFOLDER: <"insert where the data folder is located, e.g., ./data">
   API_ENDPOINT: "https://api.mghcdn.com/graphql"
 
 
@@ -49,7 +49,7 @@ jobs:
           if [ -n "$(git status --porcelain)" ]; then
             echo "commiting changes";
             git config --global user.name 'MangaUpdates (Automation)'
-            git config --global user.email manga@penchev.com
+            git config --global user.email "$NOTIFICATION_EMAIL_SENDER"
             git commit -am "Updated state"
             git push
           else
@@ -87,7 +87,7 @@ jobs:
           if [ -n "$(git status --porcelain)" ]; then
             echo "commiting changes";
             git config --global user.name 'MangaUpdates (Automation)'
-            git config --global user.email manga@penchev.com
+            git config --global user.email "$NOTIFICATION_EMAIL_SENDER"
             git commit -am "Updated state"
             git push
           else
