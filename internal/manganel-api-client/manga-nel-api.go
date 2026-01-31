@@ -10,7 +10,7 @@ import (
 	"sort"
 	"time"
 
-	"github.com/ivan-penchev/manga-updates/pkg/types"
+	"github.com/ivan-penchev/manga-updates/internal/domain"
 	"github.com/machinebox/graphql"
 )
 
@@ -36,15 +36,15 @@ func NewMangaNelAPIClient(addr string, apiKey string) *MangaNelAPIClient {
 	}
 }
 
-func (m *MangaNelAPIClient) GetMangaSeriesFull(ctx context.Context, slug string) (*types.MangaEntity, error) {
+func (m *MangaNelAPIClient) GetMangaSeriesFull(ctx context.Context, slug string) (*domain.MangaEntity, error) {
 	return m.getMangaSeries(ctx, slug, true)
 }
 
-func (m *MangaNelAPIClient) GetMangaSeriesShort(ctx context.Context, slug string) (*types.MangaEntity, error) {
+func (m *MangaNelAPIClient) GetMangaSeriesShort(ctx context.Context, slug string) (*domain.MangaEntity, error) {
 	return m.getMangaSeries(ctx, slug, false)
 }
 
-func (m *MangaNelAPIClient) getMangaSeries(ctx context.Context, slug string, shouldIncludeChapters bool) (*types.MangaEntity, error) {
+func (m *MangaNelAPIClient) getMangaSeries(ctx context.Context, slug string, shouldIncludeChapters bool) (*domain.MangaEntity, error) {
 	const maxAttempts = 3
 	var graphqlResponse any
 	var err error
@@ -75,15 +75,15 @@ func (m *MangaNelAPIClient) getMangaSeries(ctx context.Context, slug string, sho
 		return nil, errors.New("cant cast manga query from graphQL response to a map")
 	}
 
-	manga := types.MangaEntity{}
+	manga := domain.MangaEntity{}
 	manga.Name = mapManga["title"].(string)
 	manga.Slug = mapManga["slug"].(string)
-	manga.Status = types.MangaStatus(mapManga["status"].(string))
-	manga.Source = types.MangaSourceMangaNel
+	manga.Status = domain.MangaStatus(mapManga["status"].(string))
+	manga.Source = domain.MangaSourceMangaNel
 	updateLastString := mapManga["updatedDate"].(string)
 	timeUpdate, _ := time.Parse(time.RFC3339, updateLastString)
 	manga.LastUpdate = timeUpdate
-	manga.Chapters = make([]types.ChapterEntity, 0)
+	manga.Chapters = make([]domain.ChapterEntity, 0)
 	if !shouldIncludeChapters {
 		return &manga, nil
 	}
@@ -110,7 +110,7 @@ func (m *MangaNelAPIClient) getMangaSeries(ctx context.Context, slug string, sho
 		if !ok {
 			slog.Error("cant find chapter slug of type string", "value", ss)
 		}
-		chapter := types.ChapterEntity{
+		chapter := domain.ChapterEntity{
 			Number: &number,
 			Date:   &timeUpdate,
 			URI:    fmt.Sprintf("https://manganel.me/chapter/%s/chapter-%v", manga.Slug, number),

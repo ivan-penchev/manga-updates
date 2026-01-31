@@ -3,11 +3,11 @@ package notifier
 import (
 	"log/slog"
 
-	"github.com/ivan-penchev/manga-updates/pkg/types"
+	"github.com/ivan-penchev/manga-updates/internal/domain"
 )
 
 type Notifier interface {
-	NotifyForNewChapter(chapter types.ChapterEntity, fromManga types.MangaEntity) error
+	NotifyForNewChapter(chapter domain.ChapterEntity, fromManga domain.MangaEntity) error
 }
 
 const (

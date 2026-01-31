@@ -13,8 +13,8 @@ import (
 	"github.com/chromedp/chromedp"
 	"github.com/chromedp/chromedp/device"
 	"github.com/go-rod/rod/lib/launcher"
+	"github.com/ivan-penchev/manga-updates/internal/domain"
 	manganelapiclient "github.com/ivan-penchev/manga-updates/internal/manganel-api-client"
-	"github.com/ivan-penchev/manga-updates/pkg/types"
 )
 
 func NewMangaNelProviderFactory(mangaNelGraphQLEndpoint string) func() (Provider, error) {
@@ -86,7 +86,7 @@ func NewMangaNelProviderFactory(mangaNelGraphQLEndpoint string) func() (Provider
 
 		return &mangaNelProvider{
 			mangaNelClient:  mangaNelClient,
-			cachedResponses: make(map[string]*types.MangaEntity, 0),
+			cachedResponses: make(map[string]*domain.MangaEntity, 0),
 			mutex:           sync.RWMutex{},
 		}, nil
 	}
@@ -95,11 +95,11 @@ func NewMangaNelProviderFactory(mangaNelGraphQLEndpoint string) func() (Provider
 
 type mangaNelProvider struct {
 	mangaNelClient  *manganelapiclient.MangaNelAPIClient
-	cachedResponses map[string]*types.MangaEntity
+	cachedResponses map[string]*domain.MangaEntity
 	mutex           sync.RWMutex
 }
 
-func (mp *mangaNelProvider) IsNewerVersionAvailable(manga types.MangaEntity) (bool, error) {
+func (mp *mangaNelProvider) IsNewerVersionAvailable(manga domain.MangaEntity) (bool, error) {
 	if manga.IsNew() {
 		logMessage := fmt.Sprintf("Manga title (%s) that we have never synced before added for update notifications", manga.Name)
 		slog.Info(logMessage)
@@ -122,11 +122,11 @@ func (mp *mangaNelProvider) IsNewerVersionAvailable(manga types.MangaEntity) (bo
 	return manga.IsOlder(*mangaResponse), nil
 }
 
-func (*mangaNelProvider) Kind() types.MangaSource {
-	return types.MangaSourceMangaNel
+func (*mangaNelProvider) Kind() domain.MangaSource {
+	return domain.MangaSourceMangaNel
 }
 
-func (mp *mangaNelProvider) GetLatestVersionMangaEntity(manga types.MangaEntity) (*types.MangaEntity, error) {
+func (mp *mangaNelProvider) GetLatestVersionMangaEntity(manga domain.MangaEntity) (*domain.MangaEntity, error) {
 	mp.mutex.RLock()
 	defer mp.mutex.RUnlock()
 

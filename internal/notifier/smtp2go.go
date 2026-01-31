@@ -7,7 +7,7 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/ivan-penchev/manga-updates/pkg/types"
+	"github.com/ivan-penchev/manga-updates/internal/domain"
 )
 
 // this is a blatant ripoff of https://github.com/smtp2go-oss/smtp2go-go
@@ -107,7 +107,7 @@ func (s smtp2goNotifier) sendAPIRequest(endpoint string, requestBody io.Reader) 
 	return ret, nil
 }
 
-func (s smtp2goNotifier) NotifyForNewChapter(chapter types.ChapterEntity, fromManga types.MangaEntity) error {
+func (s smtp2goNotifier) NotifyForNewChapter(chapter domain.ChapterEntity, fromManga domain.MangaEntity) error {
 	fromEmail := fmt.Sprintf("Manga Notify <%s>", s.config.fromEmail)
 	toEmails := make([]string, len(s.config.recipients))
 	for i, recipient := range s.config.recipients {

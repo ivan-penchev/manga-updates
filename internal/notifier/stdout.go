@@ -3,12 +3,12 @@ package notifier
 import (
 	"log/slog"
 
-	"github.com/ivan-penchev/manga-updates/pkg/types"
+	"github.com/ivan-penchev/manga-updates/internal/domain"
 )
 
 type standardOutNotifier struct{}
 
-func (s standardOutNotifier) NotifyForNewChapter(chapter types.ChapterEntity, fromManga types.MangaEntity) error {
+func (s standardOutNotifier) NotifyForNewChapter(chapter domain.ChapterEntity, fromManga domain.MangaEntity) error {
 	slog.Info("Notifying about new chapter",
 		"mangaName", fromManga.Name,
 		"chapterNumber", chapter.Number,

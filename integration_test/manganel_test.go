@@ -6,14 +6,14 @@ import (
 	"testing"
 	"time"
 
+	"github.com/ivan-penchev/manga-updates/internal/domain"
 	"github.com/ivan-penchev/manga-updates/internal/mocks"
 	updatechecker "github.com/ivan-penchev/manga-updates/internal/update-checker"
-	"github.com/ivan-penchev/manga-updates/pkg/types"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 )
 
-func setupUpdateCheckerServiceWithMocks(t *testing.T, mangaPathsWithMans map[string]types.MangaEntity, shouldNotify bool) (*mocks.StoreMock, *mocks.NotifierMock, *updatechecker.UpdateCheckerService) {
+func setupUpdateCheckerServiceWithMocks(t *testing.T, mangaPathsWithMans map[string]domain.MangaEntity, shouldNotify bool) (*mocks.StoreMock, *mocks.NotifierMock, *updatechecker.UpdateCheckerService) {
 	mockStore := mocks.NewStoreMock(t)
 	mockNotifier := mocks.NewNotifierMock(t)
 	mockStore.On("GetMangaSeries").Return(mangaPathsWithMans)
@@ -38,14 +38,14 @@ func TestMangaNel(t *testing.T) {
 	t.Parallel()
 	t.Run("FirstTimeSyncManga", func(t *testing.T) {
 		mangaPath := "manga1"
-		newMangaWeKnowIsPresentAtSource := types.MangaEntity{
+		newMangaWeKnowIsPresentAtSource := domain.MangaEntity{
 			Name:         "Solo Leveling",
 			Slug:         "solo-leveling_102",
 			ShouldNotify: true,
-			Source:       types.MangaSourceMangaNel,
-			Chapters:     []types.ChapterEntity{},
+			Source:       domain.MangaSourceMangaNel,
+			Chapters:     []domain.ChapterEntity{},
 		}
-		pathsWithMangas := map[string]types.MangaEntity{
+		pathsWithMangas := map[string]domain.MangaEntity{
 			mangaPath: newMangaWeKnowIsPresentAtSource,
 		}
 		mockStore, mockNotifier, updateChecker := setupUpdateCheckerServiceWithMocks(t,
@@ -66,14 +66,14 @@ func TestMangaNel(t *testing.T) {
 
 	t.Run("FirstTimeSyncMangaShouldNotify", func(t *testing.T) {
 		mangaPath := "manga1"
-		newMangaWeKnowIsPresentAtSource := types.MangaEntity{
+		newMangaWeKnowIsPresentAtSource := domain.MangaEntity{
 			Name:         "Solo Leveling",
 			Slug:         "solo-leveling_102",
 			ShouldNotify: true,
-			Source:       types.MangaSourceMangaNel,
-			Chapters:     []types.ChapterEntity{},
+			Source:       domain.MangaSourceMangaNel,
+			Chapters:     []domain.ChapterEntity{},
 		}
-		pathsWithMangas := map[string]types.MangaEntity{
+		pathsWithMangas := map[string]domain.MangaEntity{
 			mangaPath: newMangaWeKnowIsPresentAtSource,
 		}
 
@@ -94,14 +94,14 @@ func TestMangaNel(t *testing.T) {
 	})
 	t.Run("FirstTimeSyncMangaVerifyMangaContentAfterUpdate", func(t *testing.T) {
 		mangaPath := "manga1"
-		newMangaWeKnowIsPresentAtSource := types.MangaEntity{
+		newMangaWeKnowIsPresentAtSource := domain.MangaEntity{
 			Name:         "Solo Leveling",
 			Slug:         "solo-leveling_102",
 			ShouldNotify: true,
-			Source:       types.MangaSourceMangaNel,
-			Chapters:     []types.ChapterEntity{},
+			Source:       domain.MangaSourceMangaNel,
+			Chapters:     []domain.ChapterEntity{},
 		}
-		pathsWithMangas := map[string]types.MangaEntity{
+		pathsWithMangas := map[string]domain.MangaEntity{
 			mangaPath: newMangaWeKnowIsPresentAtSource,
 		}
 
@@ -122,7 +122,7 @@ func TestMangaNel(t *testing.T) {
 		for _, call := range mockStore.Calls {
 			if call.Method == "PersistManagaTitle" {
 				foundMockStoreInvocation = true
-				savedMangaEntity, ok := call.Maybe().Arguments.Get(1).(types.MangaEntity)
+				savedMangaEntity, ok := call.Maybe().Arguments.Get(1).(domain.MangaEntity)
 				assert.True(t, ok)
 				assert.NotEqual(t, savedMangaEntity, newMangaWeKnowIsPresentAtSource)
 				assert.Greater(t, len(savedMangaEntity.Chapters), len(newMangaWeKnowIsPresentAtSource.Chapters))
@@ -141,12 +141,12 @@ func TestMangaNel(t *testing.T) {
 		mangaPath := "manga1"
 		chapterNumber := float64(0)
 		chapterDate := time.Date(2018, time.November, 21, 8, 44, 11, 0, time.UTC)
-		newMangaWeKnowIsPresentAtSource := types.MangaEntity{
+		newMangaWeKnowIsPresentAtSource := domain.MangaEntity{
 			Name:         "Solo Leveling",
 			Slug:         "solo-leveling_102",
 			ShouldNotify: true,
-			Source:       types.MangaSourceMangaNel,
-			Chapters: []types.ChapterEntity{
+			Source:       domain.MangaSourceMangaNel,
+			Chapters: []domain.ChapterEntity{
 				{
 					Number: &chapterNumber,
 					Date:   &chapterDate,
@@ -154,7 +154,7 @@ func TestMangaNel(t *testing.T) {
 				},
 			},
 		}
-		pathsWithMangas := map[string]types.MangaEntity{
+		pathsWithMangas := map[string]domain.MangaEntity{
 			mangaPath: newMangaWeKnowIsPresentAtSource,
 		}
 
@@ -175,7 +175,7 @@ func TestMangaNel(t *testing.T) {
 		for _, call := range mockNotifier.Calls {
 			if call.Method == "NotifyForNewChapter" {
 				foundMockStoreInvocation = true
-				notifiedChapter, ok := call.Maybe().Arguments.Get(0).(types.ChapterEntity)
+				notifiedChapter, ok := call.Maybe().Arguments.Get(0).(domain.ChapterEntity)
 				assert.True(t, ok)
 				assert.Equal(t, *notifiedChapter.Number, float64(1))
 			}
