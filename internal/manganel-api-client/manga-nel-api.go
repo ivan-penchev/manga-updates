@@ -135,7 +135,6 @@ func getQueryForSlug(slug string, includeChapters bool) string {
 			slug,
 			image,
 			latestChapter,
-			unauthFile,
 			updatedDate
 		}
 		manga(x: mn05, slug: "%s") {
@@ -155,7 +154,6 @@ func getQueryForSlug(slug string, includeChapters bool) string {
 			isYaoi,
 			isPorn,
 			isSoftPorn,
-			unauthFile,
 			noCoverAd,
 			isLicensed,
 			createdDate,
