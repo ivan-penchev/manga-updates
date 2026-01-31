@@ -83,14 +83,11 @@ func TestMangaDexProvider(t *testing.T) {
 		}
 
 		assert.True(t, found, "Should have found 'Solo Leveling'")
-		// Note: Exact match might not be first, but it should be there.
-		// Mangadex search effectively works, checking if we got results.
 		assert.True(t, len(results) > 0)
 
 		first := results[0]
 		assert.NotEmpty(t, first.Manga.Name)
 		assert.NotEmpty(t, first.URL)
-		// assert.NotEmpty(t, first.ImageURL) // Might be empty if no cover art? But we requested it.
 	})
 
 	t.Run("Search_Pagination", func(t *testing.T) {

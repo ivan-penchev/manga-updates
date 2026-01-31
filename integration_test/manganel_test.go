@@ -205,6 +205,8 @@ func TestMangaNelProvider_Search(t *testing.T) {
 	t.Run("Search_Simple", func(t *testing.T) {
 		query := "Solo Leveling"
 		results, total, err := prov.Search(ctx, query, 0)
+		assert.NoError(t, err)
+		assert.Greater(t, total, 0)
 
 		found := false
 		for _, r := range results {
@@ -215,10 +217,7 @@ func TestMangaNelProvider_Search(t *testing.T) {
 		}
 
 		assert.True(t, found, "Should have found 'Solo Leveling'")
-
-		assert.NoError(t, err)
-		assert.Greater(t, total, 0)
-		assert.NotEmpty(t, results)
+		assert.True(t, len(results) > 0)
 
 		first := results[0]
 		assert.NotEmpty(t, first.Manga.Name)
