@@ -1,12 +1,14 @@
 dir: "internal/mocks/"
-outpkg: "mocks"
-filename: "{{.InterfaceName}}.go"
-mockname: "{{.InterfaceName}}Mock"
-with-expecter: True
+filename: "{{ .InterfaceName }}.go"
+pkgname: "mocks"
 packages:
-  github.com/ivan-penchev/manga-updates/internal/Store:
+  github.com/ivan-penchev/manga-updates/internal/store:
     interfaces:
       Store:
-  github.com/ivan-penchev/manga-updates/internal/Notifier:
+  github.com/ivan-penchev/manga-updates/internal/notifier:
     interfaces:
       Notifier:
+  github.com/ivan-penchev/manga-updates/internal/domain:
+    interfaces:
+      Provider:
+      ProviderRouter:

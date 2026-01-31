@@ -6,7 +6,6 @@ import (
 	"os"
 
 	"github.com/ivan-penchev/manga-updates/internal/config"
-	"github.com/ivan-penchev/manga-updates/internal/library"
 	"github.com/ivan-penchev/manga-updates/internal/provider"
 	"github.com/ivan-penchev/manga-updates/internal/store"
 	"github.com/spf13/cobra"
@@ -40,14 +39,35 @@ var addCmd = &cobra.Command{
 			os.Exit(1)
 		}
 
-		lib := library.NewLibrary(store, providerRouter)
-		err = lib.AddSeries(context.Background(), url)
+		ctx := context.Background()
+
+		// 1. Find correct provider
+		p, err := providerRouter.GetProviderForURL(url)
 		if err != nil {
-			logger.Error("failed to add series", "error", err)
+			logger.Error("failed to find provider for url", "url", url, "error", err)
 			os.Exit(1)
 		}
 
-		logger.Info("Successfully added series")
+		// 2. Fetch series details
+		manga, err := p.GetMangaFromURL(ctx, url)
+		if err != nil {
+			logger.Error("failed to fetch manga details", "url", url, "error", err)
+			os.Exit(1)
+		}
+
+		// 3. Set defaults
+		manga.ShouldNotify = true
+		// Source is likely already set by GetMangaFromURL but ensure it matches provider kind
+		manga.Source = p.Kind()
+
+		// 4. Save to store
+		err = store.AddManga(ctx, manga)
+		if err != nil {
+			logger.Error("failed to save series to store", "manga", manga.Name, "error", err)
+			os.Exit(1)
+		}
+
+		logger.Info("Successfully added series", "title", manga.Name)
 	},
 }
 

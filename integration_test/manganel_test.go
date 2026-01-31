@@ -14,9 +14,9 @@ import (
 	"github.com/stretchr/testify/mock"
 )
 
-func setupUpdateCheckerServiceWithMocks(t *testing.T, mangaPathsWithMans map[string]domain.MangaEntity, shouldNotify bool) (*mocks.StoreMock, *mocks.NotifierMock, *updatechecker.UpdateCheckerService) {
-	mockStore := mocks.NewStoreMock(t)
-	mockNotifier := mocks.NewNotifierMock(t)
+func setupUpdateCheckerServiceWithMocks(t *testing.T, mangaPathsWithMans map[string]domain.MangaEntity, shouldNotify bool) (*mocks.MockStore, *mocks.MockNotifier, *updatechecker.UpdateCheckerService) {
+	mockStore := mocks.NewMockStore(t)
+	mockNotifier := mocks.NewMockNotifier(t)
 	mockStore.On("GetMangaSeries", mock.Anything).Return(mangaPathsWithMans)
 	mockStore.On("PersistManagaTitle", mock.Anything, mock.Anything, mock.Anything).Return(nil)
 	if shouldNotify {

@@ -17,3 +17,12 @@ func (p *providerRouter) GetProvider(manga domain.MangaEntity) (domain.Provider,
 	}
 	return provider, nil
 }
+
+func (p *providerRouter) GetProviderForURL(url string) (domain.Provider, error) {
+	for _, provider := range p.providers {
+		if provider.Supports(url) {
+			return provider, nil
+		}
+	}
+	return nil, fmt.Errorf("no provider found for url: %s", url)
+}

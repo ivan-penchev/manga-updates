@@ -60,6 +60,7 @@ type Provider interface {
 
 type ProviderRouter interface {
 	GetProvider(manga MangaEntity) (Provider, error)
+	GetProviderForURL(url string) (Provider, error)
 }
 
 // returns the missing chapters between the current manga and the new one
