@@ -3,6 +3,8 @@
 package mocks
 
 import (
+	context "context"
+
 	mock "github.com/stretchr/testify/mock"
 
 	domain "github.com/ivan-penchev/manga-updates/internal/domain"
@@ -21,17 +23,17 @@ func (_m *StoreMock) EXPECT() *StoreMock_Expecter {
 	return &StoreMock_Expecter{mock: &_m.Mock}
 }
 
-// GetMangaSeries provides a mock function with given fields:
-func (_m *StoreMock) GetMangaSeries() map[string]domain.MangaEntity {
-	ret := _m.Called()
+// GetMangaSeries provides a mock function with given fields: ctx
+func (_m *StoreMock) GetMangaSeries(ctx context.Context) map[string]domain.MangaEntity {
+	ret := _m.Called(ctx)
 
 	if len(ret) == 0 {
 		panic("no return value specified for GetMangaSeries")
 	}
 
 	var r0 map[string]domain.MangaEntity
-	if rf, ok := ret.Get(0).(func() map[string]domain.MangaEntity); ok {
-		r0 = rf()
+	if rf, ok := ret.Get(0).(func(context.Context) map[string]domain.MangaEntity); ok {
+		r0 = rf(ctx)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(map[string]domain.MangaEntity)
@@ -47,13 +49,14 @@ type StoreMock_GetMangaSeries_Call struct {
 }
 
 // GetMangaSeries is a helper method to define mock.On call
-func (_e *StoreMock_Expecter) GetMangaSeries() *StoreMock_GetMangaSeries_Call {
-	return &StoreMock_GetMangaSeries_Call{Call: _e.mock.On("GetMangaSeries")}
+//   - ctx context.Context
+func (_e *StoreMock_Expecter) GetMangaSeries(ctx interface{}) *StoreMock_GetMangaSeries_Call {
+	return &StoreMock_GetMangaSeries_Call{Call: _e.mock.On("GetMangaSeries", ctx)}
 }
 
-func (_c *StoreMock_GetMangaSeries_Call) Run(run func()) *StoreMock_GetMangaSeries_Call {
+func (_c *StoreMock_GetMangaSeries_Call) Run(run func(ctx context.Context)) *StoreMock_GetMangaSeries_Call {
 	_c.Call.Run(func(args mock.Arguments) {
-		run()
+		run(args[0].(context.Context))
 	})
 	return _c
 }
@@ -63,22 +66,22 @@ func (_c *StoreMock_GetMangaSeries_Call) Return(_a0 map[string]domain.MangaEntit
 	return _c
 }
 
-func (_c *StoreMock_GetMangaSeries_Call) RunAndReturn(run func() map[string]domain.MangaEntity) *StoreMock_GetMangaSeries_Call {
+func (_c *StoreMock_GetMangaSeries_Call) RunAndReturn(run func(context.Context) map[string]domain.MangaEntity) *StoreMock_GetMangaSeries_Call {
 	_c.Call.Return(run)
 	return _c
 }
 
-// PersistManagaTitle provides a mock function with given fields: location, mangaTitle
-func (_m *StoreMock) PersistManagaTitle(location string, mangaTitle domain.MangaEntity) error {
-	ret := _m.Called(location, mangaTitle)
+// PersistManagaTitle provides a mock function with given fields: ctx, location, mangaTitle
+func (_m *StoreMock) PersistManagaTitle(ctx context.Context, location string, mangaTitle domain.MangaEntity) error {
+	ret := _m.Called(ctx, location, mangaTitle)
 
 	if len(ret) == 0 {
 		panic("no return value specified for PersistManagaTitle")
 	}
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(string, domain.MangaEntity) error); ok {
-		r0 = rf(location, mangaTitle)
+	if rf, ok := ret.Get(0).(func(context.Context, string, domain.MangaEntity) error); ok {
+		r0 = rf(ctx, location, mangaTitle)
 	} else {
 		r0 = ret.Error(0)
 	}
@@ -92,15 +95,16 @@ type StoreMock_PersistManagaTitle_Call struct {
 }
 
 // PersistManagaTitle is a helper method to define mock.On call
+//   - ctx context.Context
 //   - location string
 //   - mangaTitle domain.MangaEntity
-func (_e *StoreMock_Expecter) PersistManagaTitle(location interface{}, mangaTitle interface{}) *StoreMock_PersistManagaTitle_Call {
-	return &StoreMock_PersistManagaTitle_Call{Call: _e.mock.On("PersistManagaTitle", location, mangaTitle)}
+func (_e *StoreMock_Expecter) PersistManagaTitle(ctx interface{}, location interface{}, mangaTitle interface{}) *StoreMock_PersistManagaTitle_Call {
+	return &StoreMock_PersistManagaTitle_Call{Call: _e.mock.On("PersistManagaTitle", ctx, location, mangaTitle)}
 }
 
-func (_c *StoreMock_PersistManagaTitle_Call) Run(run func(location string, mangaTitle domain.MangaEntity)) *StoreMock_PersistManagaTitle_Call {
+func (_c *StoreMock_PersistManagaTitle_Call) Run(run func(ctx context.Context, location string, mangaTitle domain.MangaEntity)) *StoreMock_PersistManagaTitle_Call {
 	_c.Call.Run(func(args mock.Arguments) {
-		run(args[0].(string), args[1].(domain.MangaEntity))
+		run(args[0].(context.Context), args[1].(string), args[2].(domain.MangaEntity))
 	})
 	return _c
 }
@@ -110,7 +114,7 @@ func (_c *StoreMock_PersistManagaTitle_Call) Return(_a0 error) *StoreMock_Persis
 	return _c
 }
 
-func (_c *StoreMock_PersistManagaTitle_Call) RunAndReturn(run func(string, domain.MangaEntity) error) *StoreMock_PersistManagaTitle_Call {
+func (_c *StoreMock_PersistManagaTitle_Call) RunAndReturn(run func(context.Context, string, domain.MangaEntity) error) *StoreMock_PersistManagaTitle_Call {
 	_c.Call.Return(run)
 	return _c
 }

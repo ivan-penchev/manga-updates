@@ -1,6 +1,7 @@
 package integrationtest
 
 import (
+	"context"
 	"log/slog"
 	"os"
 	"testing"
@@ -16,10 +17,10 @@ import (
 func setupUpdateCheckerServiceWithMocks(t *testing.T, mangaPathsWithMans map[string]domain.MangaEntity, shouldNotify bool) (*mocks.StoreMock, *mocks.NotifierMock, *updatechecker.UpdateCheckerService) {
 	mockStore := mocks.NewStoreMock(t)
 	mockNotifier := mocks.NewNotifierMock(t)
-	mockStore.On("GetMangaSeries").Return(mangaPathsWithMans)
-	mockStore.On("PersistManagaTitle", mock.Anything, mock.Anything).Return(nil)
+	mockStore.On("GetMangaSeries", mock.Anything).Return(mangaPathsWithMans)
+	mockStore.On("PersistManagaTitle", mock.Anything, mock.Anything, mock.Anything).Return(nil)
 	if shouldNotify {
-		mockNotifier.On("NotifyForNewChapter", mock.Anything, mock.Anything).Return(nil)
+		mockNotifier.On("NotifyForNewChapter", mock.Anything, mock.Anything, mock.Anything).Return(nil)
 	}
 
 	logger := slog.New(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{
@@ -53,7 +54,7 @@ func TestMangaNel(t *testing.T) {
 			newMangaWeKnowIsPresentAtSource.ShouldNotify,
 		)
 
-		err := updateChecker.CheckForUpdates()
+		err := updateChecker.CheckForUpdates(context.Background())
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -82,7 +83,7 @@ func TestMangaNel(t *testing.T) {
 			newMangaWeKnowIsPresentAtSource.ShouldNotify,
 		)
 
-		err := updateChecker.CheckForUpdates()
+		err := updateChecker.CheckForUpdates(context.Background())
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -110,7 +111,7 @@ func TestMangaNel(t *testing.T) {
 			newMangaWeKnowIsPresentAtSource.ShouldNotify,
 		)
 
-		err := updateChecker.CheckForUpdates()
+		err := updateChecker.CheckForUpdates(context.Background())
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -122,7 +123,7 @@ func TestMangaNel(t *testing.T) {
 		for _, call := range mockStore.Calls {
 			if call.Method == "PersistManagaTitle" {
 				foundMockStoreInvocation = true
-				savedMangaEntity, ok := call.Maybe().Arguments.Get(1).(domain.MangaEntity)
+				savedMangaEntity, ok := call.Maybe().Arguments.Get(2).(domain.MangaEntity)
 				assert.True(t, ok)
 				assert.NotEqual(t, savedMangaEntity, newMangaWeKnowIsPresentAtSource)
 				assert.Greater(t, len(savedMangaEntity.Chapters), len(newMangaWeKnowIsPresentAtSource.Chapters))
@@ -163,7 +164,7 @@ func TestMangaNel(t *testing.T) {
 			newMangaWeKnowIsPresentAtSource.ShouldNotify,
 		)
 
-		err := updateChecker.CheckForUpdates()
+		err := updateChecker.CheckForUpdates(context.Background())
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -175,7 +176,7 @@ func TestMangaNel(t *testing.T) {
 		for _, call := range mockNotifier.Calls {
 			if call.Method == "NotifyForNewChapter" {
 				foundMockStoreInvocation = true
-				notifiedChapter, ok := call.Maybe().Arguments.Get(0).(domain.ChapterEntity)
+				notifiedChapter, ok := call.Maybe().Arguments.Get(1).(domain.ChapterEntity)
 				assert.True(t, ok)
 				assert.Equal(t, *notifiedChapter.Number, float64(1))
 			}

@@ -1,6 +1,7 @@
 package provider
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"net/url"
@@ -19,8 +20,8 @@ type mangaDexProvider struct {
 	mutex           sync.RWMutex
 }
 
-func NewMangaDexProviderFactory() func() (Provider, error) {
-	return func() (Provider, error) {
+func NewMangaDexProviderFactory() func() (domain.Provider, error) {
+	return func() (domain.Provider, error) {
 
 		c := m.NewDexClient()
 		v := url.Values{}
@@ -43,7 +44,7 @@ func NewMangaDexProviderFactory() func() (Provider, error) {
 }
 
 // GetLatestVersionMangaEntity implements Provider.
-func (mdp *mangaDexProvider) GetLatestVersionMangaEntity(manga domain.MangaEntity) (*domain.MangaEntity, error) {
+func (mdp *mangaDexProvider) GetLatestVersionMangaEntity(ctx context.Context, manga domain.MangaEntity) (*domain.MangaEntity, error) {
 	v := url.Values{}
 	v.Add("translatedLanguage[]", "en") // hardcode it for now
 	initialResponse, err := mdp.mangaDexClient.Chapter.GetMangaChapters(manga.Slug, v)
@@ -96,7 +97,7 @@ func (mdp *mangaDexProvider) GetLatestVersionMangaEntity(manga domain.MangaEntit
 }
 
 // IsNewerVersionAvailable implements Provider.
-func (mdp *mangaDexProvider) IsNewerVersionAvailable(manga domain.MangaEntity) (bool, error) {
+func (mdp *mangaDexProvider) IsNewerVersionAvailable(ctx context.Context, manga domain.MangaEntity) (bool, error) {
 
 	v := url.Values{}
 	v.Add("title", manga.Name)

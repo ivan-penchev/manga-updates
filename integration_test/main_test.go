@@ -4,10 +4,11 @@ import (
 	"os"
 	"testing"
 
+	"github.com/ivan-penchev/manga-updates/internal/domain"
 	"github.com/ivan-penchev/manga-updates/internal/provider"
 )
 
-var providerRouter provider.ProviderRouter
+var providerRouter domain.ProviderRouter
 
 func TestMain(m *testing.M) {
 	var err error

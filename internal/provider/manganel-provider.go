@@ -17,8 +17,8 @@ import (
 	manganelapiclient "github.com/ivan-penchev/manga-updates/internal/manganel-api-client"
 )
 
-func NewMangaNelProviderFactory(mangaNelGraphQLEndpoint string) func() (Provider, error) {
-	return func() (Provider, error) {
+func NewMangaNelProviderFactory(mangaNelGraphQLEndpoint string) func() (domain.Provider, error) {
+	return func() (domain.Provider, error) {
 
 		// Increased timeout to allow for browser download if needed
 		ctx, cancel := context.WithTimeout(context.Background(), 2*time.Minute)
@@ -99,7 +99,7 @@ type mangaNelProvider struct {
 	mutex           sync.RWMutex
 }
 
-func (mp *mangaNelProvider) IsNewerVersionAvailable(manga domain.MangaEntity) (bool, error) {
+func (mp *mangaNelProvider) IsNewerVersionAvailable(ctx context.Context, manga domain.MangaEntity) (bool, error) {
 	if manga.IsNew() {
 		logMessage := fmt.Sprintf("Manga title (%s) that we have never synced before added for update notifications", manga.Name)
 		slog.Info(logMessage)
@@ -126,7 +126,7 @@ func (*mangaNelProvider) Kind() domain.MangaSource {
 	return domain.MangaSourceMangaNel
 }
 
-func (mp *mangaNelProvider) GetLatestVersionMangaEntity(manga domain.MangaEntity) (*domain.MangaEntity, error) {
+func (mp *mangaNelProvider) GetLatestVersionMangaEntity(ctx context.Context, manga domain.MangaEntity) (*domain.MangaEntity, error) {
 	mp.mutex.RLock()
 	defer mp.mutex.RUnlock()
 

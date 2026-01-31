@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log/slog"
 	"os"
@@ -32,13 +33,14 @@ func main() {
 	slog.SetDefault(logger)
 
 	ts := time.Now()
+	ctx := context.Background()
 
 	cfg := config{}
 	if err := env.Parse(&cfg); err != nil {
 		logger.Error("failed to parse configuration", "error", err)
 	}
 	store := store.NewStore(cfg.SeriesDataFolder)
-	persistedMangaSeries := store.GetMangaSeries()
+	persistedMangaSeries := store.GetMangaSeries(ctx)
 
 	if len(persistedMangaSeries) == 0 {
 		fmt.Println("No series to monitor")
@@ -80,7 +82,7 @@ func main() {
 		logger.Error("failed to create update checker service", "error", err)
 		os.Exit(1)
 	}
-	err = updatecheckerService.CheckForUpdates()
+	err = updatecheckerService.CheckForUpdates(ctx)
 	if err != nil {
 		logger.Error("failed to check for updates", "error", err)
 		os.Exit(1)

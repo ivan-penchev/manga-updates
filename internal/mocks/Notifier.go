@@ -3,6 +3,8 @@
 package mocks
 
 import (
+	context "context"
+
 	mock "github.com/stretchr/testify/mock"
 
 	domain "github.com/ivan-penchev/manga-updates/internal/domain"
@@ -21,17 +23,17 @@ func (_m *NotifierMock) EXPECT() *NotifierMock_Expecter {
 	return &NotifierMock_Expecter{mock: &_m.Mock}
 }
 
-// NotifyForNewChapter provides a mock function with given fields: chapter, fromManga
-func (_m *NotifierMock) NotifyForNewChapter(chapter domain.ChapterEntity, fromManga domain.MangaEntity) error {
-	ret := _m.Called(chapter, fromManga)
+// NotifyForNewChapter provides a mock function with given fields: ctx, chapter, fromManga
+func (_m *NotifierMock) NotifyForNewChapter(ctx context.Context, chapter domain.ChapterEntity, fromManga domain.MangaEntity) error {
+	ret := _m.Called(ctx, chapter, fromManga)
 
 	if len(ret) == 0 {
 		panic("no return value specified for NotifyForNewChapter")
 	}
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(domain.ChapterEntity, domain.MangaEntity) error); ok {
-		r0 = rf(chapter, fromManga)
+	if rf, ok := ret.Get(0).(func(context.Context, domain.ChapterEntity, domain.MangaEntity) error); ok {
+		r0 = rf(ctx, chapter, fromManga)
 	} else {
 		r0 = ret.Error(0)
 	}
@@ -45,15 +47,16 @@ type NotifierMock_NotifyForNewChapter_Call struct {
 }
 
 // NotifyForNewChapter is a helper method to define mock.On call
+//   - ctx context.Context
 //   - chapter domain.ChapterEntity
 //   - fromManga domain.MangaEntity
-func (_e *NotifierMock_Expecter) NotifyForNewChapter(chapter interface{}, fromManga interface{}) *NotifierMock_NotifyForNewChapter_Call {
-	return &NotifierMock_NotifyForNewChapter_Call{Call: _e.mock.On("NotifyForNewChapter", chapter, fromManga)}
+func (_e *NotifierMock_Expecter) NotifyForNewChapter(ctx interface{}, chapter interface{}, fromManga interface{}) *NotifierMock_NotifyForNewChapter_Call {
+	return &NotifierMock_NotifyForNewChapter_Call{Call: _e.mock.On("NotifyForNewChapter", ctx, chapter, fromManga)}
 }
 
-func (_c *NotifierMock_NotifyForNewChapter_Call) Run(run func(chapter domain.ChapterEntity, fromManga domain.MangaEntity)) *NotifierMock_NotifyForNewChapter_Call {
+func (_c *NotifierMock_NotifyForNewChapter_Call) Run(run func(ctx context.Context, chapter domain.ChapterEntity, fromManga domain.MangaEntity)) *NotifierMock_NotifyForNewChapter_Call {
 	_c.Call.Run(func(args mock.Arguments) {
-		run(args[0].(domain.ChapterEntity), args[1].(domain.MangaEntity))
+		run(args[0].(context.Context), args[1].(domain.ChapterEntity), args[2].(domain.MangaEntity))
 	})
 	return _c
 }
@@ -63,7 +66,7 @@ func (_c *NotifierMock_NotifyForNewChapter_Call) Return(_a0 error) *NotifierMock
 	return _c
 }
 
-func (_c *NotifierMock_NotifyForNewChapter_Call) RunAndReturn(run func(domain.ChapterEntity, domain.MangaEntity) error) *NotifierMock_NotifyForNewChapter_Call {
+func (_c *NotifierMock_NotifyForNewChapter_Call) RunAndReturn(run func(context.Context, domain.ChapterEntity, domain.MangaEntity) error) *NotifierMock_NotifyForNewChapter_Call {
 	_c.Call.Return(run)
 	return _c
 }

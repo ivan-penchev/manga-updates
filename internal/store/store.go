@@ -1,6 +1,7 @@
 package store
 
 import (
+	"context"
 	"encoding/json"
 	"io/fs"
 	"os"
@@ -12,8 +13,8 @@ import (
 )
 
 type Store interface {
-	GetMangaSeries() map[string]domain.MangaEntity
-	PersistManagaTitle(location string, mangaTitle domain.MangaEntity) error
+	GetMangaSeries(ctx context.Context) map[string]domain.MangaEntity
+	PersistManagaTitle(ctx context.Context, location string, mangaTitle domain.MangaEntity) error
 }
 
 type fileStore struct {
@@ -21,13 +22,13 @@ type fileStore struct {
 }
 
 // PersistestManagaTitle implements Store
-func (*fileStore) PersistManagaTitle(location string, mangaTitle domain.MangaEntity) error {
+func (f *fileStore) PersistManagaTitle(ctx context.Context, location string, mangaTitle domain.MangaEntity) error {
 	file, _ := json.MarshalIndent(mangaTitle, "", " ")
 	return os.WriteFile(location, file, 0644)
 }
 
 // GetMangaSeries returns the file location and file data
-func (f *fileStore) GetMangaSeries() map[string]domain.MangaEntity {
+func (f *fileStore) GetMangaSeries(ctx context.Context) map[string]domain.MangaEntity {
 	persistedMangaSeries := make(map[string]domain.MangaEntity, 0)
 	files := glob(f.location, func(s string) bool {
 		return filepath.Ext(s) == ".json"
@@ -50,6 +51,7 @@ func (f *fileStore) GetMangaSeries() map[string]domain.MangaEntity {
 		}
 		persistedMangaSeries[file] = mangaSeries
 	}
+
 	return persistedMangaSeries
 }
 

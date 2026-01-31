@@ -1,13 +1,14 @@
 package notifier
 
 import (
+	"context"
 	"log/slog"
 
 	"github.com/ivan-penchev/manga-updates/internal/domain"
 )
 
 type Notifier interface {
-	NotifyForNewChapter(chapter domain.ChapterEntity, fromManga domain.MangaEntity) error
+	NotifyForNewChapter(ctx context.Context, chapter domain.ChapterEntity, fromManga domain.MangaEntity) error
 }
 
 const (

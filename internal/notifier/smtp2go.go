@@ -2,6 +2,7 @@ package notifier
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -107,7 +108,7 @@ func (s smtp2goNotifier) sendAPIRequest(endpoint string, requestBody io.Reader) 
 	return ret, nil
 }
 
-func (s smtp2goNotifier) NotifyForNewChapter(chapter domain.ChapterEntity, fromManga domain.MangaEntity) error {
+func (s smtp2goNotifier) NotifyForNewChapter(ctx context.Context, chapter domain.ChapterEntity, fromManga domain.MangaEntity) error {
 	fromEmail := fmt.Sprintf("Manga Notify <%s>", s.config.fromEmail)
 	toEmails := make([]string, len(s.config.recipients))
 	for i, recipient := range s.config.recipients {
