@@ -174,6 +174,32 @@ func (mp *mangaNelProvider) IsNewerVersionAvailable(ctx context.Context, manga d
 	return manga.IsOlder(*mangaResponse), nil
 }
 
+func (mnp *mangaNelProvider) Search(ctx context.Context, query string, offset int) ([]domain.SearchResult, int, error) {
+	res, err := mnp.mangaNelClient.Search(ctx, query, offset)
+	if err != nil {
+		return nil, 0, err
+	}
+
+	var results []domain.SearchResult
+	for _, row := range res.Search.Rows {
+		// Construct URL if possible or just store slug. Manganel URL usually depends on the specific site being used. But we can store the slug.
+		results = append(results, domain.SearchResult{
+			Manga: domain.MangaEntity{
+				Name:   row.Title,
+				Slug:   row.Slug,
+				Status: domain.MangaStatus(row.Status),
+				Source: domain.MangaSourceMangaNel,
+			},
+			Rank:          row.Rank,
+			ImageURL:      "https://avt.mkklcdnv6temp.com/" + row.Image, // This base URL is a guess, might need adjustment or config
+			URL:           "https://chapmanganato.to/" + row.Slug,       // Also a guess based on usual behavior
+			LatestChapter: fmt.Sprintf("%v", row.LatestChapter),
+		})
+	}
+
+	return results, res.Search.Count, nil
+}
+
 func (*mangaNelProvider) Kind() domain.MangaSource {
 	return domain.MangaSourceMangaNel
 }

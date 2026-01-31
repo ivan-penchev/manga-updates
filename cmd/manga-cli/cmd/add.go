@@ -14,7 +14,12 @@ import (
 var addCmd = &cobra.Command{
 	Use:   "add [url]",
 	Short: "Add a new manga series",
-	Args:  cobra.ExactArgs(1),
+	Long: `Add a new manga series to the tracking list by providing its URL.
+It automatically detects the provider (MangaDex or Manganelo), fetches the manga details,
+and saves it to the local store for tracking updates.`,
+	Example: `  manga-cli add https://mangadex.org/title/0328cd58-d519-45b6-abd2-049cfe63790b/kanmuri-san-no-tokei-koubou
+  manga-cli add https://manganel.me/manga/god-of-martial-arts`,
+	Args: cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		logger := slog.Default()
 		url := args[0]
@@ -41,14 +46,11 @@ var addCmd = &cobra.Command{
 
 		ctx := context.Background()
 
-		// 1. Find correct provider
 		p, err := providerRouter.GetProviderForURL(url)
 		if err != nil {
 			logger.Error("failed to find provider for url", "url", url, "error", err)
 			os.Exit(1)
 		}
-
-		// 2. Fetch series details
 		manga, err := p.GetMangaFromURL(ctx, url)
 		if err != nil {
 			logger.Error("failed to fetch manga details", "url", url, "error", err)

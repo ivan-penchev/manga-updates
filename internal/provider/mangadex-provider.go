@@ -216,6 +216,78 @@ func (*mangaDexProvider) Kind() domain.MangaSource {
 	return domain.MangaSourceMangaDex
 }
 
+func (mdp *mangaDexProvider) Search(ctx context.Context, query string, offset int) ([]domain.SearchResult, int, error) {
+	v := url.Values{}
+	v.Add("title", query)
+	v.Add("limit", "20")
+	v.Add("offset", strconv.Itoa(offset))
+	// Default sort by followed count descending (popular) and relevance
+	v.Add("order[followedCount]", "desc")
+	v.Add("order[relevance]", "desc")
+
+	v.Add("contentRating[]", "safe")
+	v.Add("contentRating[]", "suggestive")
+	v.Add("contentRating[]", "erotica")
+
+	v.Add("includes[]", "cover_art")
+
+	mangaList, err := mdp.mangaDexClient.Manga.GetMangaList(v)
+	if err != nil {
+		return nil, 0, fmt.Errorf("failed to search mangadex: %w", err)
+	}
+
+	var results []domain.SearchResult
+	for _, m := range mangaList.Data {
+		if m.Type != "manga" {
+			continue
+		}
+
+		title := m.Attributes.Title.GetLocalString("en")
+		if title == "" {
+			title = m.Attributes.AltTitles.GetLocalString("en")
+			if title == "" {
+				title = "Unknown Title"
+			}
+		}
+
+		var imageURL string
+		for _, rel := range m.Relationships {
+			if rel.Type == "cover_art" {
+				// Attributes is interface{}, usually map[string]interface{}
+				if attrs, ok := rel.Attributes.(map[string]any); ok {
+					if fileName, ok := attrs["fileName"].(string); ok {
+						imageURL = fmt.Sprintf("https://uploads.mangadex.org/covers/%s/%s", m.ID, fileName)
+					}
+				}
+			}
+		}
+
+		var latestChapter string
+		if m.Attributes.LastChapter != nil {
+			latestChapter = *m.Attributes.LastChapter
+		}
+
+		var status domain.MangaStatus
+		if m.Attributes.Status != nil {
+			status = domain.MangaStatus(*m.Attributes.Status)
+		}
+
+		results = append(results, domain.SearchResult{
+			Manga: domain.MangaEntity{
+				Name:   title,
+				Slug:   m.ID,
+				Status: status,
+				Source: domain.MangaSourceMangaDex,
+			},
+			ImageURL:      imageURL,
+			URL:           fmt.Sprintf("https://mangadex.org/title/%s", m.ID),
+			LatestChapter: latestChapter,
+		})
+	}
+
+	return results, mangaList.Total, nil
+}
+
 func convertChapterToEntity(chapter m.Chapter) (domain.ChapterEntity, error) {
 	var number *float64
 	var date *time.Time

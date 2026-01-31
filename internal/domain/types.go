@@ -56,6 +56,15 @@ type Provider interface {
 	GetMangaFromURL(ctx context.Context, url string) (MangaEntity, error)
 	IsNewerVersionAvailable(ctx context.Context, manga MangaEntity) (bool, error)
 	Supports(url string) bool
+	Search(ctx context.Context, query string, offset int) ([]SearchResult, int, error)
+}
+
+type SearchResult struct {
+	Manga         MangaEntity
+	Rank          int
+	ImageURL      string
+	URL           string
+	LatestChapter string
 }
 
 type ProviderRouter interface {

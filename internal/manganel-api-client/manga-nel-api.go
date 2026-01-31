@@ -184,3 +184,45 @@ func getQueryForSlug(slug string, includeChapters bool) string {
 }	
 `, slug)
 }
+
+func (c *MangaNelAPIClient) Search(ctx context.Context, query string, offset int) (*SearchResponse, error) {
+	req := graphql.NewRequest(buildSearchQuery(query, offset))
+	req.Header.Add("Origin", "https://manganel.me")
+	req.Header.Add("Referer", "https://manganel.me/")
+	req.Header.Add("X-Mhub-Access", c.apiKey)
+	req.Header.Add("user-agent", "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Mobile Safari/537.36")
+	req.Header.Add("Sec-Ch-Ua", `"Not)A;Brand";v="8", "Chromium";v="138", "Google Chrome";v="138""`)
+
+	var res SearchResponse
+	if err := c.client.Run(ctx, req, &res); err != nil {
+		return nil, err
+	}
+	return &res, nil
+}
+
+func buildSearchQuery(q string, offset int) string {
+	return fmt.Sprintf(`
+{
+	search(x:mn05,q:"%s",genre:"all",mod:POPULAR,count:true,offset:%d){
+		rows{
+			id,rank,title,slug,status,author,genres,image,latestChapter,isLicensed,createdDate
+		},
+		count
+	}
+}`, q, offset)
+}
+
+type SearchResponse struct {
+	Search struct {
+		Count int `json:"count"`
+		Rows  []struct {
+			ID            int         `json:"id"`
+			Rank          int         `json:"rank"`
+			Title         string      `json:"title"`
+			Slug          string      `json:"slug"`
+			Status        string      `json:"status"`
+			Image         string      `json:"image"`
+			LatestChapter interface{} `json:"latestChapter"`
+		} `json:"rows"`
+	} `json:"search"`
+}
