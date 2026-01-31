@@ -32,7 +32,7 @@ func (s *memoryStore) GetMangaSeries(ctx context.Context) map[string]domain.Mang
 	return result
 }
 
-func (s *memoryStore) PersistManagaTitle(ctx context.Context, location string, mangaTitle domain.MangaEntity) error {
+func (s *memoryStore) PersistMangaTitle(ctx context.Context, location string, mangaTitle domain.MangaEntity) error {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	s.mangas[location] = mangaTitle

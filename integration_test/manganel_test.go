@@ -19,7 +19,7 @@ func setupUpdateCheckerServiceWithMocks(t *testing.T, mangaPathsWithMans map[str
 	mockStore := mocks.NewMockStore(t)
 	mockNotifier := mocks.NewMockNotifier(t)
 	mockStore.On("GetMangaSeries", mock.Anything).Return(mangaPathsWithMans)
-	mockStore.On("PersistManagaTitle", mock.Anything, mock.Anything, mock.Anything).Return(nil)
+	mockStore.On("PersistMangaTitle", mock.Anything, mock.Anything, mock.Anything).Return(nil)
 	if shouldNotify {
 		mockNotifier.On("NotifyForNewChapter", mock.Anything, mock.Anything, mock.Anything).Return(nil)
 	}
@@ -122,7 +122,7 @@ func TestMangaNel(t *testing.T) {
 
 		foundMockStoreInvocation := false
 		for _, call := range mockStore.Calls {
-			if call.Method == "PersistManagaTitle" {
+			if call.Method == "PersistMangaTitle" {
 				foundMockStoreInvocation = true
 				savedMangaEntity, ok := call.Maybe().Arguments.Get(2).(domain.MangaEntity)
 				assert.True(t, ok)

@@ -15,7 +15,7 @@ import (
 
 type Store interface {
 	GetMangaSeries(ctx context.Context) map[string]domain.MangaEntity
-	PersistManagaTitle(ctx context.Context, location string, mangaTitle domain.MangaEntity) error
+	PersistMangaTitle(ctx context.Context, location string, mangaTitle domain.MangaEntity) error
 	AddManga(ctx context.Context, manga domain.MangaEntity) error
 }
 
@@ -23,8 +23,8 @@ type fileStore struct {
 	location string
 }
 
-// PersistestManagaTitle implements Store
-func (f *fileStore) PersistManagaTitle(ctx context.Context, location string, mangaTitle domain.MangaEntity) error {
+// PersistestMangaTitle implements Store
+func (f *fileStore) PersistMangaTitle(ctx context.Context, location string, mangaTitle domain.MangaEntity) error {
 	file, _ := json.MarshalIndent(mangaTitle, "", " ")
 	return os.WriteFile(location, file, 0644)
 }
@@ -41,7 +41,7 @@ func (f *fileStore) AddManga(ctx context.Context, manga domain.MangaEntity) erro
 		return fmt.Errorf("manga with slug %s already exists at %s", manga.Slug, fullPath)
 	}
 
-	return f.PersistManagaTitle(ctx, fullPath, manga)
+	return f.PersistMangaTitle(ctx, fullPath, manga)
 }
 
 // GetMangaSeries returns the file location and file data

@@ -57,12 +57,9 @@ and saves it to the local store for tracking updates.`,
 			os.Exit(1)
 		}
 
-		// 3. Set defaults
 		manga.ShouldNotify = true
-		// Source is likely already set by GetMangaFromURL but ensure it matches provider kind
 		manga.Source = p.Kind()
 
-		// 4. Save to store
 		err = store.AddManga(ctx, manga)
 		if err != nil {
 			logger.Error("failed to save series to store", "manga", manga.Name, "error", err)

@@ -191,8 +191,8 @@ func (mnp *mangaNelProvider) Search(ctx context.Context, query string, offset in
 				Source: domain.MangaSourceMangaNel,
 			},
 			Rank:          row.Rank,
-			ImageURL:      "https://avt.mkklcdnv6temp.com/" + row.Image, // This base URL is a guess, might need adjustment or config
-			URL:           "https://chapmanganato.to/" + row.Slug,       // Also a guess based on usual behavior
+			ImageURL:      "https://thumb.mghcdn.com/" + row.Image, // This base URL is a guess, might need adjustment or config
+			URL:           "https://manganel.me/" + row.Slug,       // Also a guess based on usual behavior
 			LatestChapter: fmt.Sprintf("%v", row.LatestChapter),
 		})
 	}

@@ -148,12 +148,12 @@ func (_c *MockStore_GetMangaSeries_Call) RunAndReturn(run func(ctx context.Conte
 	return _c
 }
 
-// PersistManagaTitle provides a mock function for the type MockStore
-func (_mock *MockStore) PersistManagaTitle(ctx context.Context, location string, mangaTitle domain.MangaEntity) error {
+// PersistMangaTitle provides a mock function for the type MockStore
+func (_mock *MockStore) PersistMangaTitle(ctx context.Context, location string, mangaTitle domain.MangaEntity) error {
 	ret := _mock.Called(ctx, location, mangaTitle)
 
 	if len(ret) == 0 {
-		panic("no return value specified for PersistManagaTitle")
+		panic("no return value specified for PersistMangaTitle")
 	}
 
 	var r0 error
@@ -165,20 +165,20 @@ func (_mock *MockStore) PersistManagaTitle(ctx context.Context, location string,
 	return r0
 }
 
-// MockStore_PersistManagaTitle_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'PersistManagaTitle'
-type MockStore_PersistManagaTitle_Call struct {
+// MockStore_PersistMangaTitle_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'PersistMangaTitle'
+type MockStore_PersistMangaTitle_Call struct {
 	*mock.Call
 }
 
-// PersistManagaTitle is a helper method to define mock.On call
+// PersistMangaTitle is a helper method to define mock.On call
 //   - ctx context.Context
 //   - location string
 //   - mangaTitle domain.MangaEntity
-func (_e *MockStore_Expecter) PersistManagaTitle(ctx interface{}, location interface{}, mangaTitle interface{}) *MockStore_PersistManagaTitle_Call {
-	return &MockStore_PersistManagaTitle_Call{Call: _e.mock.On("PersistManagaTitle", ctx, location, mangaTitle)}
+func (_e *MockStore_Expecter) PersistMangaTitle(ctx interface{}, location interface{}, mangaTitle interface{}) *MockStore_PersistMangaTitle_Call {
+	return &MockStore_PersistMangaTitle_Call{Call: _e.mock.On("PersistMangaTitle", ctx, location, mangaTitle)}
 }
 
-func (_c *MockStore_PersistManagaTitle_Call) Run(run func(ctx context.Context, location string, mangaTitle domain.MangaEntity)) *MockStore_PersistManagaTitle_Call {
+func (_c *MockStore_PersistMangaTitle_Call) Run(run func(ctx context.Context, location string, mangaTitle domain.MangaEntity)) *MockStore_PersistMangaTitle_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		var arg0 context.Context
 		if args[0] != nil {
@@ -201,12 +201,12 @@ func (_c *MockStore_PersistManagaTitle_Call) Run(run func(ctx context.Context, l
 	return _c
 }
 
-func (_c *MockStore_PersistManagaTitle_Call) Return(err error) *MockStore_PersistManagaTitle_Call {
+func (_c *MockStore_PersistMangaTitle_Call) Return(err error) *MockStore_PersistMangaTitle_Call {
 	_c.Call.Return(err)
 	return _c
 }
 
-func (_c *MockStore_PersistManagaTitle_Call) RunAndReturn(run func(ctx context.Context, location string, mangaTitle domain.MangaEntity) error) *MockStore_PersistManagaTitle_Call {
+func (_c *MockStore_PersistMangaTitle_Call) RunAndReturn(run func(ctx context.Context, location string, mangaTitle domain.MangaEntity) error) *MockStore_PersistMangaTitle_Call {
 	_c.Call.Return(run)
 	return _c
 }
