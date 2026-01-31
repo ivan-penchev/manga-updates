@@ -10,6 +10,7 @@ require (
 	github.com/go-rod/rod v0.116.2
 	github.com/machinebox/graphql v0.2.2
 	github.com/sendgrid/sendgrid-go v3.16.1+incompatible
+	github.com/spf13/cobra v1.10.2
 	github.com/stretchr/testify v1.11.1
 )
 
@@ -27,7 +28,6 @@ require (
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/rogpeppe/go-internal v1.13.1 // indirect
 	github.com/sendgrid/rest v2.6.9+incompatible // indirect
-	github.com/spf13/cobra v1.10.2 // indirect
 	github.com/spf13/pflag v1.0.10 // indirect
 	github.com/stretchr/objx v0.5.2 // indirect
 	github.com/ysmood/fetchup v0.2.3 // indirect
