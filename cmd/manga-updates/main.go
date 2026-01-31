@@ -14,7 +14,6 @@ import (
 	updatechecker "github.com/ivan-penchev/manga-updates/internal/update-checker"
 )
 
-
 func main() {
 	logger := slog.New(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{
 		Level: slog.LevelInfo,
@@ -57,7 +56,10 @@ func main() {
 	}
 
 	providerRouter, err := provider.NewProviderRouter(
-		provider.NewMangaNelProviderFactory(cfg.MangaNelGraphQLEndpoint),
+		provider.NewMangaNelProviderFactory(provider.MangaNelProviderConfig{
+			GraphQLEndpoint: cfg.MangaNelGraphQLEndpoint,
+			RemoteChromeURL: cfg.RemoteChromeURL,
+		}),
 		provider.NewMangaDexProviderFactory(),
 	)
 

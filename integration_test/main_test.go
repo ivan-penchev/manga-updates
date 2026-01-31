@@ -13,7 +13,10 @@ var providerRouter domain.ProviderRouter
 func TestMain(m *testing.M) {
 	var err error
 	providerRouter, err = provider.NewProviderRouter(
-		provider.NewMangaNelProviderFactory("https://api.mghcdn.com/graphql"),
+		provider.NewMangaNelProviderFactory(provider.MangaNelProviderConfig{
+			GraphQLEndpoint: "https://api.mghcdn.com/graphql",
+			RemoteChromeURL: os.Getenv("REMOTE_CHROME_URL"),
+		}),
 	)
 	if err != nil {
 		panic(err)

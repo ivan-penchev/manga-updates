@@ -3,7 +3,6 @@ package provider
 import (
 	"context"
 	"fmt"
-	"os"
 
 	"log/slog"
 	"sync"
@@ -17,7 +16,12 @@ import (
 	manganelapiclient "github.com/ivan-penchev/manga-updates/internal/manganel-api-client"
 )
 
-func NewMangaNelProviderFactory(mangaNelGraphQLEndpoint string) func() (domain.Provider, error) {
+type MangaNelProviderConfig struct {
+	GraphQLEndpoint string
+	RemoteChromeURL string
+}
+
+func NewMangaNelProviderFactory(cfg MangaNelProviderConfig) func() (domain.Provider, error) {
 	return func() (domain.Provider, error) {
 
 		// Increased timeout to allow for browser download if needed
@@ -27,7 +31,7 @@ func NewMangaNelProviderFactory(mangaNelGraphQLEndpoint string) func() (domain.P
 		var allocCtx context.Context
 		var cancelAlloc context.CancelFunc
 
-		remoteURL := os.Getenv("REMOTE_CHROME_URL")
+		remoteURL := cfg.RemoteChromeURL
 		if remoteURL != "" {
 			allocCtx, cancelAlloc = chromedp.NewRemoteAllocator(ctx, remoteURL)
 
@@ -82,7 +86,7 @@ func NewMangaNelProviderFactory(mangaNelGraphQLEndpoint string) func() (domain.P
 			return nil, err
 		}
 
-		mangaNelClient := manganelapiclient.NewMangaNelAPIClient(mangaNelGraphQLEndpoint, mhubApiAccessToken)
+		mangaNelClient := manganelapiclient.NewMangaNelAPIClient(cfg.GraphQLEndpoint, mhubApiAccessToken)
 
 		return &mangaNelProvider{
 			mangaNelClient:  mangaNelClient,
