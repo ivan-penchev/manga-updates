@@ -13,3 +13,7 @@ build:
 lint:
 	@echo "Running linter..."
 	golangci-lint run
+
+mocks:
+	@echo "Generating mocks..."
+	go tool github.com/vektra/mockery/v3

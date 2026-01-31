@@ -13,7 +13,7 @@ type Notifier interface {
 
 type Store interface {
 	GetMangaSeries(ctx context.Context) map[string]domain.MangaEntity
-	PersistManagaTitle(ctx context.Context, location string, mangaTitle domain.MangaEntity) error
+	PersistMangaTitle(ctx context.Context, location string, mangaTitle domain.MangaEntity) error
 }
 
 type UpdateCheckerService struct {
@@ -61,7 +61,7 @@ func (ucs *UpdateCheckerService) CheckForUpdates(ctx context.Context) error {
 				continue
 			}
 
-			err = ucs.store.PersistManagaTitle(ctx, path, *mangaResponse)
+			err = ucs.store.PersistMangaTitle(ctx, path, *mangaResponse)
 			if err != nil {
 				ucs.logger.Error("failed to persist manga", "manga", manga, "error", err)
 				continue

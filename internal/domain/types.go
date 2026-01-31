@@ -53,11 +53,23 @@ func (m *MangaEntity) IsOlder(n MangaEntity) bool {
 type Provider interface {
 	Kind() MangaSource
 	GetLatestVersionMangaEntity(ctx context.Context, manga MangaEntity) (*MangaEntity, error)
+	GetMangaFromURL(ctx context.Context, url string) (MangaEntity, error)
 	IsNewerVersionAvailable(ctx context.Context, manga MangaEntity) (bool, error)
+	Supports(url string) bool
+	Search(ctx context.Context, query string, offset int) ([]SearchResult, int, error)
+}
+
+type SearchResult struct {
+	Manga         MangaEntity
+	Rank          int
+	ImageURL      string
+	URL           string
+	LatestChapter string
 }
 
 type ProviderRouter interface {
 	GetProvider(manga MangaEntity) (Provider, error)
+	GetProviderForURL(url string) (Provider, error)
 }
 
 // returns the missing chapters between the current manga and the new one

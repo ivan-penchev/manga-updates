@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"flag"
 	"fmt"
 	"log/slog"
 	"os"
@@ -15,6 +16,9 @@ import (
 )
 
 func main() {
+	configFlag := flag.String("config", "", "config file path")
+	flag.Parse()
+
 	logger := slog.New(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{
 		Level: slog.LevelInfo,
 	}))
@@ -23,7 +27,7 @@ func main() {
 	ts := time.Now()
 	ctx := context.Background()
 
-	cfg, err := config.Load()
+	cfg, err := config.Load(*configFlag)
 	if err != nil {
 		logger.Error("failed to parse configuration", "error", err)
 		os.Exit(1)
@@ -37,16 +41,16 @@ func main() {
 	}
 
 	notifierOptions := []notifier.NotifierOption{
-		notifier.WithRecipients(cfg.NotificationRecipientEmail),
-		notifier.WithSenderEmail(cfg.NotificationSenderEmail),
+		notifier.WithRecipients(cfg.Notifier.RecipientEmail),
+		notifier.WithSenderEmail(cfg.Notifier.SenderEmail),
 	}
 
-	if cfg.SendGridAPIKey != "" {
-		notifierOptions = append(notifierOptions, notifier.WithTemplateID(cfg.SendGridTemplateId))
-		notifierOptions = append(notifierOptions, notifier.WithSendGridAPIKey(cfg.SendGridAPIKey))
-	} else if cfg.SMTP2GOApiKey != "" {
-		notifierOptions = append(notifierOptions, notifier.WithTemplateID(cfg.SMTP2GOTemplateId))
-		notifierOptions = append(notifierOptions, notifier.WithSMTP2GOAPIKey(cfg.SMTP2GOApiKey))
+	if cfg.Notifier.SendGrid.APIKey != "" {
+		notifierOptions = append(notifierOptions, notifier.WithTemplateID(cfg.Notifier.SendGrid.TemplateID))
+		notifierOptions = append(notifierOptions, notifier.WithSendGridAPIKey(cfg.Notifier.SendGrid.APIKey))
+	} else if cfg.Notifier.SMTP2GO.APIKey != "" {
+		notifierOptions = append(notifierOptions, notifier.WithTemplateID(cfg.Notifier.SMTP2GO.TemplateID))
+		notifierOptions = append(notifierOptions, notifier.WithSMTP2GOAPIKey(cfg.Notifier.SMTP2GO.APIKey))
 	}
 
 	notifier, err := notifier.NewNotifier(notifierOptions...)
