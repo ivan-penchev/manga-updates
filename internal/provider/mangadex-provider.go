@@ -4,9 +4,12 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"log/slog"
 	"net/url"
+	"regexp"
 	"sort"
 	"strconv"
+	"strings"
 	"sync"
 	"time"
 
@@ -21,12 +24,58 @@ type mangaDexProvider struct {
 }
 
 func (mdp *mangaDexProvider) Supports(url string) bool {
-	// Not implemented for now, just example stub
-	return false
+	return strings.Contains(url, "mangadex.org")
 }
 
-func (mdp *mangaDexProvider) GetMangaFromURL(ctx context.Context, url string) (domain.MangaEntity, error) {
-	return domain.MangaEntity{}, errors.New("not implemented")
+func (mdp *mangaDexProvider) GetMangaFromURL(ctx context.Context, u string) (domain.MangaEntity, error) {
+	// Regex for: https://mangadex.org/title/633d470a-4146-4dd3-b841-93dd648c23a5/...
+	// We extract the UUID
+	re := regexp.MustCompile(`mangadex\.org/title/([a-f0-9\-]+)`)
+	matches := re.FindStringSubmatch(u)
+	if len(matches) < 2 {
+		return domain.MangaEntity{}, fmt.Errorf("invalid mangadex url: %s", u)
+	}
+	mangaID := matches[1]
+
+	// Fetch details using GetMangaList with ID filter as GetManga might not exist or verify existence
+	v := url.Values{}
+	v.Add("ids[]", mangaID)
+	mangaList, err := mdp.mangaDexClient.Manga.GetMangaList(v)
+	if err != nil {
+		return domain.MangaEntity{}, fmt.Errorf("failed to fetch manga details: %w", err)
+	}
+
+	if len(mangaList.Data) == 0 {
+		return domain.MangaEntity{}, fmt.Errorf("manga details not found for id: %s", mangaID)
+	}
+
+	mangaData := mangaList.Data[0]
+
+	title := mangaData.Attributes.Title.GetLocalString("en")
+	if title == "" {
+		title = mangaData.Attributes.AltTitles.GetLocalString("en")
+		if title == "" {
+			title = "Unknown Title"
+		}
+	}
+
+	dummy := domain.MangaEntity{
+		Slug:         mangaID,
+		Name:         title,
+		Source:       domain.MangaSourceMangaDex,
+		ShouldNotify: true,
+	}
+
+	fetched, err := mdp.GetLatestVersionMangaEntity(ctx, dummy)
+	if err != nil {
+		return domain.MangaEntity{}, err
+	}
+
+	if fetched == nil {
+		return domain.MangaEntity{}, fmt.Errorf("failed to fetch chapters for manga %s", mangaID)
+	}
+
+	return *fetched, nil
 }
 
 func NewMangaDexProviderFactory() func() (domain.Provider, error) {
@@ -107,43 +156,60 @@ func (mdp *mangaDexProvider) GetLatestVersionMangaEntity(ctx context.Context, ma
 
 // IsNewerVersionAvailable implements Provider.
 func (mdp *mangaDexProvider) IsNewerVersionAvailable(ctx context.Context, manga domain.MangaEntity) (bool, error) {
-
-	v := url.Values{}
-	v.Add("title", manga.Name)
-	v.Add("order[relevance]", "desc")
-
-	res, err := mdp.mangaDexClient.Manga.GetMangaList(v)
-
-	if err != nil {
-		return false, err
+	if manga.IsNew() {
+		logMessage := fmt.Sprintf("Manga title (%s) that we have never synced before added for update notifications", manga.Name)
+		slog.Info(logMessage)
+		return true, nil
 	}
 
-	// try to find manga in the list response
-	for _, m := range res.Data {
-		if m.ID == manga.Slug {
-			// check if the latest chapter is inside the list of chapters we have
-			// but only do so, if the latest chapter is not empty, otherwise we can't compare.
-			if m.Attributes.LastChapter != nil && *m.Attributes.LastChapter != "" {
-				for _, c := range manga.Chapters {
-					// if we have the latest chapter exist, we don't need to update
-					if c.Slug == m.Attributes.LastChapter {
-						return false, nil
-					}
-				}
-				// we have not found the latest chapter, we need to update
-				return true, nil
-			} else {
-				// if the latest chapter on the manga object is empty,
-				// we can't compare, so we need to fetch the whole list of chapters
-				// and compare the latest chapter from the list,
-				// we do that by saying we need to update.
-				return true, nil
-			}
+	v := url.Values{}
+	v.Add("limit", "1")
+	v.Add("translatedLanguage[]", "en")
+	v.Add("order[chapter]", "desc")
 
+	// Fetch the latest chapter for this manga from the API
+	chaptersRes, err := mdp.mangaDexClient.Chapter.GetMangaChapters(manga.Slug, v)
+	if err != nil {
+		return false, fmt.Errorf("failed to fetch latest chapter: %w", err)
+	}
+
+	if len(chaptersRes.Data) == 0 {
+		return false, nil
+	}
+
+	latestChapter := chaptersRes.Data[0]
+
+	// Convert to entity to normalize fields using the same logic as fetch
+	latestEntity, err := convertChapterToEntity(latestChapter)
+	if err != nil {
+		// If we can't parse the latest chapter, we force an update safely?
+		// Or we log error? For now, let's assume if parsing fails we might want to check fully.
+		return true, nil
+	}
+
+	// 1. Check if we already have this specific chapter ID
+	for _, c := range manga.Chapters {
+		if c.Slug != nil && latestEntity.Slug != nil && *c.Slug == *latestEntity.Slug {
+			return false, nil
 		}
 	}
 
-	return false, errors.New("can't find the manga in the response from the api, or the response is empty")
+	// 2. Check if we have this chapter number (to avoid duplicates by different groups)
+	if latestEntity.Number != nil {
+		for _, c := range manga.Chapters {
+			if c.Number != nil {
+				diff := *c.Number - *latestEntity.Number
+				if diff < 0 {
+					diff = -diff
+				}
+				if diff < 0.0001 {
+					return false, nil
+				}
+			}
+		}
+	}
+
+	return true, nil
 }
 
 func (*mangaDexProvider) Kind() domain.MangaSource {
