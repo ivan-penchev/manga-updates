@@ -81,7 +81,7 @@ Examples:
 			fmt.Printf("Results from %s (Total: %d, Showing: %d, Offset: %d):\n", p.Kind(), totalCount, len(results), offset)
 
 			w := tabwriter.NewWriter(os.Stdout, 0, 0, 3, ' ', 0)
-			fmt.Fprintln(w, "TITLE\tLATEST CHAPTER\tRANK\tURL\tIMAGE")
+			_, _ = fmt.Fprintln(w, "TITLE\tLATEST CHAPTER\tRANK\tURL\tIMAGE")
 
 			for _, r := range results {
 				rankStr := "-"
@@ -99,9 +99,9 @@ Examples:
 					title = title[:47] + "..."
 				}
 
-				fmt.Fprintf(w, "%s\t%s\t%s\t%s\t%s\n", title, latestStr, rankStr, r.URL, r.ImageURL)
+				_, _ = fmt.Fprintf(w, "%s\t%s\t%s\t%s\t%s\n", title, latestStr, rankStr, r.URL, r.ImageURL)
 			}
-			w.Flush()
+			_ = w.Flush()
 			fmt.Println()
 		}
 	},
