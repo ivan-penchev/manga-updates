@@ -5,11 +5,29 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "mangaupdats",
+      "name": "manga-updates",
       "type": "go",
       "request": "launch",
       "mode": "debug",
       "program": "${workspaceFolder}/cmd/manga-updates",
+      "envFile": "${workspaceFolder}\\config\\local.env"
+    },
+    {
+      "name": "CLI: Add Series",
+      "type": "go",
+      "request": "launch",
+      "mode": "debug",
+      "program": "${workspaceFolder}/cmd/manga-cli",
+      "args": ["add", "https://manganel.me/manga/solo-leveling_102"],
+      "envFile": "${workspaceFolder}\\config\\local.env"
+    },
+    {
+      "name": "CLI: Update",
+      "type": "go",
+      "request": "launch",
+      "mode": "debug",
+      "program": "${workspaceFolder}/cmd/manga-cli",
+      "args": ["update"],
       "envFile": "${workspaceFolder}\\config\\local.env"
     }
   ]

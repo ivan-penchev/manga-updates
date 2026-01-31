@@ -20,6 +20,15 @@ type mangaDexProvider struct {
 	mutex           sync.RWMutex
 }
 
+func (mdp *mangaDexProvider) Supports(url string) bool {
+	// Not implemented for now, just example stub
+	return false
+}
+
+func (mdp *mangaDexProvider) GetMangaFromURL(ctx context.Context, url string) (domain.MangaEntity, error) {
+	return domain.MangaEntity{}, errors.New("not implemented")
+}
+
 func NewMangaDexProviderFactory() func() (domain.Provider, error) {
 	return func() (domain.Provider, error) {
 

@@ -119,6 +119,46 @@ func (_c *StoreMock_PersistManagaTitle_Call) RunAndReturn(run func(context.Conte
 	return _c
 }
 
+// AddManga provides a mock function with given fields: ctx, manga
+func (_m *StoreMock) AddManga(ctx context.Context, manga domain.MangaEntity) error {
+	ret := _m.Called(ctx, manga)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, domain.MangaEntity) error); ok {
+		r0 = rf(ctx, manga)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// StoreMock_AddManga_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'AddManga'
+type StoreMock_AddManga_Call struct {
+	*mock.Call
+}
+
+func (_e *StoreMock_Expecter) AddManga(ctx interface{}, manga interface{}) *StoreMock_AddManga_Call {
+	return &StoreMock_AddManga_Call{Call: _e.mock.On("AddManga", ctx, manga)}
+}
+
+func (_c *StoreMock_AddManga_Call) Run(run func(ctx context.Context, manga domain.MangaEntity)) *StoreMock_AddManga_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run(args[0].(context.Context), args[1].(domain.MangaEntity))
+	})
+	return _c
+}
+
+func (_c *StoreMock_AddManga_Call) Return(_a0 error) *StoreMock_AddManga_Call {
+	_c.Call.Return(_a0)
+	return _c
+}
+
+func (_c *StoreMock_AddManga_Call) RunAndReturn(run func(context.Context, domain.MangaEntity) error) *StoreMock_AddManga_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // NewStoreMock creates a new instance of StoreMock. It also registers a testing interface on the mock and a cleanup function to assert the mocks expectations.
 // The first argument is typically a *testing.T value.
 func NewStoreMock(t interface {

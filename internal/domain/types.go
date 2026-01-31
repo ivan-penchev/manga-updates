@@ -53,7 +53,9 @@ func (m *MangaEntity) IsOlder(n MangaEntity) bool {
 type Provider interface {
 	Kind() MangaSource
 	GetLatestVersionMangaEntity(ctx context.Context, manga MangaEntity) (*MangaEntity, error)
+	GetMangaFromURL(ctx context.Context, url string) (MangaEntity, error)
 	IsNewerVersionAvailable(ctx context.Context, manga MangaEntity) (bool, error)
+	Supports(url string) bool
 }
 
 type ProviderRouter interface {

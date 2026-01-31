@@ -8,6 +8,8 @@ import (
 	"sync"
 	"time"
 
+	"strings"
+
 	"github.com/chromedp/cdproto/storage"
 	"github.com/chromedp/chromedp"
 	"github.com/chromedp/chromedp/device"
@@ -103,6 +105,52 @@ type mangaNelProvider struct {
 	mutex           sync.RWMutex
 }
 
+func (mp *mangaNelProvider) Supports(url string) bool {
+	return strings.Contains(url, "manganel.me")
+}
+
+func extractSlugFromURL(u string) (string, error) {
+	parts := strings.Split(u, "/")
+	if len(parts) == 0 {
+		return "", fmt.Errorf("invalid url: %s", u)
+	}
+	slug := parts[len(parts)-1]
+	if slug == "" {
+		return "", fmt.Errorf("could not extract slug from url: %s", u)
+	}
+	return slug, nil
+}
+
+func (mp *mangaNelProvider) GetMangaFromURL(ctx context.Context, u string) (domain.MangaEntity, error) {
+	// url example: https://chapmanganato.to/manga-dr980474 OR https://manganato.com/manga-dr980474
+	// The slug is often the last part.
+	// NOTE: This implementation is very basic and fragile to URL structure changes.
+	slug, err := extractSlugFromURL(u)
+	if err != nil {
+		return domain.MangaEntity{}, err
+	}
+
+	// Create a dummy entity to fetch details
+	dummy := domain.MangaEntity{
+		Slug:   slug,
+		Source: domain.MangaSourceMangaNel,
+	}
+
+	// Use GetLatestVersionMangaEntity to fetch actual data
+	fetched, err := mp.GetLatestVersionMangaEntity(ctx, dummy)
+	if err != nil {
+		return domain.MangaEntity{}, err
+	}
+	if fetched == nil {
+		return domain.MangaEntity{}, fmt.Errorf("could not fetch manga details for slug %s", slug)
+	}
+
+	// Ensure source is set correctly on returned entity if not already
+	fetched.Source = domain.MangaSourceMangaNel
+
+	return *fetched, nil
+}
+
 func (mp *mangaNelProvider) IsNewerVersionAvailable(ctx context.Context, manga domain.MangaEntity) (bool, error) {
 	if manga.IsNew() {
 		logMessage := fmt.Sprintf("Manga title (%s) that we have never synced before added for update notifications", manga.Name)
@@ -139,10 +187,9 @@ func (mp *mangaNelProvider) GetLatestVersionMangaEntity(ctx context.Context, man
 	}
 
 	mangaResponse, err := mp.mangaNelClient.GetMangaSeriesFull(context.Background(), manga.Slug)
-	mangaResponse.ShouldNotify = manga.ShouldNotify
-
 	if err != nil {
 		return nil, err
 	}
+	mangaResponse.ShouldNotify = manga.ShouldNotify
 	return mangaResponse, nil
 }
