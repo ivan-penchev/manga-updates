@@ -53,14 +53,14 @@ func NewMangaNelProviderFactory(mangaNelGraphQLEndpoint string) func() (Provider
 		// Create the chromedp context from the allocator
 		innerCtx, cancelInner := chromedp.NewContext(allocCtx)
 		defer cancelInner()
-		randomPageFromProviderToOpen := "https://manganel.me/manga/my-wife-is-a-demon-queen"
+		pageToOpen := "https://manganel.me/"
 
 		// navigate to a page, wait for an element, click
 		var mhubApiAccessToken string
 		err := chromedp.Run(innerCtx,
-			chromedp.Emulate(device.IPhone13),
-			chromedp.Navigate(randomPageFromProviderToOpen),
-			chromedp.Sleep(4*time.Second),
+			chromedp.Emulate(device.IPhone15Pro),
+			chromedp.Navigate(pageToOpen),
+			chromedp.WaitVisible("body", chromedp.ByQuery),
 			chromedp.ActionFunc(func(ctx context.Context) error {
 				cookies, err := storage.GetCookies().Do(ctx)
 				if err != nil {
@@ -106,7 +106,7 @@ func (mp *mangaNelProvider) IsNewerVersionAvailable(manga types.MangaEntity) (bo
 		return true, nil
 	}
 
-	mangaResponse, err := mp.mangaNelClient.GetMangaSeriesFull(manga.Slug)
+	mangaResponse, err := mp.mangaNelClient.GetMangaSeriesFull(context.Background(), manga.Slug)
 
 	if err != nil {
 		return false, err
@@ -134,7 +134,7 @@ func (mp *mangaNelProvider) GetLatestVersionMangaEntity(manga types.MangaEntity)
 		return cachedManga, nil
 	}
 
-	mangaResponse, err := mp.mangaNelClient.GetMangaSeriesFull(manga.Slug)
+	mangaResponse, err := mp.mangaNelClient.GetMangaSeriesFull(context.Background(), manga.Slug)
 	mangaResponse.ShouldNotify = manga.ShouldNotify
 
 	if err != nil {
