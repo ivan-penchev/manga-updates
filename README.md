@@ -1,20 +1,5 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 <h3 align="center"><img alt="logo" src="./logo.webp" style="width: 20vw;"></h3>
 
-<<<<<<< HEAD
-## Add a new series to check for updates
-```sh
-## make a folder inside the data folder with the title name
-mkdir data/one-piece
-## copy the title template inside as data.json
-cp data/title.json.tpl data/one-piece/data.json 
-```
-Copy the slug from the url of the series e.g. https://manganel.me/manga/unexpected-accident has the slug of "unexpected-accident" inside the data.json file.
-
-=======
->>>>>>> 2251135 (chore: updated README)
 # Manga Updates
 
 This project started as a simple idea: to keep tabs on my favorite manga series and get a heads-up (via Email) whenever a new chapter dropped. The initial thought was to manage everything through a GitHub repository, with updates triggered by a scheduled GitHub Actions Workflow.
@@ -128,28 +113,22 @@ Currently we have:
 - **MangaDex:** Fetches manga updates from the MangaDex API, utilizing a dedicated client library (`mangodex`) for efficient data retrieval.
 
 ### Notifier 
+These components are responsible for delivering notifications to the user when new manga chapters are detected.
 - **SendGrid:** Sends email notifications via SendGrid.
 - **SMTP2GO:** Sends email notifications via SMTP2GO.
 - **Standard Output:** Prints notifications directly to the console (useful for testing and debugging).
 
 ### Store
-- **Local files (JSON):** Manga series data is stored and managed in local JSON files within the `data` directory.
+This component manages the persistence of manga series data.
+- **Local files (JSON):** Manga series data is stored and managed in local JSON files within a directory, `$HOME/repos/manga-updates/data` by default .
 
 ### Program Flow
 
 Current flow of the program, this is not parallezied. 
 
 ```mermaid
-<<<<<<< HEAD
-<<<<<<< HEAD
-graph TD
->>>>>>> 0cee209 (chore: updated README)
-=======
-=======
 
->>>>>>> 11b615c (chore: updated README)
 graph LR
->>>>>>> fe6ee58 (chore: updated README)
     A[Start] --> B{Load Configuration}
     B --> C[Initialize Store]
     C --> D[Get Persisted Manga Series]
@@ -166,8 +145,7 @@ graph LR
     J -- No New Version --> I
 ```
 
-## How to Run / How to Contribute
-
+## How to contribute (Develop)
 To set up and run the `manga-updates` application for development, follow these steps:
 
 ### 1. Clone the Repository

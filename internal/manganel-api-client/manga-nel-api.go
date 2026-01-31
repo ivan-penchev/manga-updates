@@ -27,7 +27,7 @@ func NewMangaNelAPIClient(addr string, apiKey string) *MangaNelAPIClient {
 
 	graphqlClientWithOptions := graphql.WithHTTPClient(client)
 	graphqlClient := graphql.NewClient(addr, graphqlClientWithOptions)
-	// graphqlClient.Log = func(s string) { slog.Error(s) }
+	//graphqlClient.Log = func(s string) { slog.Error(s) }
 
 	return &MangaNelAPIClient{
 		addr:   addr,
