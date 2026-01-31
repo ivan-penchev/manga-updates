@@ -27,7 +27,7 @@ func NewMangaNelAPIClient(addr string, apiKey string) *MangaNelAPIClient {
 
 	graphqlClientWithOptions := graphql.WithHTTPClient(client)
 	graphqlClient := graphql.NewClient(addr, graphqlClientWithOptions)
-	//graphqlClient.Log = func(s string) { slog.Error(s) }
+	// graphqlClient.Log = func(s string) { slog.Error(s) }
 
 	return &MangaNelAPIClient{
 		addr:   addr,
@@ -135,7 +135,6 @@ func getQueryForSlug(slug string, includeChapters bool) string {
 			slug,
 			image,
 			latestChapter,
-			unauthFile,
 			updatedDate
 		}
 		manga(x: mn05, slug: "%s") {
@@ -155,7 +154,6 @@ func getQueryForSlug(slug string, includeChapters bool) string {
 			isYaoi,
 			isPorn,
 			isSoftPorn,
-			unauthFile,
 			noCoverAd,
 			isLicensed,
 			createdDate,
