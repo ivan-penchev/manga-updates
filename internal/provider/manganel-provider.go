@@ -12,6 +12,7 @@ import (
 	"github.com/chromedp/cdproto/storage"
 	"github.com/chromedp/chromedp"
 	"github.com/chromedp/chromedp/device"
+	"github.com/go-rod/rod/lib/launcher"
 	manganelapiclient "github.com/ivan-penchev/manga-updates/internal/manganel-api-client"
 	"github.com/ivan-penchev/manga-updates/pkg/types"
 )
@@ -19,19 +20,26 @@ import (
 func NewMangaNelProviderFactory(mangaNelGraphQLEndpoint string) func() (Provider, error) {
 	return func() (Provider, error) {
 
-		ctx, cancel := context.WithTimeout(context.Background(), 45*time.Second)
+		// Increased timeout to allow for browser download if needed
+		ctx, cancel := context.WithTimeout(context.Background(), 2*time.Minute)
 		defer cancel()
 
 		var allocCtx context.Context
 		var cancelAlloc context.CancelFunc
 
 		remoteURL := os.Getenv("REMOTE_CHROME_URL")
-
 		if remoteURL != "" {
 			allocCtx, cancelAlloc = chromedp.NewRemoteAllocator(ctx, remoteURL)
 
 		} else {
+			// Always use managed browser to avoid issues with system installs (e.g. shims)
+			path, err := launcher.NewBrowser().Get()
+			if err != nil {
+				return nil, fmt.Errorf("failed to download/find browser: %w", err)
+			}
+
 			opts := append(chromedp.DefaultExecAllocatorOptions[:],
+				chromedp.ExecPath(path),
 				chromedp.Flag("no-sandbox", true),
 				chromedp.Flag("headless", true),
 				chromedp.Flag("disable-gpu", true),
