@@ -7,24 +7,13 @@ import (
 	"os"
 	"time"
 
-	"github.com/caarlos0/env/v10"
-
+	"github.com/ivan-penchev/manga-updates/internal/config"
 	"github.com/ivan-penchev/manga-updates/internal/notifier"
 	"github.com/ivan-penchev/manga-updates/internal/provider"
 	"github.com/ivan-penchev/manga-updates/internal/store"
 	updatechecker "github.com/ivan-penchev/manga-updates/internal/update-checker"
 )
 
-type config struct {
-	MangaNelGraphQLEndpoint    string `env:"API_ENDPOINT" envDefault:"https://api.mghcdn.com/graphql"`
-	SeriesDataFolder           string `env:"SERIES_DATAFOLDER" envDefault:"$HOME/repos/manga-updates/data" envExpand:"true"`
-	SendGridAPIKey             string `env:"SENDGRID_API_KEY"`
-	SendGridTemplateId         string `env:"SENDGRID_TEMPLATE_ID"`
-	SMTP2GOApiKey              string `env:"SMTP2GO_API_KEY"`
-	SMTP2GOTemplateId          string `env:"SMTP2GO_TEMPLATE_ID"`
-	NotificationRecipientEmail string `env:"NOTIFICATION_EMAIL_RECIPIENT,required"`
-	NotificationSenderEmail    string `env:"NOTIFICATION_EMAIL_SENDER,required"`
-}
 
 func main() {
 	logger := slog.New(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{
@@ -35,9 +24,10 @@ func main() {
 	ts := time.Now()
 	ctx := context.Background()
 
-	cfg := config{}
-	if err := env.Parse(&cfg); err != nil {
+	cfg, err := config.Load()
+	if err != nil {
 		logger.Error("failed to parse configuration", "error", err)
+		os.Exit(1)
 	}
 	store := store.NewStore(cfg.SeriesDataFolder)
 	persistedMangaSeries := store.GetMangaSeries(ctx)
