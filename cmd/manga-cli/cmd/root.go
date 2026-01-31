@@ -8,6 +8,10 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var (
+	cfgFile string
+)
+
 var rootCmd = &cobra.Command{
 	Use:   "manga-cli",
 	Short: "Manga Updates CLI",
@@ -25,4 +29,8 @@ func Execute() {
 		fmt.Println(err)
 		os.Exit(1)
 	}
+}
+
+func init() {
+	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $CONFIG_FILE)")
 }

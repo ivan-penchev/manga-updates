@@ -19,7 +19,7 @@ var addCmd = &cobra.Command{
 		logger := slog.Default()
 		url := args[0]
 
-		cfg, err := config.Load()
+		cfg, err := config.Load(cfgFile)
 		if err != nil {
 			logger.Error("failed to parse configuration", "error", err)
 			os.Exit(1)
