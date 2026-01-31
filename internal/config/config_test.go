@@ -42,7 +42,7 @@ series_data_folder: "from_file"
 	assert.Equal(t, "from_file", cfg.SeriesDataFolder, "Value from file should override default")
 }
 
-func TestLoad_EnvOverridesFile(t *testing.T) {
+func TestLoad_FileValuesUsedWhenConfigFileProvided(t *testing.T) {
 	// Create a temporary config file
 	configFileContent := `
 remote_chrome_url: "ws://from-file:3000"

@@ -19,7 +19,7 @@
       "mode": "debug",
       "program": "${workspaceFolder}/cmd/manga-cli",
       "args": ["add", "https://manganel.me/manga/solo-leveling_102"],
-      "envFile": "${workspaceFolder}\\config\\local.env"
+      "envFile": "${workspaceFolder}/config/local.env"
     },
     {
       "name": "CLI: Update",
@@ -28,7 +28,7 @@
       "mode": "debug",
       "program": "${workspaceFolder}/cmd/manga-cli",
       "args": ["update"],
-      "envFile": "${workspaceFolder}\\config\\local.env"
+      "envFile": "${workspaceFolder}/config/local.env"
     }
   ]
 }

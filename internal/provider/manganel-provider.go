@@ -3,12 +3,10 @@ package provider
 import (
 	"context"
 	"fmt"
-
 	"log/slog"
+	"strings"
 	"sync"
 	"time"
-
-	"strings"
 
 	"github.com/chromedp/cdproto/storage"
 	"github.com/chromedp/chromedp"

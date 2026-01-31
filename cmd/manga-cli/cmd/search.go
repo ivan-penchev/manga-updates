@@ -19,7 +19,7 @@ var searchCmd = &cobra.Command{
 	Use:   "search [query]",
 	Short: "Search for a manga series",
 	Long: `Search for a manga series across supported providers.
-Currently supported providers: manganel, mangadex (not yet implemented).
+Currently supported providers: manganel, mangadex.
 Examples:
   manga-cli search "naruto"
   manga-cli search "one piece" --providers manganel,mangadex
