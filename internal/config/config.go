@@ -55,6 +55,8 @@ func Load(configFile string) (*Config, error) {
 		if err := yaml.Unmarshal([]byte(expandedContent), &cfg); err != nil {
 			return nil, err
 		}
+
+		return &cfg, nil
 	}
 
 	if err := env.Parse(&cfg); err != nil {

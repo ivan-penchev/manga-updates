@@ -9,6 +9,7 @@ import (
 )
 
 func TestLoad_WithConfigFileAndExpansion(t *testing.T) {
+
 	// Create a temporary config file
 	configFileContent := `
 notifier:
@@ -27,26 +28,8 @@ series_data_folder: "from_file"
 	require.NoError(t, err)
 	require.NoError(t, tmpFile.Close())
 
-	// Unset interfering env vars
-	interferingVars := []string{
-		"NOTIFICATION_EMAIL_RECIPIENT",
-		"SERIES_DATAFOLDER",
-		"SMTP2GO_API_KEY",
-	}
-	for _, v := range interferingVars {
-		originalVal, exists := os.LookupEnv(v)
-		if exists {
-			require.NoError(t, os.Unsetenv(v))
-			t.Cleanup(func() {
-				_ = os.Setenv(v, originalVal)
-			})
-		}
-	}
-
-	// Set environment variables
 	t.Setenv("CONFIG_FILE", tmpFile.Name())
 	t.Setenv("TEST_SMTP_KEY", "secret-key-123")
-	t.Setenv("REMOTE_CHROME_URL", "ws://env-override:3000") // Set via ENV, not file
 
 	// Run Load with nil
 	cfg, err := Load("")
@@ -55,7 +38,7 @@ series_data_folder: "from_file"
 	// Verify
 	assert.Equal(t, "secret-key-123", cfg.Notifier.SMTP2GO.APIKey, "Env var expansion in file should work")
 	assert.Equal(t, "test@example.com", cfg.Notifier.RecipientEmail, "Value from file should be loaded")
-	assert.Equal(t, "ws://env-override:3000", cfg.RemoteChromeURL, "Value from ENV should be loaded")
+	assert.Equal(t, "", cfg.RemoteChromeURL, "Value from ENV should be empty since we are using config file and it is not set there")
 	assert.Equal(t, "from_file", cfg.SeriesDataFolder, "Value from file should override default")
 }
 
@@ -83,5 +66,5 @@ remote_chrome_url: "ws://from-file:3000"
 	require.NoError(t, err)
 
 	// Verify Env overrides File
-	assert.Equal(t, "ws://from-env:3000", cfg.RemoteChromeURL, "ENV should override File")
+	assert.Equal(t, "ws://from-file:3000", cfg.RemoteChromeURL, "ENV should not override File")
 }
