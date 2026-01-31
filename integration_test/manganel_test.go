@@ -4,6 +4,7 @@ import (
 	"context"
 	"log/slog"
 	"os"
+	"strings"
 	"testing"
 	"time"
 
@@ -183,5 +184,65 @@ func TestMangaNel(t *testing.T) {
 		}
 
 		assert.True(t, foundMockStoreInvocation)
+	})
+}
+
+func TestMangaNelProvider_Search(t *testing.T) {
+	if testing.Short() {
+		t.Skip("Skipping integration test in short mode")
+	}
+
+	// Get Manganel provider from the router
+	prov, err := providerRouter.GetProvider(domain.MangaEntity{
+		Source: domain.MangaSourceMangaNel,
+	})
+	if err != nil {
+		t.Fatalf("failed to get manganel provider: %v", err)
+	}
+
+	ctx := context.Background()
+
+	t.Run("Search_Simple", func(t *testing.T) {
+		query := "Solo Leveling"
+		results, total, err := prov.Search(ctx, query, 0)
+
+		found := false
+		for _, r := range results {
+			if strings.Contains(r.Manga.Name, "Solo Leveling") {
+				found = true
+				break
+			}
+		}
+
+		assert.True(t, found, "Should have found 'Solo Leveling'")
+
+		assert.NoError(t, err)
+		assert.Greater(t, total, 0)
+		assert.NotEmpty(t, results)
+
+		first := results[0]
+		assert.NotEmpty(t, first.Manga.Name)
+		assert.NotEmpty(t, first.Manga.Slug)
+		assert.NotEmpty(t, first.URL)
+		assert.NotEmpty(t, first.ImageURL)
+	})
+
+	t.Run("Search_Pagination", func(t *testing.T) {
+		query := "Isekai" // Broad term to ensure many results
+
+		// Page 1
+		results1, total1, err := prov.Search(ctx, query, 0)
+		assert.NoError(t, err)
+		assert.Greater(t, total1, 20) // Assume more than 20 results, as api defaults to 30
+
+		// Page 2 - skip logic depends on API page size, usually 20 or 30.
+		offset := len(results1)
+
+		results2, _, err := prov.Search(ctx, query, offset)
+		assert.NoError(t, err)
+		assert.NotEmpty(t, results2)
+
+		// Ensure different results
+		assert.NotEqual(t, results1[0].Manga.Slug, results2[0].Manga.Slug)
 	})
 }
