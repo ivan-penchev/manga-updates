@@ -1,3 +1,12 @@
+## v1.0.1 (v1.0.1)
+
+## v1.0.1 - 2026-01-31
+
+## Changelog
+### Bug fixes
+* a1715912a82fd31f53904289839534d2dd2888a3: fix: change graphql query for manganel client(#27) (@ivan-penchev)
+
+
 ## v1.0.0 (v1.0.0)
 
 ## v1.0.0 - 2025-10-23
