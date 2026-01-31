@@ -1,11 +1,12 @@
 package notifier
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"regexp"
 
-	"github.com/ivan-penchev/manga-updates/pkg/types"
+	"github.com/ivan-penchev/manga-updates/internal/domain"
 	"github.com/sendgrid/sendgrid-go"
 	"github.com/sendgrid/sendgrid-go/helpers/mail"
 )
@@ -39,7 +40,7 @@ type sendgridNotifier struct {
 	config *notifierConfig
 }
 
-func (s sendgridNotifier) NotifyForNewChapter(chapter types.ChapterEntity, fromManga types.MangaEntity) error {
+func (s sendgridNotifier) NotifyForNewChapter(ctx context.Context, chapter domain.ChapterEntity, fromManga domain.MangaEntity) error {
 
 	m := mail.NewV3Mail()
 

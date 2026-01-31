@@ -3,7 +3,6 @@ package provider
 import (
 	"context"
 	"fmt"
-	"os"
 
 	"log/slog"
 	"sync"
@@ -12,26 +11,39 @@ import (
 	"github.com/chromedp/cdproto/storage"
 	"github.com/chromedp/chromedp"
 	"github.com/chromedp/chromedp/device"
+	"github.com/go-rod/rod/lib/launcher"
+	"github.com/ivan-penchev/manga-updates/internal/domain"
 	manganelapiclient "github.com/ivan-penchev/manga-updates/internal/manganel-api-client"
-	"github.com/ivan-penchev/manga-updates/pkg/types"
 )
 
-func NewMangaNelProviderFactory(mangaNelGraphQLEndpoint string) func() (Provider, error) {
-	return func() (Provider, error) {
+type MangaNelProviderConfig struct {
+	GraphQLEndpoint string
+	RemoteChromeURL string
+}
 
-		ctx, cancel := context.WithTimeout(context.Background(), 45*time.Second)
+func NewMangaNelProviderFactory(cfg MangaNelProviderConfig) func() (domain.Provider, error) {
+	return func() (domain.Provider, error) {
+
+		// Increased timeout to allow for browser download if needed
+		ctx, cancel := context.WithTimeout(context.Background(), 2*time.Minute)
 		defer cancel()
 
 		var allocCtx context.Context
 		var cancelAlloc context.CancelFunc
 
-		remoteURL := os.Getenv("REMOTE_CHROME_URL")
-
+		remoteURL := cfg.RemoteChromeURL
 		if remoteURL != "" {
 			allocCtx, cancelAlloc = chromedp.NewRemoteAllocator(ctx, remoteURL)
 
 		} else {
+			// Always use managed browser to avoid issues with system installs (e.g. shims)
+			path, err := launcher.NewBrowser().Get()
+			if err != nil {
+				return nil, fmt.Errorf("failed to download/find browser: %w", err)
+			}
+
 			opts := append(chromedp.DefaultExecAllocatorOptions[:],
+				chromedp.ExecPath(path),
 				chromedp.Flag("no-sandbox", true),
 				chromedp.Flag("headless", true),
 				chromedp.Flag("disable-gpu", true),
@@ -45,14 +57,14 @@ func NewMangaNelProviderFactory(mangaNelGraphQLEndpoint string) func() (Provider
 		// Create the chromedp context from the allocator
 		innerCtx, cancelInner := chromedp.NewContext(allocCtx)
 		defer cancelInner()
-		randomPageFromProviderToOpen := "https://manganel.me/manga/my-wife-is-a-demon-queen"
+		pageToOpen := "https://manganel.me/"
 
 		// navigate to a page, wait for an element, click
 		var mhubApiAccessToken string
 		err := chromedp.Run(innerCtx,
-			chromedp.Emulate(device.IPhone13),
-			chromedp.Navigate(randomPageFromProviderToOpen),
-			chromedp.Sleep(4*time.Second),
+			chromedp.Emulate(device.IPhone15Pro),
+			chromedp.Navigate(pageToOpen),
+			chromedp.WaitVisible("body", chromedp.ByQuery),
 			chromedp.ActionFunc(func(ctx context.Context) error {
 				cookies, err := storage.GetCookies().Do(ctx)
 				if err != nil {
@@ -74,11 +86,11 @@ func NewMangaNelProviderFactory(mangaNelGraphQLEndpoint string) func() (Provider
 			return nil, err
 		}
 
-		mangaNelClient := manganelapiclient.NewMangaNelAPIClient(mangaNelGraphQLEndpoint, mhubApiAccessToken)
+		mangaNelClient := manganelapiclient.NewMangaNelAPIClient(cfg.GraphQLEndpoint, mhubApiAccessToken)
 
 		return &mangaNelProvider{
 			mangaNelClient:  mangaNelClient,
-			cachedResponses: make(map[string]*types.MangaEntity, 0),
+			cachedResponses: make(map[string]*domain.MangaEntity, 0),
 			mutex:           sync.RWMutex{},
 		}, nil
 	}
@@ -87,18 +99,18 @@ func NewMangaNelProviderFactory(mangaNelGraphQLEndpoint string) func() (Provider
 
 type mangaNelProvider struct {
 	mangaNelClient  *manganelapiclient.MangaNelAPIClient
-	cachedResponses map[string]*types.MangaEntity
+	cachedResponses map[string]*domain.MangaEntity
 	mutex           sync.RWMutex
 }
 
-func (mp *mangaNelProvider) IsNewerVersionAvailable(manga types.MangaEntity) (bool, error) {
+func (mp *mangaNelProvider) IsNewerVersionAvailable(ctx context.Context, manga domain.MangaEntity) (bool, error) {
 	if manga.IsNew() {
 		logMessage := fmt.Sprintf("Manga title (%s) that we have never synced before added for update notifications", manga.Name)
 		slog.Info(logMessage)
 		return true, nil
 	}
 
-	mangaResponse, err := mp.mangaNelClient.GetMangaSeriesFull(manga.Slug)
+	mangaResponse, err := mp.mangaNelClient.GetMangaSeriesFull(context.Background(), manga.Slug)
 
 	if err != nil {
 		return false, err
@@ -114,11 +126,11 @@ func (mp *mangaNelProvider) IsNewerVersionAvailable(manga types.MangaEntity) (bo
 	return manga.IsOlder(*mangaResponse), nil
 }
 
-func (*mangaNelProvider) Kind() types.MangaSource {
-	return types.MangaSourceMangaNel
+func (*mangaNelProvider) Kind() domain.MangaSource {
+	return domain.MangaSourceMangaNel
 }
 
-func (mp *mangaNelProvider) GetLatestVersionMangaEntity(manga types.MangaEntity) (*types.MangaEntity, error) {
+func (mp *mangaNelProvider) GetLatestVersionMangaEntity(ctx context.Context, manga domain.MangaEntity) (*domain.MangaEntity, error) {
 	mp.mutex.RLock()
 	defer mp.mutex.RUnlock()
 
@@ -126,7 +138,7 @@ func (mp *mangaNelProvider) GetLatestVersionMangaEntity(manga types.MangaEntity)
 		return cachedManga, nil
 	}
 
-	mangaResponse, err := mp.mangaNelClient.GetMangaSeriesFull(manga.Slug)
+	mangaResponse, err := mp.mangaNelClient.GetMangaSeriesFull(context.Background(), manga.Slug)
 	mangaResponse.ShouldNotify = manga.ShouldNotify
 
 	if err != nil {

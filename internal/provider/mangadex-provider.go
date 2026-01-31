@@ -1,6 +1,7 @@
 package provider
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"net/url"
@@ -10,17 +11,17 @@ import (
 	"time"
 
 	m "github.com/darylhjd/mangodex"
-	"github.com/ivan-penchev/manga-updates/pkg/types"
+	"github.com/ivan-penchev/manga-updates/internal/domain"
 )
 
 type mangaDexProvider struct {
 	mangaDexClient  *m.DexClient
-	cachedResponses map[string]*types.MangaEntity
+	cachedResponses map[string]*domain.MangaEntity
 	mutex           sync.RWMutex
 }
 
-func NewMangaDexProviderFactory() func() (Provider, error) {
-	return func() (Provider, error) {
+func NewMangaDexProviderFactory() func() (domain.Provider, error) {
+	return func() (domain.Provider, error) {
 
 		c := m.NewDexClient()
 		v := url.Values{}
@@ -35,7 +36,7 @@ func NewMangaDexProviderFactory() func() (Provider, error) {
 
 		return &mangaDexProvider{
 			mangaDexClient:  c,
-			cachedResponses: make(map[string]*types.MangaEntity, 0),
+			cachedResponses: make(map[string]*domain.MangaEntity, 0),
 			mutex:           sync.RWMutex{},
 		}, nil
 	}
@@ -43,7 +44,7 @@ func NewMangaDexProviderFactory() func() (Provider, error) {
 }
 
 // GetLatestVersionMangaEntity implements Provider.
-func (mdp *mangaDexProvider) GetLatestVersionMangaEntity(manga types.MangaEntity) (*types.MangaEntity, error) {
+func (mdp *mangaDexProvider) GetLatestVersionMangaEntity(ctx context.Context, manga domain.MangaEntity) (*domain.MangaEntity, error) {
 	v := url.Values{}
 	v.Add("translatedLanguage[]", "en") // hardcode it for now
 	initialResponse, err := mdp.mangaDexClient.Chapter.GetMangaChapters(manga.Slug, v)
@@ -65,7 +66,7 @@ func (mdp *mangaDexProvider) GetLatestVersionMangaEntity(manga types.MangaEntity
 		chapters = append(chapters, res.Data...)
 	}
 
-	var chapterEntities []types.ChapterEntity
+	var chapterEntities []domain.ChapterEntity
 	for _, chapter := range chapters {
 		chapterEntity, err := convertChapterToEntity(chapter)
 		if err == nil {
@@ -84,7 +85,7 @@ func (mdp *mangaDexProvider) GetLatestVersionMangaEntity(manga types.MangaEntity
 	if chapterEntities[0].Date != nil {
 		mangaUpdateTime = *chapterEntities[0].Date
 	}
-	return &types.MangaEntity{
+	return &domain.MangaEntity{
 		Name:         manga.Name,
 		ShouldNotify: manga.ShouldNotify,
 		LastUpdate:   mangaUpdateTime,
@@ -96,7 +97,7 @@ func (mdp *mangaDexProvider) GetLatestVersionMangaEntity(manga types.MangaEntity
 }
 
 // IsNewerVersionAvailable implements Provider.
-func (mdp *mangaDexProvider) IsNewerVersionAvailable(manga types.MangaEntity) (bool, error) {
+func (mdp *mangaDexProvider) IsNewerVersionAvailable(ctx context.Context, manga domain.MangaEntity) (bool, error) {
 
 	v := url.Values{}
 	v.Add("title", manga.Name)
@@ -136,11 +137,11 @@ func (mdp *mangaDexProvider) IsNewerVersionAvailable(manga types.MangaEntity) (b
 	return false, errors.New("can't find the manga in the response from the api, or the response is empty")
 }
 
-func (*mangaDexProvider) Kind() types.MangaSource {
-	return types.MangaSourceMangaDex
+func (*mangaDexProvider) Kind() domain.MangaSource {
+	return domain.MangaSourceMangaDex
 }
 
-func convertChapterToEntity(chapter m.Chapter) (types.ChapterEntity, error) {
+func convertChapterToEntity(chapter m.Chapter) (domain.ChapterEntity, error) {
 	var number *float64
 	var date *time.Time
 
@@ -148,7 +149,7 @@ func convertChapterToEntity(chapter m.Chapter) (types.ChapterEntity, error) {
 	if chapter.Attributes.Chapter != nil {
 		chapNum, err := strconv.ParseFloat(chapter.GetChapterNum(), 64)
 		if err != nil {
-			return types.ChapterEntity{}, err
+			return domain.ChapterEntity{}, err
 		}
 		number = &chapNum
 	}
@@ -157,7 +158,7 @@ func convertChapterToEntity(chapter m.Chapter) (types.ChapterEntity, error) {
 	if chapter.Attributes.CreatedAt != "" {
 		t, err := time.Parse(time.RFC3339, chapter.Attributes.PublishAt)
 		if err != nil || t.IsZero() {
-			return types.ChapterEntity{}, err
+			return domain.ChapterEntity{}, err
 		}
 		date = &t
 	}
@@ -169,7 +170,7 @@ func convertChapterToEntity(chapter m.Chapter) (types.ChapterEntity, error) {
 		uri = *chapter.Attributes.ExternalURL
 	}
 
-	return types.ChapterEntity{
+	return domain.ChapterEntity{
 		Number: number,
 		Slug:   slug,
 		Date:   date,

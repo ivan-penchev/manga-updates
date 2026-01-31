@@ -1,6 +1,7 @@
-package types
+package domain
 
 import (
+	"context"
 	"time"
 )
 
@@ -47,6 +48,16 @@ func (m *MangaEntity) IsNew() bool {
 // Compares if the current MangaEntity is older
 func (m *MangaEntity) IsOlder(n MangaEntity) bool {
 	return m.LastUpdate.Before(n.LastUpdate)
+}
+
+type Provider interface {
+	Kind() MangaSource
+	GetLatestVersionMangaEntity(ctx context.Context, manga MangaEntity) (*MangaEntity, error)
+	IsNewerVersionAvailable(ctx context.Context, manga MangaEntity) (bool, error)
+}
+
+type ProviderRouter interface {
+	GetProvider(manga MangaEntity) (Provider, error)
 }
 
 // returns the missing chapters between the current manga and the new one

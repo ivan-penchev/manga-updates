@@ -1,6 +1,7 @@
 package store
 
 import (
+	"context"
 	"encoding/json"
 	"io/fs"
 	"os"
@@ -8,12 +9,12 @@ import (
 
 	"log/slog"
 
-	"github.com/ivan-penchev/manga-updates/pkg/types"
+	"github.com/ivan-penchev/manga-updates/internal/domain"
 )
 
 type Store interface {
-	GetMangaSeries() map[string]types.MangaEntity
-	PersistManagaTitle(location string, mangaTitle types.MangaEntity) error
+	GetMangaSeries(ctx context.Context) map[string]domain.MangaEntity
+	PersistManagaTitle(ctx context.Context, location string, mangaTitle domain.MangaEntity) error
 }
 
 type fileStore struct {
@@ -21,14 +22,14 @@ type fileStore struct {
 }
 
 // PersistestManagaTitle implements Store
-func (*fileStore) PersistManagaTitle(location string, mangaTitle types.MangaEntity) error {
+func (f *fileStore) PersistManagaTitle(ctx context.Context, location string, mangaTitle domain.MangaEntity) error {
 	file, _ := json.MarshalIndent(mangaTitle, "", " ")
 	return os.WriteFile(location, file, 0644)
 }
 
 // GetMangaSeries returns the file location and file data
-func (f *fileStore) GetMangaSeries() map[string]types.MangaEntity {
-	persistedMangaSeries := make(map[string]types.MangaEntity, 0)
+func (f *fileStore) GetMangaSeries(ctx context.Context) map[string]domain.MangaEntity {
+	persistedMangaSeries := make(map[string]domain.MangaEntity, 0)
 	files := glob(f.location, func(s string) bool {
 		return filepath.Ext(s) == ".json"
 	})
@@ -38,7 +39,7 @@ func (f *fileStore) GetMangaSeries() map[string]types.MangaEntity {
 			slog.Error("Cant open file")
 			continue
 		}
-		var mangaSeries types.MangaEntity
+		var mangaSeries domain.MangaEntity
 		err = json.Unmarshal(byteValue, &mangaSeries)
 		if err != nil {
 			slog.Error("File is not in correct structure")
@@ -50,6 +51,7 @@ func (f *fileStore) GetMangaSeries() map[string]types.MangaEntity {
 		}
 		persistedMangaSeries[file] = mangaSeries
 	}
+
 	return persistedMangaSeries
 }
 
