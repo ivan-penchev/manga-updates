@@ -19,11 +19,13 @@ series_data_folder: "from_file"
 `
 	tmpFile, err := os.CreateTemp("", "config_*.yaml")
 	require.NoError(t, err)
-	defer os.Remove(tmpFile.Name())
+	t.Cleanup(func() {
+		_ = os.Remove(tmpFile.Name())
+	})
 
 	_, err = tmpFile.WriteString(configFileContent)
 	require.NoError(t, err)
-	tmpFile.Close()
+	require.NoError(t, tmpFile.Close())
 
 	// Unset interfering env vars
 	interferingVars := []string{
@@ -34,8 +36,10 @@ series_data_folder: "from_file"
 	for _, v := range interferingVars {
 		originalVal, exists := os.LookupEnv(v)
 		if exists {
-			os.Unsetenv(v)
-			defer os.Setenv(v, originalVal)
+			require.NoError(t, os.Unsetenv(v))
+			t.Cleanup(func() {
+				_ = os.Setenv(v, originalVal)
+			})
 		}
 	}
 
@@ -62,11 +66,13 @@ remote_chrome_url: "ws://from-file:3000"
 `
 	tmpFile, err := os.CreateTemp("", "config_*.yaml")
 	require.NoError(t, err)
-	defer os.Remove(tmpFile.Name())
+	t.Cleanup(func() {
+		_ = os.Remove(tmpFile.Name())
+	})
 
 	_, err = tmpFile.WriteString(configFileContent)
 	require.NoError(t, err)
-	tmpFile.Close()
+	require.NoError(t, tmpFile.Close())
 
 	// Set environment variables
 	t.Setenv("CONFIG_FILE", tmpFile.Name())
