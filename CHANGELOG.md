@@ -1,3 +1,17 @@
+## v1.0.2 (v1.0.2)
+
+## v1.0.2 - 2026-10-31
+
+## Changelog
+### New Features
+* c248720164a1c80c565a09d7d28141169577cfec: feat: architectural improvements (#28) (@ivan-penchev)
+### Bug fixes
+* 5266750c80ea37983e10e715e323d712cbef8a54: fix(provider): fetch mhub_access over HTTP with browser fallback (#32) (@ivan-penchev)
+* 5c949b821c15460468346cbbaf1589e9da3fad46: refactor: transform to CLI (#29) (@ivan-penchev)
+### Other work
+* 4defff3d4ca7d2cb55f60544b22ac31da8aa154f: refactor(app,cmd): share app bootstrap across binaries and clean up README (#35) (@ivan-penchev)
+
+
 ## v1.0.1 (v1.0.1)
 
 ## v1.0.1 - 2026-01-31
