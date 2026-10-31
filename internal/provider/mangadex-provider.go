@@ -5,22 +5,50 @@ import (
 	"errors"
 	"fmt"
 	"log/slog"
+	"math"
 	"net/url"
 	"regexp"
 	"sort"
 	"strconv"
 	"strings"
-	"sync"
 	"time"
 
 	m "github.com/darylhjd/mangodex"
 	"github.com/ivan-penchev/manga-updates/internal/domain"
 )
 
+const chapterFloatEpsilon = 0.0001
+
+var (
+	_                  domain.Provider = (*mangaDexProvider)(nil)
+	mangaDexTitleRegex                 = regexp.MustCompile(`mangadex\.org/title/([a-f0-9\-]+)`)
+)
+
+type mangaDexClient interface {
+	GetMangaList(params url.Values) (*m.MangaList, error)
+	GetMangaChapters(mangaID string, params url.Values) (*m.ChapterList, error)
+}
+
+type dexClientAdapter struct {
+	client *m.DexClient
+}
+
+func (a *dexClientAdapter) GetMangaList(params url.Values) (*m.MangaList, error) {
+	return a.client.Manga.GetMangaList(params)
+}
+
+func (a *dexClientAdapter) GetMangaChapters(mangaID string, params url.Values) (*m.ChapterList, error) {
+	return a.client.Chapter.GetMangaChapters(mangaID, params)
+}
+
 type mangaDexProvider struct {
-	mangaDexClient  *m.DexClient
-	cachedResponses map[string]*domain.MangaEntity
-	mutex           sync.RWMutex
+	client mangaDexClient
+}
+
+func NewMangaDexProvider(client mangaDexClient) *mangaDexProvider {
+	return &mangaDexProvider{
+		client: client,
+	}
 }
 
 func (mdp *mangaDexProvider) Supports(url string) bool {
@@ -28,24 +56,20 @@ func (mdp *mangaDexProvider) Supports(url string) bool {
 }
 
 func (mdp *mangaDexProvider) GetMangaFromURL(ctx context.Context, u string) (domain.MangaEntity, error) {
-	// Regex for: https://mangadex.org/title/633d470a-4146-4dd3-b841-93dd648c23a5/...
-	// We extract the UUID
-	re := regexp.MustCompile(`mangadex\.org/title/([a-f0-9\-]+)`)
-	matches := re.FindStringSubmatch(u)
+	matches := mangaDexTitleRegex.FindStringSubmatch(u)
 	if len(matches) < 2 {
 		return domain.MangaEntity{}, fmt.Errorf("invalid mangadex url: %s", u)
 	}
 	mangaID := matches[1]
 
-	// Fetch details using GetMangaList with ID filter as GetManga might not exist or verify existence
 	v := url.Values{}
 	v.Add("ids[]", mangaID)
-	mangaList, err := mdp.mangaDexClient.Manga.GetMangaList(v)
+	mangaList, err := mdp.client.GetMangaList(v)
 	if err != nil {
 		return domain.MangaEntity{}, fmt.Errorf("failed to fetch manga details: %w", err)
 	}
 
-	if len(mangaList.Data) == 0 {
+	if mangaList == nil || len(mangaList.Data) == 0 {
 		return domain.MangaEntity{}, fmt.Errorf("manga details not found for id: %s", mangaID)
 	}
 
@@ -80,51 +104,33 @@ func (mdp *mangaDexProvider) GetMangaFromURL(ctx context.Context, u string) (dom
 
 func NewMangaDexProviderFactory() func() (domain.Provider, error) {
 	return func() (domain.Provider, error) {
-
-		c := m.NewDexClient()
-		v := url.Values{}
-		v.Add("title", "One Piece")
-
-		// check if the client is working
-		res, err := c.Manga.GetMangaList(v)
-
-		if err != nil || res.Data == nil || len(res.Data) == 0 {
-			return nil, errors.New("failed to create a new MangaDex client")
-		}
-
-		return &mangaDexProvider{
-			mangaDexClient:  c,
-			cachedResponses: make(map[string]*domain.MangaEntity, 0),
-			mutex:           sync.RWMutex{},
-		}, nil
+		return NewMangaDexProvider(&dexClientAdapter{client: m.NewDexClient()}), nil
 	}
-
 }
 
 // GetLatestVersionMangaEntity implements Provider.
-func (mdp *mangaDexProvider) GetLatestVersionMangaEntity(ctx context.Context, manga domain.MangaEntity) (*domain.MangaEntity, error) {
+func (mdp *mangaDexProvider) GetLatestVersionMangaEntity(_ context.Context, manga domain.MangaEntity) (*domain.MangaEntity, error) {
 	v := url.Values{}
-	v.Add("translatedLanguage[]", "en") // hardcode it for now
-	initialResponse, err := mdp.mangaDexClient.Chapter.GetMangaChapters(manga.Slug, v)
+	v.Set("translatedLanguage[]", "en")
+	initialResponse, err := mdp.client.GetMangaChapters(manga.Slug, v)
 
-	if err != nil || initialResponse.Data == nil || len(initialResponse.Data) == 0 {
+	if err != nil || initialResponse == nil || len(initialResponse.Data) == 0 {
 		return nil, errors.Join(err, errors.New("failed to get list of chapters for manga"))
 	}
 
 	chapters := initialResponse.Data
 
 	for len(chapters) < initialResponse.Total {
-		v.Add("offset", strconv.Itoa(len(chapters)))
-		res, err := mdp.mangaDexClient.Chapter.GetMangaChapters(manga.Slug, v)
-
-		if err != nil || res.Data == nil || len(res.Data) == 0 {
+		v.Set("offset", strconv.Itoa(len(chapters)))
+		res, err := mdp.client.GetMangaChapters(manga.Slug, v)
+		if err != nil || res == nil || len(res.Data) == 0 {
 			break
 		}
 
 		chapters = append(chapters, res.Data...)
 	}
 
-	var chapterEntities []domain.ChapterEntity
+	chapterEntities := make([]domain.ChapterEntity, 0, len(chapters))
 	for _, chapter := range chapters {
 		chapterEntity, err := convertChapterToEntity(chapter)
 		if err == nil {
@@ -132,7 +138,6 @@ func (mdp *mangaDexProvider) GetLatestVersionMangaEntity(ctx context.Context, ma
 		}
 	}
 
-	// sort chapters in decdending order
 	sort.Slice(chapterEntities, func(i, j int) bool {
 		return chapterEntities[i].Number != nil &&
 			chapterEntities[j].Number != nil &&
@@ -140,7 +145,7 @@ func (mdp *mangaDexProvider) GetLatestVersionMangaEntity(ctx context.Context, ma
 	})
 
 	mangaUpdateTime := time.Now()
-	if chapterEntities[0].Date != nil {
+	if len(chapterEntities) > 0 && chapterEntities[0].Date != nil {
 		mangaUpdateTime = *chapterEntities[0].Date
 	}
 	return &domain.MangaEntity{
@@ -155,56 +160,43 @@ func (mdp *mangaDexProvider) GetLatestVersionMangaEntity(ctx context.Context, ma
 }
 
 // IsNewerVersionAvailable implements Provider.
-func (mdp *mangaDexProvider) IsNewerVersionAvailable(ctx context.Context, manga domain.MangaEntity) (bool, error) {
+func (mdp *mangaDexProvider) IsNewerVersionAvailable(_ context.Context, manga domain.MangaEntity) (bool, error) {
 	if manga.IsNew() {
-		logMessage := fmt.Sprintf("Manga title (%s) that we have never synced before added for update notifications", manga.Name)
-		slog.Info(logMessage)
+		slog.Info("Manga title that we have never synced before added for update notifications", "mangaName", manga.Name)
 		return true, nil
 	}
 
 	v := url.Values{}
-	v.Add("limit", "1")
-	v.Add("translatedLanguage[]", "en")
-	v.Add("order[chapter]", "desc")
+	v.Set("limit", "1")
+	v.Set("translatedLanguage[]", "en")
+	v.Set("order[chapter]", "desc")
 
-	// Fetch the latest chapter for this manga from the API
-	chaptersRes, err := mdp.mangaDexClient.Chapter.GetMangaChapters(manga.Slug, v)
+	chaptersRes, err := mdp.client.GetMangaChapters(manga.Slug, v)
 	if err != nil {
 		return false, fmt.Errorf("failed to fetch latest chapter: %w", err)
 	}
 
-	if len(chaptersRes.Data) == 0 {
+	if chaptersRes == nil || len(chaptersRes.Data) == 0 {
 		return false, nil
 	}
 
 	latestChapter := chaptersRes.Data[0]
 
-	// Convert to entity to normalize fields using the same logic as fetch
 	latestEntity, err := convertChapterToEntity(latestChapter)
 	if err != nil {
-		// If we can't parse the latest chapter, we force an update safely?
-		// Or we log error? For now, let's assume if parsing fails we might want to check fully.
 		return true, nil
 	}
 
-	// 1. Check if we already have this specific chapter ID
 	for _, c := range manga.Chapters {
 		if c.Slug != nil && latestEntity.Slug != nil && *c.Slug == *latestEntity.Slug {
 			return false, nil
 		}
 	}
 
-	// 2. Check if we have this chapter number (to avoid duplicates by different groups)
 	if latestEntity.Number != nil {
 		for _, c := range manga.Chapters {
-			if c.Number != nil {
-				diff := *c.Number - *latestEntity.Number
-				if diff < 0 {
-					diff = -diff
-				}
-				if diff < 0.0001 {
-					return false, nil
-				}
+			if c.Number != nil && math.Abs(*c.Number-*latestEntity.Number) < chapterFloatEpsilon {
+				return false, nil
 			}
 		}
 	}
@@ -216,14 +208,13 @@ func (*mangaDexProvider) Kind() domain.MangaSource {
 	return domain.MangaSourceMangaDex
 }
 
-func (mdp *mangaDexProvider) Search(ctx context.Context, query string, offset int) ([]domain.SearchResult, int, error) {
+func (mdp *mangaDexProvider) Search(_ context.Context, query string, offset int) ([]domain.SearchResult, int, error) {
 	v := url.Values{}
-	v.Add("title", query)
-	v.Add("limit", "20")
-	v.Add("offset", strconv.Itoa(offset))
-	// Default sort by followed count descending (popular) and relevance
-	v.Add("order[followedCount]", "desc")
-	v.Add("order[relevance]", "desc")
+	v.Set("title", query)
+	v.Set("limit", "20")
+	v.Set("offset", strconv.Itoa(offset))
+	v.Set("order[followedCount]", "desc")
+	v.Set("order[relevance]", "desc")
 
 	v.Add("contentRating[]", "safe")
 	v.Add("contentRating[]", "suggestive")
@@ -231,56 +222,58 @@ func (mdp *mangaDexProvider) Search(ctx context.Context, query string, offset in
 
 	v.Add("includes[]", "cover_art")
 
-	mangaList, err := mdp.mangaDexClient.Manga.GetMangaList(v)
+	mangaList, err := mdp.client.GetMangaList(v)
 	if err != nil {
 		return nil, 0, fmt.Errorf("failed to search mangadex: %w", err)
 	}
+	if mangaList == nil {
+		return nil, 0, nil
+	}
 
-	var results []domain.SearchResult
-	for _, m := range mangaList.Data {
-		if m.Type != "manga" {
+	results := make([]domain.SearchResult, 0, len(mangaList.Data))
+	for _, item := range mangaList.Data {
+		if item.Type != "manga" {
 			continue
 		}
 
-		title := m.Attributes.Title.GetLocalString("en")
+		title := item.Attributes.Title.GetLocalString("en")
 		if title == "" {
-			title = m.Attributes.AltTitles.GetLocalString("en")
+			title = item.Attributes.AltTitles.GetLocalString("en")
 			if title == "" {
 				title = "Unknown Title"
 			}
 		}
 
 		var imageURL string
-		for _, rel := range m.Relationships {
+		for _, rel := range item.Relationships {
 			if rel.Type == "cover_art" {
-				// Attributes is interface{}, usually map[string]interface{}
 				if attrs, ok := rel.Attributes.(map[string]any); ok {
 					if fileName, ok := attrs["fileName"].(string); ok {
-						imageURL = fmt.Sprintf("https://uploads.mangadex.org/covers/%s/%s", m.ID, fileName)
+						imageURL = fmt.Sprintf("https://uploads.mangadex.org/covers/%s/%s", item.ID, fileName)
 					}
 				}
 			}
 		}
 
 		var latestChapter string
-		if m.Attributes.LastChapter != nil {
-			latestChapter = *m.Attributes.LastChapter
+		if item.Attributes.LastChapter != nil {
+			latestChapter = *item.Attributes.LastChapter
 		}
 
 		var status domain.MangaStatus
-		if m.Attributes.Status != nil {
-			status = domain.MangaStatus(*m.Attributes.Status)
+		if item.Attributes.Status != nil {
+			status = domain.MangaStatus(*item.Attributes.Status)
 		}
 
 		results = append(results, domain.SearchResult{
 			Manga: domain.MangaEntity{
 				Name:   title,
-				Slug:   m.ID,
+				Slug:   item.ID,
 				Status: status,
 				Source: domain.MangaSourceMangaDex,
 			},
 			ImageURL:      imageURL,
-			URL:           fmt.Sprintf("https://mangadex.org/title/%s", m.ID),
+			URL:           fmt.Sprintf("https://mangadex.org/title/%s", item.ID),
 			LatestChapter: latestChapter,
 		})
 	}
@@ -292,7 +285,6 @@ func convertChapterToEntity(chapter m.Chapter) (domain.ChapterEntity, error) {
 	var number *float64
 	var date *time.Time
 
-	// Convert Chapter to float64 if possible.
 	if chapter.Attributes.Chapter != nil {
 		chapNum, err := strconv.ParseFloat(chapter.GetChapterNum(), 64)
 		if err != nil {
@@ -301,16 +293,19 @@ func convertChapterToEntity(chapter m.Chapter) (domain.ChapterEntity, error) {
 		number = &chapNum
 	}
 
-	// Convert CreatedAt to *time.Time if possible.
-	if chapter.Attributes.CreatedAt != "" {
-		t, err := time.Parse(time.RFC3339, chapter.Attributes.PublishAt)
+	dateStr := chapter.Attributes.PublishAt
+	if dateStr == "" {
+		dateStr = chapter.Attributes.CreatedAt
+	}
+	if dateStr != "" {
+		t, err := time.Parse(time.RFC3339, dateStr)
 		if err != nil || t.IsZero() {
 			return domain.ChapterEntity{}, err
 		}
 		date = &t
 	}
 
-	slug := &chapter.ID
+	slug := chapter.ID
 
 	uri := fmt.Sprintf("https://mangadex.org/chapter/%s", chapter.ID)
 	if chapter.Attributes.ExternalURL != nil && *chapter.Attributes.ExternalURL != "" {
@@ -319,7 +314,7 @@ func convertChapterToEntity(chapter m.Chapter) (domain.ChapterEntity, error) {
 
 	return domain.ChapterEntity{
 		Number: number,
-		Slug:   slug,
+		Slug:   &slug,
 		Date:   date,
 		URI:    uri,
 	}, nil
