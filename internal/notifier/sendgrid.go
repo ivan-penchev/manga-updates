@@ -11,7 +11,7 @@ import (
 	"github.com/sendgrid/sendgrid-go/helpers/mail"
 )
 
-var emailRegex = regexp.MustCompile(`^[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,4}$`)
+var emailRegex = regexp.MustCompile(`^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$`)
 
 func isValidEmail(email string) bool {
 	return emailRegex.MatchString(email)
@@ -67,11 +67,8 @@ func (s sendgridNotifier) NotifyForNewChapter(ctx context.Context, chapter domai
 
 	m.AddPersonalizations(p)
 
-	request := sendgrid.GetRequest(s.config.apiKey, "/v3/mail/send", "https://api.sendgrid.com")
-	request.Method = "POST"
-	var Body = mail.GetRequestBody(m)
-	request.Body = Body
-	emailResponse, err := sendgrid.API(request)
+	client := sendgrid.NewSendClient(s.config.apiKey)
+	emailResponse, err := client.SendWithContext(ctx, m)
 
 	if err != nil {
 		return err
