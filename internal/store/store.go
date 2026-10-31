@@ -23,20 +23,19 @@ type fileStore struct {
 	location string
 }
 
-// PersistestMangaTitle implements Store
-func (f *fileStore) PersistMangaTitle(ctx context.Context, location string, mangaTitle domain.MangaEntity) error {
-	file, _ := json.MarshalIndent(mangaTitle, "", " ")
+// PersistMangaTitle implements Store.
+func (f *fileStore) PersistMangaTitle(_ context.Context, location string, mangaTitle domain.MangaEntity) error {
+	file, err := json.MarshalIndent(mangaTitle, "", " ")
+	if err != nil {
+		return fmt.Errorf("marshaling manga %q: %w", mangaTitle.Name, err)
+	}
 	return os.WriteFile(location, file, 0644)
 }
 
 func (f *fileStore) AddManga(ctx context.Context, manga domain.MangaEntity) error {
-	// sanitized slug
 	filename := fmt.Sprintf("%s.json", manga.Slug)
-	// We want to save it in f.location
 	fullPath := filepath.Join(f.location, filename)
 
-	// Delegate to Persist currently
-	// Note: Check for existence?
 	if _, err := os.Stat(fullPath); err == nil {
 		return fmt.Errorf("manga with slug %s already exists at %s", manga.Slug, fullPath)
 	}
@@ -53,17 +52,17 @@ func (f *fileStore) GetMangaSeries(ctx context.Context) map[string]domain.MangaE
 	for _, file := range files {
 		byteValue, err := os.ReadFile(file)
 		if err != nil {
-			slog.Error("Cant open file")
+			slog.Error("Cant open file", "file", file, "error", err)
 			continue
 		}
 		var mangaSeries domain.MangaEntity
 		err = json.Unmarshal(byteValue, &mangaSeries)
 		if err != nil {
-			slog.Error("File is not in correct structure")
+			slog.Error("File is not in correct structure", "file", file, "error", err)
 			continue
 		}
 		if mangaSeries.Slug == "" || mangaSeries.Slug == "<insert id string>" {
-			slog.Error("Slug for the manga title is not formatted correctly")
+			slog.Error("Slug for the manga title is not formatted correctly", "file", file, "slug", mangaSeries.Slug)
 			continue
 		}
 		persistedMangaSeries[file] = mangaSeries
