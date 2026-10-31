@@ -1,20 +1,14 @@
 <h3 align="center"><img alt="logo" src="./logo.webp" style="width: 20vw;"></h3>
 
-# Manga Updates
+# Manga updates
 
-This project started as a simple idea: to keep tabs on my favorite manga series and get a heads-up (via Email) whenever a new chapter dropped. The initial thought was to manage everything through a GitHub repository, with updates triggered by a scheduled GitHub Actions Workflow.
+I built this tool to track manga series I read and send an email when a new chapter drops. Everything runs from a GitHub repository on a scheduled GitHub Actions workflow, or locally from the terminal.
 
-But hey, there's nothing stopping you from running this locally on your machine! 
+## How to get started
 
-Plus, it's built with extensibility in mind, so feel free to tweak it or add your own twists.
+The `example` directory shows how to wire `manga-updates` into a data repository with a scheduled GitHub Actions workflow.
 
-## How to get Started
-
-This project was originally designed to run within a GitHub repository, using a scheduled GitHub Actions workflow to automatically check for manga updates. The `example` directory showcases this initial concept.
-
-### Directory Structure
-
-The example demonstrates the expected directory structure for the project to work correctly with the GitHub workflow:
+### Directory structure
 
 ```
 .
@@ -26,12 +20,12 @@ The example demonstrates the expected directory structure for the project to wor
         └── data.json
 ```
 
--   `.github/workflows/send_email.yaml`: This workflow file contains the logic to run the `manga-updates` binary on a schedule, check for new chapters, send email notifications, and commit any changes to the data files.
--   `data/<manga-title>/data.json`: Each manga series you want to track needs its own directory under `data`. The `data.json` file within each directory stores the manga's information.
+- `.github/workflows/send_email.yaml` runs the `manga-updates` binary on a schedule, checks each tracked series for new chapters, sends email notifications, and commits updated `data.json` files back to the repository.
+- `data/<manga-title>/data.json` stores the state and chapter history for one manga series.
 
-### `data.json` File
+### The `data.json` file
 
-The `data.json` file is crucial for tracking each manga series. Here's a breakdown of its fields:
+Each tracked series has its own `data.json` file:
 
 ```json
 {
@@ -46,88 +40,63 @@ The `data.json` file is crucial for tracking each manga series. Here's a breakdo
 }
 ```
 
--   `name`: The human-readable name of the manga.
--   `shouldNotify`: Set to `true` if you want to receive email notifications for this manga.
--   `lastUpdate`: A timestamp indicating the last time the manga was checked for updates. This is updated automatically.
--   `slug`: The URL-friendly identifier of the manga on the source website (e.g., "unexpected-accident" for a manga located at `https://manganel.me/manga/unexpected-accident`).
--   `status`: The current status of the manga (e.g., "ongoing", "completed"). This is updated automatically.
--   `latestChapter`: The latest chapter number that has been detected. This is updated automatically.
--   `source`: The provider to use for checking updates. Currently supported providers are `manganel` and `mangadex`.
--   `chapters`: A list of chapters that have been detected. This is updated automatically.
+- `name` is the display title of the manga.
+- `shouldNotify` controls whether new chapters trigger an email notification.
+- `lastUpdate` records when the series last updated. The binary updates this field.
+- `slug` identifies the series on the source site, such as `unexpected-accident` from `https://manganel.me/manga/unexpected-accident`.
+- `status` tracks whether the series is `ongoing` or `complete`. The binary updates this field.
+- `source` selects the provider. Supported values are `manganel` and `mangadex`.
+- `chapters` holds the synced chapter list. The binary updates this field.
 
-### Setting Up a New Manga Series
+### Tracking a new series
 
-To start monitoring a new manga series, you need to create a new `data.json` file for it. You can do this by copying the `data/title.json.tpl` file.
-
-When setting up a new manga for the first time, you only need to fill in the following fields:
-
--   `name`: The human-readable name of the manga.
--   `source`: The provider to use for checking for updates. Currently, the supported providers are `manganel` and `mangadex`.
--   `slug`: This is the **most crucial field** for identifying the manga. It's a unique identifier from the manga source's URL.
+Copy `data/title.json.tpl` into a new folder under `data/` and fill in `name`, `source`, and `slug`. You can also run `manga-cli add <url>` to generate the file from a MangaNel or MangaDex URL.
 
 #### Finding the `slug`
 
-The `slug` is the part of the URL that directly points to the manga series. Here's how to find it for each supported provider:
+- **MangaNel.** Take the last path segment of the series URL. For `https://manganel.me/manga/one-piece`, the slug is `one-piece`.
+- **MangaDex.** Take the UUID from the title URL. For `https://mangadex.org/title/a77742b6-363c-4310-9eca-2b7992395b3a/one-piece`, the slug is `a77742b6-363c-4310-9eca-2b7992395b3a`.
 
--   **For `manganel`:**
-    The slug is the last part of the URL. For example, for the manga at `https://manganel.me/manga/one-piece`, the slug is `one-piece`.
+The remaining fields in `data.json` are populated on the first sync run.
 
--   **For `mangadex`:**
-    The slug is the UUID in the URL. For example, for the manga at `https://mangadex.org/title/a77742b6-363c-4310-9eca-2b7992395b3a/one-piece`, the slug is `a77742b6-363c-4310-9eca-2b7992395b3a`.
+### Workflow configuration
 
-**It is essential that the `slug` is correct, otherwise the application will not be able to find the manga and check for updates.**
+Set these environment variables in `send_email.yaml`:
 
-All other fields in the `data.json` file will be populated automatically by the application once it runs.
+- `SMTP2GO_API_KEY` holds your SMTP2GO API key. Store it as a GitHub Actions secret.
+- `SMTP2GO_TEMPLATE_ID` sets an optional SMTP2GO template ID.
+- `NOTIFICATION_EMAIL_RECIPIENT` sets the destination email address.
+- `NOTIFICATION_EMAIL_SENDER` sets the sender email address.
+- `SERIES_DATAFOLDER` points to the directory containing your `data.json` files, such as `./data`.
 
-### `send_email.yaml` Workflow
+### How a run works
 
-The `send_email.yaml` workflow is the heart of the automated system. Before you can use it, you need to configure a few environment variables within the file:
+1. GitHub Actions triggers the workflow on a cron schedule.
+2. The job checks out the repository and downloads the latest `manga-updates` release binary.
+3. The binary loads every `data.json` file under `SERIES_DATAFOLDER` and queries MangaNel or MangaDex for new chapters.
+4. When a series has new chapters and `shouldNotify` is `true`, the notifier sends an email for the newest chapter.
+5. The binary writes the updated chapter list to disk, and the workflow commits and pushes any changed `data.json` files.
 
--   `SMTP2GO_API_KEY`: Your API key for the SMTP2GO email service. It's highly recommended to store this as a secret in your GitHub repository.
--   `SMTP2GO_TEMPLATE_ID`: (Optional) The ID of the email template you want to use in SMTP2GO.
--   `NOTIFICATION_EMAIL_RECIPIENT`: The email address where you want to receive update notifications.
--   `NOTIFICATION_EMAIL_SENDER`: The email address that the notifications will be sent from.
--   `SERIES_DATAFOLDER`: The path to the directory where your manga data is stored (e.g., `./data`).
+## Architecture
 
-### How it Works
+### Providers
 
-The `send_email.yaml` workflow performs the following steps:
+- **MangaNel.** Queries the MangaNel GraphQL API. It reads the `mhub_access` session cookie from a plain HTTP request to `manganel.me` and falls back to headless Chrome via `chromedp` only if the HTTP response omits the cookie.
+- **MangaDex.** Queries the MangaDex REST API through `mangodex`.
 
-1.  **Scheduled Trigger:** The workflow is configured to run at regular intervals (e.g., every 6 hours).
-2.  **Checkout Code:** It checks out the latest version of your repository.
-3.  **Run Manga Updates:** It downloads and runs the latest release of the `manga-updates` binary.
-4.  **Check for Updates:** The binary reads the `data.json` files to know which manga to check. It then contacts the respective sources to see if new chapters are available.
-5.  **Send Notifications:** If a new chapter is found, the application sends an email notification using the configured email provider.
-6.  **Commit Changes:** If there are any changes to the `data.json` files (e.g., a new latest chapter is recorded), the workflow commits and pushes the changes back to your repository.
+### Notifiers
 
-This setup provides a "set it and forget it" way to keep track of your favorite manga series.
-
-## Components and Flow
-
-Currently, the application is structured around several core components, each serving a specific purpose:
-
-### Provider
-These components are responsible for interacting with external manga sources to retrieve the latest chapter information for tracked series.
-Currently we have:
-- **MangaNel:** Fetches manga updates specifically from the MangaNel website. It leverages `chromedp` to interact with the website, extract information, and retrieve necessary cookies for API access.                                                                                       │
-- **MangaDex:** Fetches manga updates from the MangaDex API, utilizing a dedicated client library (`mangodex`) for efficient data retrieval.
-
-### Notifier 
-These components are responsible for delivering notifications to the user when new manga chapters are detected.
-- **SendGrid:** Sends email notifications via SendGrid.
-- **SMTP2GO:** Sends email notifications via SMTP2GO.
-- **Standard Output:** Prints notifications directly to the console (useful for testing and debugging).
+- **SendGrid.** Sends transactional emails through the SendGrid API.
+- **SMTP2GO.** Sends transactional emails through the SMTP2GO API.
+- **Standard output.** Logs notifications to stdout when no email API key is configured.
 
 ### Store
-This component manages the persistence of manga series data.
-- **Local files (JSON):** Manga series data is stored and managed in local JSON files within a directory, `$HOME/repos/manga-updates/data` by default .
 
-### Program Flow
+`fileStore` reads and writes `data.json` files on disk, defaulting to `$HOME/repos/manga-updates/data`.
 
-Current flow of the program, this is not parallezied. 
+### Program flow
 
 ```mermaid
-
 graph LR
     A[Start] --> B{Load Configuration}
     B --> C[Initialize Store]
@@ -145,90 +114,45 @@ graph LR
     J -- No New Version --> I
 ```
 
-## How to contribute (Develop)
-To set up and run the `manga-updates` application for development, follow these steps:
+## Local development
 
-### 1. Clone the Repository
+### 1. Clone the repository
 
 ```bash
 git clone https://github.com/ivan-penchev/manga-updates.git
 cd manga-updates
 ```
 
-### 2. Set Up Environment Variables
+### 2. Configure environment variables
 
-The application relies on several environment variables for configuration. Create a `local.env` file in the config folder. 
-You can use the tpl available there.
+Copy the template file and fill in your local settings:
 
 ```sh
 cp ./config/local.tpl ./config/local.env
 ```
 
-### 3. Run Chrome headless (for MangaNel Provider)
+### 3. Optional remote headless Chrome
 
-The MangaNel provider utilizes `chromedp` to interact with a headless Chrome instance. For local development or testing, you can run a headless Chrome browser in a Docker container.
-
- ```bash
-    docker run -d -p 3000:3000 ghcr.io/browserless/chromium
- ```
-
-This command starts a headless Chrome instance, exposing its DevTools Protocol.
-The `manga-updates` application will automatically connect to this remote instance if `remoteURL` is set to `ws://127.0.0.1:3000`.
-
-### 4. Run the Program
-
-
-
-You have two primary ways to run the `manga-updates` application:
-
-
-
-#### a) Using VS Code (Recommended for Development)
-
-
-
-If you are using VS Code, you can leverage its integrated debugging and task running capabilities. Ensure your environment variables are set up in a `.env` file (as described in step 2) or directly in your VS Code launch configuration. VS Code will automatically pick up these variables when you run or debug the application.
-
-
-
-#### b) Using `go run` (Command Line)
-
-
-
-To run the application directly from your terminal using `go run`, you must ensure that all necessary environment variables are exposed in your shell session. You can do this by sourcing your `.env` file (if you created one) or by setting them individually.
-
-
-
-Example of sourcing a `.env` file (assuming you named it `local.env` in the `config` folder as per step 2):
-
-
+MangaNel requests fetch the `mhub_access` cookie over HTTP by default. If you want to test the browser fallback against a remote Chrome instance, run `browserless/chromium` in Docker and set `REMOTE_CHROME_URL=ws://127.0.0.1:3000`:
 
 ```bash
+docker run -d -p 3000:3000 ghcr.io/browserless/chromium
+```
 
+### 4. Run the binary
+
+Source `config/local.env` and run `cmd/manga-updates/main.go`:
+
+```bash
 source config/local.env
-
 go run cmd/manga-updates/main.go
-
 ```
 
-
-
-Alternatively, set variables individually:
-
-
+Or export the variables directly in your shell:
 
 ```bash
-
 export NOTIFICATION_EMAIL_RECIPIENT="your_email@example.com"
-
 export NOTIFICATION_EMAIL_SENDER="sender@example.com"
-
-# ... other variables
-
+export SERIES_DATAFOLDER="./data"
 go run cmd/manga-updates/main.go
-
 ```
-
-
-
-The application will then check for updates for your configured manga series and send notifications if new chapters are found.
