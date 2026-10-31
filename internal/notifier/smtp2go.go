@@ -79,19 +79,26 @@ type smtp2goNotifier struct {
 	config *notifierConfig
 }
 
-func (s smtp2goNotifier) sendAPIRequest(endpoint string, requestBody io.Reader) (*Smtp2goApiResult, error) {
-	apiRoot := "https://api.smtp2go.com/v3" // Default API root
+func (s smtp2goNotifier) sendAPIRequest(ctx context.Context, endpoint string, requestBody io.Reader) (*Smtp2goApiResult, error) {
+	apiRoot := s.config.apiRoot
+	if apiRoot == "" {
+		apiRoot = defaultSMTP2GOAPIRoot
+	}
 
-	client := &http.Client{}
-	req, err := http.NewRequest("POST", apiRoot+"/"+endpoint, requestBody)
+	client := s.config.httpClient
+	if client == nil {
+		client = &http.Client{Timeout: defaultHTTPTimeout}
+	}
+
+	req, err := http.NewRequestWithContext(ctx, http.MethodPost, apiRoot+"/"+endpoint, requestBody)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create HTTP request: %w", err)
 	}
 
-	req.Header.Add("Content-Type", "application/json")
-	req.Header.Add("X-Smtp2go-Api", "smtp2go-go")
-	req.Header.Add("X-Smtp2go-Api-Version", "1.0.4")
-	req.Header.Add("X-Smtp2go-Api-Key", s.config.apiKey)
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("X-Smtp2go-Api", "smtp2go-go")
+	req.Header.Set("X-Smtp2go-Api-Version", "1.0.4")
+	req.Header.Set("X-Smtp2go-Api-Key", s.config.apiKey)
 
 	res, err := client.Do(req)
 	if err != nil {
@@ -100,8 +107,7 @@ func (s smtp2goNotifier) sendAPIRequest(endpoint string, requestBody io.Reader) 
 	defer func() { _ = res.Body.Close() }()
 
 	ret := new(Smtp2goApiResult)
-	err = json.NewDecoder(res.Body).Decode(ret)
-	if err != nil {
+	if err := json.NewDecoder(res.Body).Decode(ret); err != nil {
 		return nil, fmt.Errorf("failed to decode API response: %w", err)
 	}
 
@@ -116,9 +122,7 @@ func (s smtp2goNotifier) NotifyForNewChapter(ctx context.Context, chapter domain
 	}
 
 	subject := fmt.Sprintf("%s update", fromManga.Name)
-
-	var htmlBody, textBody string
-	var templateData map[string]string
+	chapterStr := formatChapterNumber(chapter.Number)
 
 	email := smpt2goEmail{
 		From:    fromEmail,
@@ -127,19 +131,16 @@ func (s smtp2goNotifier) NotifyForNewChapter(ctx context.Context, chapter domain
 	}
 
 	if s.config.templateID != "" {
-		templateData = map[string]string{
+		email.TemplateID = s.config.templateID
+		email.TemplateData = map[string]string{
 			"manga_name":   fromManga.Name,
-			"chapter":      fmt.Sprintf("%.0f", *chapter.Number),
+			"chapter":      chapterStr,
 			"chapter_link": chapter.URI,
 			"subject":      subject,
 		}
-		email.TemplateID = s.config.templateID
-		email.TemplateData = templateData
 	} else {
-		htmlBody = fmt.Sprintf("<h1>%s Update!</h1><p>Chapter %s is now available.</p><p>Read it here: <a href=\"%s\">%s</a></p>", fromManga.Name, fmt.Sprintf("%.0f", *chapter.Number), chapter.URI, chapter.URI)
-		textBody = fmt.Sprintf("%s Update! Chapter %s is now available. Read it here: %s", fromManga.Name, fmt.Sprintf("%.0f", *chapter.Number), chapter.URI)
-		email.HtmlBody = htmlBody
-		email.TextBody = textBody
+		email.HtmlBody = fmt.Sprintf("<h1>%s Update!</h1><p>Chapter %s is now available.</p><p>Read it here: <a href=\"%s\">%s</a></p>", fromManga.Name, chapterStr, chapter.URI, chapter.URI)
+		email.TextBody = fmt.Sprintf("%s Update! Chapter %s is now available. Read it here: %s", fromManga.Name, chapterStr, chapter.URI)
 	}
 
 	reqJSON, err := json.Marshal(email)
@@ -147,7 +148,7 @@ func (s smtp2goNotifier) NotifyForNewChapter(ctx context.Context, chapter domain
 		return fmt.Errorf("failed to marshal email payload: %w", err)
 	}
 
-	res, err := s.sendAPIRequest("email/send", bytes.NewBuffer(reqJSON))
+	res, err := s.sendAPIRequest(ctx, "email/send", bytes.NewBuffer(reqJSON))
 	if err != nil {
 		return err
 	}

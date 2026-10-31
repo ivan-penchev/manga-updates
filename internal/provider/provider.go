@@ -17,9 +17,18 @@ func NewProviderRouter(providerFactories ...func() (domain.Provider, error)) (do
 	var initErrors error
 
 	for _, factory := range providerFactories {
+		if factory == nil {
+			initErrors = errors.Join(initErrors, errors.New("provider factory is nil"))
+			continue
+		}
+
 		provider, err := factory()
 		if err != nil {
 			initErrors = errors.Join(initErrors, err)
+			continue
+		}
+		if provider == nil {
+			initErrors = errors.Join(initErrors, errors.New("provider factory returned nil provider"))
 			continue
 		}
 

@@ -48,3 +48,15 @@ func TestProviderRouter_GetProviderForURL_NotFound(t *testing.T) {
 	assert.Nil(t, p)
 	assert.Contains(t, err.Error(), "no provider found")
 }
+
+func TestNewProviderRouter_HandlesNilProviderWithoutPanic(t *testing.T) {
+	t.Parallel()
+
+	router, err := NewProviderRouter(func() (domain.Provider, error) {
+		return nil, nil
+	})
+	assert.Error(t, err)
+	assert.Nil(t, router)
+	assert.Contains(t, err.Error(), "nil provider")
+}
+

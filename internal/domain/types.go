@@ -33,19 +33,12 @@ type ChapterEntity struct {
 	URI    string     `json:"uri"`
 }
 
-// examine if default values are present on a MangaEntity,
-// if they are, it means the entity has never been synced before.
-// and should be considered new for the purpose of syncing
-//
-// Assumes that the default values will always be present, when the entity has never been synced before.
+// IsNew reports whether the manga entity has never been synced.
 func (m *MangaEntity) IsNew() bool {
-	if len(m.Chapters) == 0 && m.LastUpdate.IsZero() {
-		return true
-	}
-	return false
+	return len(m.Chapters) == 0 && m.LastUpdate.IsZero()
 }
 
-// Compares if the current MangaEntity is older
+// IsOlder reports whether m was updated before n.
 func (m *MangaEntity) IsOlder(n MangaEntity) bool {
 	return m.LastUpdate.Before(n.LastUpdate)
 }
@@ -72,16 +65,62 @@ type ProviderRouter interface {
 	GetProviderForURL(url string) (Provider, error)
 }
 
-// returns the missing chapters between the current manga and the new one
+// GetMissingChapters returns the chapters present at the head of n that are not in m.
 func (m *MangaEntity) GetMissingChapters(n MangaEntity) []ChapterEntity {
-	lenthCurrent := len(m.Chapters)
-	lenthNewer := len(n.Chapters)
-	endArray := 0
-	if lenthNewer > lenthCurrent {
-		endArray = lenthNewer - lenthCurrent
+	if len(n.Chapters) == 0 {
+		return []ChapterEntity{}
 	}
 
-	vals2 := n.Chapters[0:endArray]
+	if hasChapterIdentity(m.Chapters) || hasChapterIdentity(n.Chapters) {
+		missing := make([]ChapterEntity, 0)
+		for _, candidate := range n.Chapters {
+			if containsChapter(m.Chapters, candidate) {
+				break
+			}
+			missing = append(missing, candidate)
+		}
+		return missing
+	}
 
-	return vals2
+	lengthCurrent := len(m.Chapters)
+	lengthNewer := len(n.Chapters)
+	if lengthNewer <= lengthCurrent {
+		return []ChapterEntity{}
+	}
+
+	diff := lengthNewer - lengthCurrent
+	out := make([]ChapterEntity, diff)
+	copy(out, n.Chapters[:diff])
+	return out
+}
+
+func hasChapterIdentity(chapters []ChapterEntity) bool {
+	for _, c := range chapters {
+		if c.Number != nil || (c.Slug != nil && *c.Slug != "") || c.URI != "" {
+			return true
+		}
+	}
+	return false
+}
+
+func containsChapter(chapters []ChapterEntity, target ChapterEntity) bool {
+	for _, c := range chapters {
+		if sameChapter(c, target) {
+			return true
+		}
+	}
+	return false
+}
+
+func sameChapter(a, b ChapterEntity) bool {
+	if a.Slug != nil && b.Slug != nil && *a.Slug != "" && *b.Slug != "" {
+		return *a.Slug == *b.Slug
+	}
+	if a.Number != nil && b.Number != nil {
+		return *a.Number == *b.Number
+	}
+	if a.URI != "" && b.URI != "" {
+		return a.URI == b.URI
+	}
+	return false
 }
