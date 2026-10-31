@@ -5,8 +5,8 @@ import (
 	"log/slog"
 	"os"
 
+	"github.com/ivan-penchev/manga-updates/internal/app"
 	"github.com/ivan-penchev/manga-updates/internal/config"
-	"github.com/ivan-penchev/manga-updates/internal/provider"
 	"github.com/ivan-penchev/manga-updates/internal/store"
 	"github.com/spf13/cobra"
 )
@@ -30,21 +30,18 @@ and saves it to the local store for tracking updates.`,
 			os.Exit(1)
 		}
 
-		store := store.NewStore(cfg.SeriesDataFolder)
+		st := store.NewStore(cfg.SeriesDataFolder)
 
-		providerRouter, err := provider.NewProviderRouter(
-			provider.NewMangaNelProviderFactory(provider.MangaNelProviderConfig{
-				GraphQLEndpoint: cfg.MangaNelGraphQLEndpoint,
-				RemoteChromeURL: cfg.RemoteChromeURL,
-			}),
-			provider.NewMangaDexProviderFactory(),
-		)
+		providerRouter, err := app.NewProviderRouterFromConfig(cfg)
 		if err != nil {
 			logger.Error("failed to create provider router", "error", err)
 			os.Exit(1)
 		}
 
-		ctx := context.Background()
+		ctx := cmd.Context()
+		if ctx == nil {
+			ctx = context.Background()
+		}
 
 		p, err := providerRouter.GetProviderForURL(url)
 		if err != nil {
@@ -60,7 +57,7 @@ and saves it to the local store for tracking updates.`,
 		manga.ShouldNotify = true
 		manga.Source = p.Kind()
 
-		err = store.AddManga(ctx, manga)
+		err = st.AddManga(ctx, manga)
 		if err != nil {
 			logger.Error("failed to save series to store", "manga", manga.Name, "error", err)
 			os.Exit(1)

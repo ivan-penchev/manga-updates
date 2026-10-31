@@ -24,6 +24,9 @@ type UpdateCheckerService struct {
 }
 
 func NewUpdateCheckerService(notifier Notifier, store Store, providers domain.ProviderRouter, logger *slog.Logger) (*UpdateCheckerService, error) {
+	if logger == nil {
+		logger = slog.Default()
+	}
 	return &UpdateCheckerService{
 		notifier:  notifier,
 		store:     store,
@@ -78,7 +81,7 @@ func (ucs *UpdateCheckerService) CheckForUpdates(ctx context.Context) error {
 					indexToTake := len(chaptersMissing) - 1
 					err := ucs.notifier.NotifyForNewChapter(ctx, chaptersMissing[indexToTake], manga)
 					if err != nil {
-						slog.Error("failed to notify for manga", "manga", manga, "error", err)
+						ucs.logger.Error("failed to notify for manga", "manga", manga.Name, "error", err)
 					}
 				}
 			}
